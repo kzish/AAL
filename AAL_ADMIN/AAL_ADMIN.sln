@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AAL_ADMIN", "AAL_ADMIN\AAL_ADMIN.csproj", "{9C604C69-37BB-438C-A28B-820C75EA9375}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AAL_TUTOR", "..\AAL_TUTOR\AAL_TUTOR.csproj", "{6ABB6D06-2E4D-4852-A82A-0F06D0DB7E14}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C604C69-37BB-438C-A28B-820C75EA9375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C604C69-37BB-438C-A28B-820C75EA9375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C604C69-37BB-438C-A28B-820C75EA9375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C604C69-37BB-438C-A28B-820C75EA9375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ABB6D06-2E4D-4852-A82A-0F06D0DB7E14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ABB6D06-2E4D-4852-A82A-0F06D0DB7E14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ABB6D06-2E4D-4852-A82A-0F06D0DB7E14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ABB6D06-2E4D-4852-A82A-0F06D0DB7E14}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C1B79D0B-8D25-45E5-A560-932189634735}
+	EndGlobalSection
+EndGlobal

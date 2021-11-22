@@ -1,0 +1,63 @@
+﻿@{ Layout = "~/Views/Shared/_LayoutMain.cshtml"; }
+@{
+    var tutors = (PagedList.Core.IPagedList<Microsoft.AspNetCore.Identity.IdentityUser>)ViewBag.tutors; 
+    }
+
+<div class="container">
+    <row>
+        <div class="col-md-12">
+            <a href="~/Tutors/CreateTutor" class="btn btn-primary btn-sm">create tutor</a>
+        </div>
+        <br />
+    </row>
+    <div class="row">
+        <div class="col-md-12" id="clients">
+            <table id="dt" class="table tblsm">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in tutors)
+                    {
+        <tr>
+            <td title="@item.Email">@item.Email</td>
+            <td>
+                <a href="~/Tutors/EditTutor/@item.Id" style="color:blue;">
+                    Open
+                </a>
+                |
+                <a href="javascript:void(0);" style="color:red;" onclick="confirm_delete('@item.Id')">
+                    Delete
+                </a>
+            </td>
+        </tr>}
+                </tbody>
+            </table>
+            <pager class="pager-container" 
+                   list="@tutors" 
+                   options="@PagedList.Core.Mvc.PagedListRenderOptions.Bootstrap4PageNumbersOnly" 
+                   asp-action="Index" 
+                   asp-controller="Tutors" />
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirm_delete(id) {
+        $.confirm({
+            title: 'Information',
+            type: "red",
+            content: 'Delete this Tutor?',
+            buttons: {
+                Yes: function () {
+                    window.location = '@Url.Content("~/Tutors/DeleteTutor/")'+ id;
+                },
+                No: function () {
+                },
+            }
+        });
+    }
+</script>

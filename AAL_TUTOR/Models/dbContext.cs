@@ -171,7 +171,13 @@ namespace AAL_TUTOR.Models
             {
                 entity.ToTable("e_time_periods");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Sequence).HasColumnName("sequence");
 
                 entity.Property(e => e.TimePeriod)
                     .HasColumnName("time_period")
@@ -188,9 +194,7 @@ namespace AAL_TUTOR.Models
             {
                 entity.ToTable("m_aspnet_user_available_times");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.AspnetUserId)
                     .HasColumnName("aspnet_user_id")
@@ -205,6 +209,12 @@ namespace AAL_TUTOR.Models
                     .HasColumnName("weekday")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.AspnetUser)
+                    .WithMany(p => p.MAspnetUserAvailableTimes)
+                    .HasForeignKey(d => d.AspnetUserId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_m_aspnet_user_available_times_AspNetUsers");
             });
 
             modelBuilder.Entity<MAspnetUserLanguages>(entity =>

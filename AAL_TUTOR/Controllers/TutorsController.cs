@@ -19,6 +19,7 @@ using AAL_ADMIN.Globals;
 using AAL_TUTOR.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.Extensions.Primitives;
 
 namespace Admin.Controllers
 {
@@ -180,13 +181,16 @@ namespace Admin.Controllers
                 .Include(i => i.MTutor)
                 .Include(i => i.MTutorEducation)
                 .Include(i => i.MTutorWorkExperience)
+                .Include(i => i.MAspnetUserAvailableTimes)
                 .FirstOrDefault();
             //
             var language_levels = db.ELanguageLevels.ToList();
             var languages = db.MLanguages.ToList();
             var countries = db.MCountries.ToList();
+            var time_periods = db.ETimePeriods.OrderBy(i => i.Sequence).ToList();
 
 
+            ViewBag.time_periods = time_periods;
             ViewBag.language_levels = language_levels;
             ViewBag.languages = languages;
             ViewBag.countries = countries;
@@ -383,7 +387,7 @@ namespace Admin.Controllers
                 memory.Position = 0;
                 return File(memory.ToArray(), "image/jpg");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return NotFound();
             }
@@ -400,7 +404,7 @@ namespace Admin.Controllers
                 TempData["type"] = "success";
                 TempData["msg"] = "Saved";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 TempData["type"] = "error";
                 TempData["msg"] = ex.Message;
@@ -415,8 +419,8 @@ namespace Admin.Controllers
             try
             {
                 var education = db.MTutorEducation
-                    .Where(i=>i.Id==id)
-                    .Where(i=>i.AspnetUserId==userManager.GetUserId(HttpContext.User))
+                    .Where(i => i.Id == id)
+                    .Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User))
                     .First();
                 db.MTutorEducation.Remove(education);
                 db.SaveChanges();
@@ -478,18 +482,37 @@ namespace Admin.Controllers
 
 
         [HttpPost("SaveTimeTable")]
-        public IActionResult SaveTimeTable()
+        public IActionResult SaveTimeTable(IFormCollection formcollection)
         {
             try
             {
-                //var workexp = db.MTutorWorkExperience
-                //    .Where(i => i.Id == id)
-                //    .Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User))
-                //    .First();
-                //db.MTutorWorkExperience.Remove(workexp);
-                //db.SaveChanges();
-                //TempData["type"] = "success";
-                //TempData["msg"] = "Deleted";
+                var aspnet_user = db.AspNetUsers
+                    .Where(i => i.Id == userManager.GetUserId(HttpContext.User))
+                    .Include(i=>i.MAspnetUserAvailableTimes)
+                    .First();
+                //
+                var post_data = new StreamReader(Request.Body).ReadToEnd();
+                var days_of_week = new List<string> { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+                var time_periods = db.ETimePeriods.OrderBy(i=>i.Sequence).ToList();
+                aspnet_user.MAspnetUserAvailableTimes.Clear();//remove old items
+                //
+                var dict = Request.Form.ToDictionary(x => x.Key, x => x.Value.ToString());
+                foreach (var day in days_of_week)
+                {
+                    foreach (var time_period in time_periods)
+                    {
+                        if (formcollection[time_period.Id + "_" + day] == "true")
+                        {
+                            var time_table = new MAspnetUserAvailableTimes();
+                            time_table.AspnetUserId = aspnet_user.Id;
+                            time_table.Weekday = day;
+                            time_table.TimePeriod = time_period.Id;
+                            aspnet_user.MAspnetUserAvailableTimes.Add(time_table);
+                        }
+                    }
+                }
+                
+                db.SaveChanges();
             }
             catch (Exception ex)
             {

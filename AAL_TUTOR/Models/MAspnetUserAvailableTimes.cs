@@ -9,5 +9,7 @@ namespace AAL_TUTOR.Models
         public string AspnetUserId { get; set; }
         public string Weekday { get; set; }
         public string TimePeriod { get; set; }
+
+        public virtual AspNetUsers AspnetUser { get; set; }
     }
 }

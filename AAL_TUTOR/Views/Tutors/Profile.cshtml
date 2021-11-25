@@ -5,6 +5,7 @@
     var languages = (List<AAL_TUTOR.Models.MLanguages>)ViewBag.languages;
     var countries = (List<AAL_TUTOR.Models.MCountries>)ViewBag.countries;
     var days_of_week = new List<string> { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    var time_periods = (List<AAL_TUTOR.Models.ETimePeriods>)ViewBag.time_periods;
 }
 
 <div class="container">
@@ -23,9 +24,6 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" data-toggle="pill" href="#pills-5" role="tab" aria-selected="false">Availability</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-toggle="pill" href="#pills-3" role="tab" aria-selected="false">Courses</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -194,92 +192,28 @@
                                 @foreach (var weekday in days_of_week)
                                 {
                                     <h5>@weekday</h5>
-                                    <table class="table" style="color:blue">
-                                        <tr>
-                                            <td>
+                                    <div class="row">
+                                        @foreach (var time_period in time_periods)
+                                        {
+                                            <div class="col-md-3">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" name="morning_@weekday">
+                                                    <input class="form-check-input" type="checkbox" value="true" name="@(time_period.Id)_@(weekday)" @(tutor.MAspnetUserAvailableTimes.Where(i=>i.TimePeriod==time_period.Id && i.Weekday == weekday).Any() ? "checked" : "")>
                                                     <label class="form-check-label">
-                                                        6-9<br />
-                                                        Morning
+                                                        <b>@time_period.TimePeriod</b>
+                                                        <br />
+                                                        <p style="color:teal">@time_period.Title</p>
                                                     </label>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="">
-                                                    <label class="form-check-label">
-                                                        9-12<br />
-                                                        Late Morning
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="">
-                                                    <label class="form-check-label">
-                                                        12-15<br />
-                                                        Afternoon
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="">
-                                                    <label class="form-check-label">
-                                                        15-18<br />
-                                                        Late Afternoon
-                                                    </label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="">
-                                                    <label class="form-check-label">
-                                                        18-21<br />
-                                                        Evening
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="">
-                                                    <label class="form-check-label">
-                                                        21-24<br />
-                                                        Late Evening
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="">
-                                                    <label class="form-check-label">
-                                                        0-3<br />
-                                                        Night
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="">
-                                                    <label class="form-check-label">
-                                                        3-6<br />
-                                                        Late Night
-                                                    </label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <br />
-                                    <br />
+                                            </div>
+                                        }
+                                    </div>
+                                    <hr />
                                 }
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="pills-3" role="tabpanel">.2..</div>
             </div>
 
 

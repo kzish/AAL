@@ -1,0 +1,66 @@
+﻿@{ Layout = "~/Views/Shared/_LayoutMain.cshtml"; }
+@{
+    var courses = (PagedList.Core.IPagedList<AAL_TUTOR.Models.MTutorCourses>)ViewBag.courses;
+
+}
+
+<div class="container">
+    <row>
+        <div class="col-md-12">
+            <a href="~/Courses/CreateCourse" class="btn btn-primary btn-sm">create course</a>
+        </div>
+        <br />
+    </row>
+    <div class="row">
+        <div class="col-md-12" id="clients">
+            <table id="dt" class="table tblsm">
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in courses)
+                    {
+                    <tr>
+                        <td title="@item.Title">@item.Title</td>
+                        <td title="@item.Description">@item.Description</td>
+                        <td>
+                            <a href="~/Courses/EditCourse/@item.Id" style="color:blue;">
+                                Open
+                            </a>
+                            |
+                            <a href="javascript:void(0);" style="color:red;" onclick="confirm_delete('@item.Id')">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>}
+                </tbody>
+            </table>
+            <pager class="pager-container" 
+                   list="@courses" 
+                   options="@PagedList.Core.Mvc.PagedListRenderOptions.Bootstrap4PageNumbersOnly" 
+                   asp-action="Index" 
+                   asp-controller="Courses" />
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirm_delete(id) {
+        $.confirm({
+            title: 'Information',
+            type: "red",
+            content: 'Delete this Course?',
+            buttons: {
+                Yes: function () {
+                    window.location = '@Url.Content("~/Courses/DeleteCourse/")'+ id;
+                },
+                No: function () {
+                },
+            }
+        });
+    }
+</script>

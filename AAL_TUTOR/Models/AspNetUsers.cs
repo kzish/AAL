@@ -14,6 +14,7 @@ namespace AAL_TUTOR.Models
             MAspnetUserAvailableTimes = new HashSet<MAspnetUserAvailableTimes>();
             MAspnetUserLanguages = new HashSet<MAspnetUserLanguages>();
             MMoodleUser = new HashSet<MMoodleUser>();
+            MTutorCourses = new HashSet<MTutorCourses>();
             MTutorEducation = new HashSet<MTutorEducation>();
             MTutorLanguages = new HashSet<MTutorLanguages>();
             MTutorRating = new HashSet<MTutorRating>();
@@ -45,6 +46,7 @@ namespace AAL_TUTOR.Models
         public virtual ICollection<MAspnetUserAvailableTimes> MAspnetUserAvailableTimes { get; set; }
         public virtual ICollection<MAspnetUserLanguages> MAspnetUserLanguages { get; set; }
         public virtual ICollection<MMoodleUser> MMoodleUser { get; set; }
+        public virtual ICollection<MTutorCourses> MTutorCourses { get; set; }
         public virtual ICollection<MTutorEducation> MTutorEducation { get; set; }
         public virtual ICollection<MTutorLanguages> MTutorLanguages { get; set; }
         public virtual ICollection<MTutorRating> MTutorRating { get; set; }

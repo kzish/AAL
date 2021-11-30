@@ -33,6 +33,7 @@ namespace AAL_TUTOR.Models
         public virtual DbSet<MSubjectSpecialities> MSubjectSpecialities { get; set; }
         public virtual DbSet<MTopics> MTopics { get; set; }
         public virtual DbSet<MTutor> MTutor { get; set; }
+        public virtual DbSet<MTutorCourses> MTutorCourses { get; set; }
         public virtual DbSet<MTutorEducation> MTutorEducation { get; set; }
         public virtual DbSet<MTutorLanguages> MTutorLanguages { get; set; }
         public virtual DbSet<MTutorRating> MTutorRating { get; set; }
@@ -449,6 +450,39 @@ namespace AAL_TUTOR.Models
                     .WithOne(p => p.MTutor)
                     .HasForeignKey<MTutor>(d => d.AspnetUserId)
                     .HasConstraintName("FK_m_tutor_AspNetUsers");
+            });
+
+            modelBuilder.Entity<MTutorCourses>(entity =>
+            {
+                entity.ToTable("m_tutor_courses");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AspnetUserId)
+                    .HasColumnName("aspnet_user_id")
+                    .HasMaxLength(450);
+
+                entity.Property(e => e.Description)
+                    .HasColumnName("description")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Duration)
+                    .HasColumnName("duration")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MoodleCourseId).HasColumnName("moodle_course_id");
+
+                entity.Property(e => e.Title)
+                    .HasColumnName("title")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.AspnetUser)
+                    .WithMany(p => p.MTutorCourses)
+                    .HasForeignKey(d => d.AspnetUserId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_m_tutor_courses_AspNetUsers");
             });
 
             modelBuilder.Entity<MTutorEducation>(entity =>

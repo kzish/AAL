@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <form action="~/Courses/CreateCourse" method="post">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" name="Title" class="form-control" placeholder="Enter course title" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" name="Description" placeholder="Enter a description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Duration</label>
+                    <input type="text" name="Duration" class="form-control" placeholder="e.g 12 weeks" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

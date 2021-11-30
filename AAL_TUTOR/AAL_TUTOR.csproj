@@ -14,6 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Courses\CreateCourse.cshtml" />
+    <Content Remove="Views\Courses\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="Models\AspNetRoleClaims.cs" />
     <Compile Include="Models\AspNetRoles.cs" />
     <Compile Include="Models\AspNetUserClaims.cs" />
@@ -33,6 +38,7 @@
     <Compile Include="Models\MSubjectSpecialities.cs" />
     <Compile Include="Models\MTopics.cs" />
     <Compile Include="Models\MTutor.cs" />
+    <Compile Include="Models\MTutorCourses.cs" />
     <Compile Include="Models\MTutorEducation.cs" />
     <Compile Include="Models\MTutorLanguages.cs" />
     <Compile Include="Models\MTutorRating.cs" />
@@ -47,6 +53,8 @@
     <None Include="Views\Shared\Error.cshtml" />
     <None Include="Views\Shared\_LayoutAuth.cshtml" />
     <None Include="Views\Shared\_LayoutMain.cshtml" />
+    <None Include="Views\Courses\Index.cshtml" />
+    <None Include="Views\Courses\CreateCourse.cshtml" />
     <None Include="Views\Tutors\Index.cshtml" />
     <None Include="Views\Tutors\Profile.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />

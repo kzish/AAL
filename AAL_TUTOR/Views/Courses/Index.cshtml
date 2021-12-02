@@ -1,6 +1,7 @@
 ﻿@{ Layout = "~/Views/Shared/_LayoutMain.cshtml"; }
 @{
     var courses = (PagedList.Core.IPagedList<AAL_TUTOR.Models.MTutorCourses>)ViewBag.courses;
+    var tutor = (AAL_TUTOR.Models.AspNetUsers)ViewBag.tutor;
 
 }
 
@@ -25,7 +26,7 @@
                     @foreach (var item in courses)
                     {
                     <tr>
-                        <td title="@item.Title">@item.Title</td>
+                        <td title="@item.Title.Replace(" - " + tutor.Email, "")">@item.Title.Replace(" - " + tutor.Email, "")</td>
                         <td title="@item.Description">@item.Description</td>
                         <td>
                             <a href="~/Courses/EditCourse/@item.Id" style="color:blue;">

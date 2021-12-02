@@ -168,7 +168,7 @@ namespace Admin.Controllers
 
         [HttpGet("Profile")]
         [HttpGet("")]
-        public async Task<IActionResult> Profile()
+        public IActionResult Profile()
         {
             ViewBag.title = "Edit Tutor";
             //_userManager.GetUserAsync(HttpContext.User);

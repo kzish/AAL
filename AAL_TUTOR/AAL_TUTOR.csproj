@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Content Remove="Views\Courses\CreateCourse.cshtml" />
+    <Content Remove="Views\Courses\EditCourse.cshtml" />
     <Content Remove="Views\Courses\Index.cshtml" />
   </ItemGroup>
 
@@ -50,6 +51,7 @@
   <ItemGroup>
     <None Include="Views\Auth\Login.cshtml" />
     <None Include="Views\Auth\Register.cshtml" />
+    <None Include="Views\Courses\EditCourse.cshtml" />
     <None Include="Views\Shared\Error.cshtml" />
     <None Include="Views\Shared\_LayoutAuth.cshtml" />
     <None Include="Views\Shared\_LayoutMain.cshtml" />

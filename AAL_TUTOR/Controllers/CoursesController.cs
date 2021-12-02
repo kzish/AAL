@@ -45,14 +45,38 @@ namespace Admin.Controllers
             this.moodleRepository = moodleRepository;
         }
 
-        [HttpGet("DeleteCourse/{id}")]
-        public async Task<IActionResult> DeleteTutor(string id)
+        [HttpGet("Index")]
+        [HttpGet("")]
+        public IActionResult Index(int page = 1)
         {
-            ViewBag.title = "Delete Tutor";
+            ViewBag.title = "Courses";
+            //_userManager.GetUserAsync(HttpContext.User);
+            var tutor = db.AspNetUsers
+                .Where(i => i.Email == User.Identity.Name)
+                .Include(i => i.MTutorCourses)
+                .FirstOrDefault();
+
+            var courses = db.MTutorCourses
+                .Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User))
+                .ToPagedList(page, 10);
+            //
+            ViewBag.courses = courses;
+            ViewBag.tutor = tutor;
+            //
+            return View();
+        }
+
+        [HttpGet("DeleteCourse/{id}")]
+        public IActionResult DeleteCourse(int id)
+        {
+            ViewBag.title = "Delete Course";
             try
             {
-                var tutor = db.MMoodleUser.Where(i => i.AspnetUserId == id).FirstOrDefault();
-                dynamic res = this.moodleRepository.DeleteMoodleUser(tutor);
+                var course = db.MTutorCourses
+                    .Where(i => i.Id == id)
+                    .Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User))
+                    .FirstOrDefault();
+                dynamic res = this.moodleRepository.DeleteMoodleCourse(course);
 
                 if (res.res == "err")
                 {
@@ -62,9 +86,8 @@ namespace Admin.Controllers
                 else if (res.res == "ok")
                 {
                     //remove moodle user, aspnetuser
-                    db.MMoodleUser.Remove(tutor);
-                    var client_user = await userManager.FindByIdAsync(id);
-                    await userManager.DeleteAsync(client_user);
+                    db.MTutorCourses.Remove(course);
+                    db.SaveChanges();
                     TempData["type"] = "success";
                     TempData["msg"] = "Deleted";
                 }
@@ -86,15 +109,16 @@ namespace Admin.Controllers
             return View();
         }
 
-
         [HttpPost("CreateCourse")]
-        public async Task<IActionResult> CreateTutor(MTutorCourses course)
+        public IActionResult CreateCourse(MTutorCourses course)
         {
             ViewBag.title = "Create Course";
             //
             try
             {
-                //
+                //append tutor email to the course title incase of duplicates with other tutors with the same course name
+                var tutor = db.MTutor.Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User)).FirstOrDefault();
+                course.Title = course.Title + " - " + tutor.Email;
                 course.AspnetUserId = userManager.GetUserId(HttpContext.User);
                 dynamic res = moodleRepository.CreateMoodleCourse(course);
 
@@ -122,26 +146,59 @@ namespace Admin.Controllers
             }
         }
 
-        [HttpGet("Index")]
-        [HttpGet("")]
-        public IActionResult Index(int page = 1)
+        [HttpGet("EditCourse/{id}")]
+        public IActionResult EditCourse(int id)
         {
-            ViewBag.title = "Courses";
-            //_userManager.GetUserAsync(HttpContext.User);
-            var tutor = db.AspNetUsers
-                .Where(i => i.Email == User.Identity.Name)
-                .Include(i => i.MTutorCourses)
+            ViewBag.title = "Edit Course";
+            var course = db.MTutorCourses
+                .Where(i => i.Id == id)
+                .Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User))
                 .FirstOrDefault();
 
-            var courses = db.MTutorCourses
-                .Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User))
-                .ToPagedList(page, 10);
-            //
-            ViewBag.courses = courses;
-            //
+            var tutor = db.AspNetUsers
+                .Where(i => i.Id == userManager.GetUserId(HttpContext.User))
+                .FirstOrDefault();
+
+            ViewBag.course = course;
+            ViewBag.tutor = tutor;
+
             return View();
         }
 
+        [HttpPost("EditCourse")]
+        public IActionResult EditCourse(MTutorCourses course)
+        {
+            ViewBag.title = "Edit Course";
+            //
+            try
+            {
+                var tutor = db.MTutor.Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User)).FirstOrDefault();
+                course.Title = course.Title + " - " + tutor.Email;
+                course.AspnetUserId = userManager.GetUserId(HttpContext.User);
+                dynamic res = moodleRepository.EditMoodleCourse(course);
+
+                if (res.res == "err")
+                {
+                    TempData["type"] = "error";
+                    TempData["msg"] = res.msg.ToString();
+                }
+                else if (res.res == "ok")
+                {
+                    TempData["type"] = "success";
+                    TempData["msg"] = "Updated Course successfully";
+                    db.Entry(course).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["type"] = "error";
+                TempData["msg"] = "Error: " + ex.Message;
+                return RedirectToAction("Index");
+            }
+        }
 
     }
 }

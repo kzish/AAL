@@ -11,10 +11,14 @@ namespace AAL_ADMIN.Models
             AspNetUserLogins = new HashSet<AspNetUserLogins>();
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
             AspNetUserTokens = new HashSet<AspNetUserTokens>();
+            MAspnetUserAvailableTimes = new HashSet<MAspnetUserAvailableTimes>();
             MAspnetUserLanguages = new HashSet<MAspnetUserLanguages>();
             MMoodleUser = new HashSet<MMoodleUser>();
+            MTutorCourses = new HashSet<MTutorCourses>();
+            MTutorEducation = new HashSet<MTutorEducation>();
             MTutorLanguages = new HashSet<MTutorLanguages>();
             MTutorRating = new HashSet<MTutorRating>();
+            MTutorWorkExperience = new HashSet<MTutorWorkExperience>();
             MTutorsSubjects = new HashSet<MTutorsSubjects>();
         }
 
@@ -39,10 +43,14 @@ namespace AAL_ADMIN.Models
         public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual ICollection<MAspnetUserAvailableTimes> MAspnetUserAvailableTimes { get; set; }
         public virtual ICollection<MAspnetUserLanguages> MAspnetUserLanguages { get; set; }
         public virtual ICollection<MMoodleUser> MMoodleUser { get; set; }
+        public virtual ICollection<MTutorCourses> MTutorCourses { get; set; }
+        public virtual ICollection<MTutorEducation> MTutorEducation { get; set; }
         public virtual ICollection<MTutorLanguages> MTutorLanguages { get; set; }
         public virtual ICollection<MTutorRating> MTutorRating { get; set; }
+        public virtual ICollection<MTutorWorkExperience> MTutorWorkExperience { get; set; }
         public virtual ICollection<MTutorsSubjects> MTutorsSubjects { get; set; }
     }
 }

@@ -48,13 +48,36 @@ namespace Admin.Controllers
         public IActionResult Index(int page = 1)
         {
             ViewBag.title = "Tutors";
-            var tutors = userManager
-                .GetUsersInRoleAsync("tutor")
-                .Result
-                .AsQueryable()
+            var tutors = db.AspNetUsers
+                .Where(i => i.AspNetUserRoles.Any(r => r.Role.Name == "tutor"))
+                .Include(i => i.MTutor)
                 .ToPagedList(page, 15);
+
             ViewBag.tutors = tutors;
+            ViewBag.page = page;
             return View();
+        }
+
+        [HttpGet("EnableTutor/{id}/{page}")]
+        public IActionResult EnableTutor(string id, int page)
+        {
+            var tutor = db.MTutor.Where(i => i.AspnetUserId == id).FirstOrDefault();
+            tutor.Active = true;
+            db.SaveChanges();
+            TempData["type"] = "success";
+            TempData["msg"] = "Enabled";
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("DisableTutor/{id}/{page}")]
+        public IActionResult DisableTutor(string id, int page)
+        {
+            var tutor = db.MTutor.Where(i => i.AspnetUserId == id).FirstOrDefault();
+            tutor.Active = false;
+            db.SaveChanges();
+            TempData["type"] = "warning";
+            TempData["msg"] = "Disabled";
+            return RedirectToAction("Index");
         }
 
         [HttpGet("DeleteTutor/{id}")]

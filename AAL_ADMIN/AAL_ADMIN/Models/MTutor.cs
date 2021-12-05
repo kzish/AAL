@@ -12,7 +12,7 @@ namespace AAL_ADMIN.Models
         public string ImageUrl { get; set; }
         public string CoutryIso { get; set; }
         public string About { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; }
 
         public virtual AspNetUsers AspnetUser { get; set; }
     }

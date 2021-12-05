@@ -23,6 +23,8 @@ namespace AAL_ADMIN.Models
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<ELanguageLevels> ELanguageLevels { get; set; }
+        public virtual DbSet<ETimePeriods> ETimePeriods { get; set; }
+        public virtual DbSet<MAspnetUserAvailableTimes> MAspnetUserAvailableTimes { get; set; }
         public virtual DbSet<MAspnetUserLanguages> MAspnetUserLanguages { get; set; }
         public virtual DbSet<MCountries> MCountries { get; set; }
         public virtual DbSet<MLanguages> MLanguages { get; set; }
@@ -31,8 +33,11 @@ namespace AAL_ADMIN.Models
         public virtual DbSet<MSubjectSpecialities> MSubjectSpecialities { get; set; }
         public virtual DbSet<MTopics> MTopics { get; set; }
         public virtual DbSet<MTutor> MTutor { get; set; }
+        public virtual DbSet<MTutorCourses> MTutorCourses { get; set; }
+        public virtual DbSet<MTutorEducation> MTutorEducation { get; set; }
         public virtual DbSet<MTutorLanguages> MTutorLanguages { get; set; }
         public virtual DbSet<MTutorRating> MTutorRating { get; set; }
+        public virtual DbSet<MTutorWorkExperience> MTutorWorkExperience { get; set; }
         public virtual DbSet<MTutorsSubjects> MTutorsSubjects { get; set; }
         public virtual DbSet<MTutorsSubjectsSpecialities> MTutorsSubjectsSpecialities { get; set; }
 
@@ -161,6 +166,56 @@ namespace AAL_ADMIN.Models
                     .HasColumnName("language_level")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<ETimePeriods>(entity =>
+            {
+                entity.ToTable("e_time_periods");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Sequence).HasColumnName("sequence");
+
+                entity.Property(e => e.TimePeriod)
+                    .HasColumnName("time_period")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasColumnName("title")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<MAspnetUserAvailableTimes>(entity =>
+            {
+                entity.ToTable("m_aspnet_user_available_times");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AspnetUserId)
+                    .HasColumnName("aspnet_user_id")
+                    .HasMaxLength(450);
+
+                entity.Property(e => e.TimePeriod)
+                    .HasColumnName("time_period")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Weekday)
+                    .HasColumnName("weekday")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.AspnetUser)
+                    .WithMany(p => p.MAspnetUserAvailableTimes)
+                    .HasForeignKey(d => d.AspnetUserId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_m_aspnet_user_available_times_AspNetUsers");
             });
 
             modelBuilder.Entity<MAspnetUserLanguages>(entity =>
@@ -397,6 +452,77 @@ namespace AAL_ADMIN.Models
                     .HasConstraintName("FK_m_tutor_AspNetUsers");
             });
 
+            modelBuilder.Entity<MTutorCourses>(entity =>
+            {
+                entity.ToTable("m_tutor_courses");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AspnetUserId)
+                    .HasColumnName("aspnet_user_id")
+                    .HasMaxLength(450);
+
+                entity.Property(e => e.Description)
+                    .HasColumnName("description")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Duration)
+                    .HasColumnName("duration")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MoodleCourseId).HasColumnName("moodle_course_id");
+
+                entity.Property(e => e.Title)
+                    .HasColumnName("title")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.AspnetUser)
+                    .WithMany(p => p.MTutorCourses)
+                    .HasForeignKey(d => d.AspnetUserId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_m_tutor_courses_AspNetUsers");
+            });
+
+            modelBuilder.Entity<MTutorEducation>(entity =>
+            {
+                entity.ToTable("m_tutor_education");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AspnetUserId)
+                    .IsRequired()
+                    .HasColumnName("aspnet_user_id")
+                    .HasMaxLength(450);
+
+                entity.Property(e => e.DateFrom)
+                    .HasColumnName("date_from")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.DateTo)
+                    .HasColumnName("date_to")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.DiplomaOrDegree)
+                    .HasColumnName("diploma_or_degree")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.InsituteOrUniversity)
+                    .HasColumnName("insitute_or_university")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Verified).HasColumnName("verified");
+
+                entity.HasOne(d => d.AspnetUser)
+                    .WithMany(p => p.MTutorEducation)
+                    .HasForeignKey(d => d.AspnetUserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_m_tutor_education_AspNetUsers");
+            });
+
             modelBuilder.Entity<MTutorLanguages>(entity =>
             {
                 entity.ToTable("m_tutor_languages");
@@ -459,6 +585,40 @@ namespace AAL_ADMIN.Models
                     .WithMany(p => p.MTutorRating)
                     .HasForeignKey(d => d.TutorAspnetIdFk)
                     .HasConstraintName("FK_m_tutor_rating_AspNetUsers");
+            });
+
+            modelBuilder.Entity<MTutorWorkExperience>(entity =>
+            {
+                entity.ToTable("m_tutor_work_experience");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AspnetUserId)
+                    .IsRequired()
+                    .HasColumnName("aspnet_user_id")
+                    .HasMaxLength(450);
+
+                entity.Property(e => e.DateFrom)
+                    .HasColumnName("date_from")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.DateTo)
+                    .HasColumnName("date_to")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Organization)
+                    .HasColumnName("organization")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Roles)
+                    .HasColumnName("roles")
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.AspnetUser)
+                    .WithMany(p => p.MTutorWorkExperience)
+                    .HasForeignKey(d => d.AspnetUserId)
+                    .HasConstraintName("FK_m_tutor_work_experience_m_tutor_work_experience");
             });
 
             modelBuilder.Entity<MTutorsSubjects>(entity =>

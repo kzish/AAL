@@ -1,15 +1,10 @@
 ﻿@{ Layout = "~/Views/Shared/_LayoutMain.cshtml"; }
 @{
-    var tutors = (PagedList.Core.IPagedList<Microsoft.AspNetCore.Identity.IdentityUser>)ViewBag.tutors; 
+    var tutors = (PagedList.Core.IPagedList<AAL_ADMIN.Models.AspNetUsers>)ViewBag.tutors;
+    var page = (int)ViewBag.page;
     }
 
 <div class="container">
-    <row>
-        <div class="col-md-12">
-            <a href="~/Tutors/CreateTutor" class="btn btn-primary btn-sm">create tutor</a>
-        </div>
-        <br />
-    </row>
     <div class="row">
         <div class="col-md-12" id="clients">
             <table id="dt" class="table tblsm">
@@ -25,10 +20,23 @@
         <tr>
             <td title="@item.Email">@item.Email</td>
             <td>
-                <a href="~/Tutors/EditTutor/@item.Id" style="color:blue;">
-                    Open
+                <a href="~/Tutors/EditTutor/@item.Id" target="_blank" style="color:blue;">
+                    View Profile
                 </a>
-                |
+               @if(item.MTutor.Active==true)
+               {
+                    <span>|</span>
+                    <a href="~/Tutors/DisableTutor/@item.Id/@(page)" style="color:purple;">
+                        Disable
+                    </a>
+                } else
+               {
+                   <span>|</span>
+                    <a href="~/Tutors/EnableTutor/@item.Id/@(page)" style="color:green;">
+                       Enable
+                    </a>
+               }
+                    <span>|</span>
                 <a href="javascript:void(0);" style="color:red;" onclick="confirm_delete('@item.Id')">
                     Delete
                 </a>

@@ -166,14 +166,17 @@ namespace Admin.Controllers
         }
 
         [HttpPost("EditCourse")]
-        public IActionResult EditCourse(MTutorCourses course)
+        public IActionResult EditCourse(MTutorCourses course_)
         {
             ViewBag.title = "Edit Course";
             //
             try
             {
                 var tutor = db.MTutor.Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User)).FirstOrDefault();
-                course.Title = course.Title + " - " + tutor.Email;
+                var course = db.MTutorCourses.Find(course_.Id);
+                course.Title = course_.Title + " - " + tutor.Email;
+                course.Description = course_.Description;
+                course.Duration = course_.Duration;
                 course.AspnetUserId = userManager.GetUserId(HttpContext.User);
                 dynamic res = moodleRepository.EditMoodleCourse(course);
 

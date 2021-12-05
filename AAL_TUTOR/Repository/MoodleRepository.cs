@@ -217,7 +217,7 @@ namespace AAL_ADMIN.Repository
                 else
                 {
                     response.res = "ok";
-                    response.moodle_course_id = resObject[0].id;
+                    //response.moodle_course_id = resObject[0].id;
                 }
 
                 return response;

@@ -15,8 +15,7 @@ using Newtonsoft.Json;
 using System.Dynamic;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using AAL_ADMIN.Repository;
-using AAL_ADMIN.Globals;
+using Globals;
 
 namespace Admin.Controllers
 {

@@ -14,8 +14,6 @@ using AAL_ADMIN.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using AAL_ADMIN.Globals;
-using AAL_ADMIN.Repository;
 
 namespace AAL_ADMIN
 {
@@ -31,7 +29,7 @@ namespace AAL_ADMIN
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<MoodleRepository>();
+            services.AddScoped<Globals.MoodleRepository>();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -88,7 +86,7 @@ namespace AAL_ADMIN
             var userManager = serviceScope.ServiceProvider.GetService<UserManager<IdentityUser>>();
             var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
             var signInManager = serviceScope.ServiceProvider.GetService<SignInManager<IdentityUser>>();
-            AppSetup appSetup = new AppSetup(signInManager, userManager, roleManager);
+            Globals.AppSetup appSetup = new Globals.AppSetup(env, signInManager, userManager, roleManager);
             //
             var app_name = env.ApplicationName;
             app.Run(async (context) =>

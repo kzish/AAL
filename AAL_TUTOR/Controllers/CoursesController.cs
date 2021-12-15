@@ -15,7 +15,7 @@ using System.Dynamic;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using AAL_ADMIN.Repository;
-using AAL_ADMIN.Globals;
+using Globals;
 using AAL_TUTOR.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;

@@ -1,0 +1,7 @@
+C:\.NetProjects\AAL\AAL_ADMIN\AAL_ADMIN\obj\Debug\netcoreapp3.1\AAL_ADMIN.csproj.AssemblyReference.cache
+C:\.NetProjects\AAL\AAL_ADMIN\AAL_ADMIN\obj\Debug\netcoreapp3.1\AAL_ADMIN.GeneratedMSBuildEditorConfig.editorconfig
+C:\.NetProjects\AAL\AAL_ADMIN\AAL_ADMIN\obj\Debug\netcoreapp3.1\AAL_ADMIN.AssemblyInfoInputs.cache
+C:\.NetProjects\AAL\AAL_ADMIN\AAL_ADMIN\obj\Debug\netcoreapp3.1\AAL_ADMIN.AssemblyInfo.cs
+C:\.NetProjects\AAL\AAL_ADMIN\AAL_ADMIN\obj\Debug\netcoreapp3.1\AAL_ADMIN.csproj.CoreCompileInputs.cache
+C:\.NetProjects\AAL\AAL_ADMIN\AAL_ADMIN\obj\Debug\netcoreapp3.1\AAL_ADMIN.MvcApplicationPartsAssemblyInfo.cs
+C:\.NetProjects\AAL\AAL_ADMIN\AAL_ADMIN\obj\Debug\netcoreapp3.1\AAL_ADMIN.MvcApplicationPartsAssemblyInfo.cache

@@ -1,11 +1,13 @@
 ﻿using AAL_TUTOR.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AAL_ADMIN.Globals
+namespace Globals
 {
     public class AppSetup
     {
@@ -15,16 +17,19 @@ namespace AAL_ADMIN.Globals
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly IConfiguration configuration;
 
         dbContext db = new dbContext();
-        public AppSetup(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AppSetup(IConfiguration configuration, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.configuration = configuration;
 
             this.CreateRoles();
             this.CreateAdminUser();
+            this.CreateFolders();
         }
 
         private void CreateRoles()
@@ -39,7 +44,6 @@ namespace AAL_ADMIN.Globals
             if (!roleManager.RoleExistsAsync("student").Result)
                 roleManager.CreateAsync(new IdentityRole("student"));
         }
-
 
         private void CreateAdminUser()
         {
@@ -56,6 +60,16 @@ namespace AAL_ADMIN.Globals
                 userManager.AddToRoleAsync(admin_user, "admin");//add user to admin role
             }
         }
+
+        private void CreateFolders()
+        {
+            var resources_folder = configuration.GetValue<string>("resources_folder");
+            var profile_pictures_folder = configuration.GetValue<string>("profile_pictures_folder");
+
+            Directory.CreateDirectory(resources_folder);
+            Directory.CreateDirectory(profile_pictures_folder);
+        }
+
     }
 
 

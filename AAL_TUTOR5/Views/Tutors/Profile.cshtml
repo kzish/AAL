@@ -1,0 +1,340 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var tutor = (SharedModels.AspNetUser)ViewBag.tutor;
+    var language_levels = (List<SharedModels.ELanguageLevel>)ViewBag.language_levels;
+    var languages = (List<SharedModels.MLanguage>)ViewBag.languages;
+    var countries = (List<SharedModels.MCountry>)ViewBag.countries;
+    var days_of_week = new List<string> { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    var time_periods = (List<SharedModels.ETimePeriod>)ViewBag.time_periods;
+}
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-12">
+            <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" data-toggle="pill" href="#pills-1" role="tab" aria-controls="pills-1" aria-selected="true">Basic</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" data-toggle="pill" href="#pills-2" role="tab" aria-selected="false">Profile</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" data-toggle="pill" href="#pills-4" role="tab" aria-selected="false">Resume</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" data-toggle="pill" href="#pills-5" role="tab" aria-selected="false">Availability</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="pills-1" role="tabpanel">
+                    @*row*@
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label><span style="color:red">*</span> Firstname</label>
+                                <input name="Firstname" type="text" class="form-control" value="@tutor.MTutor.Firstname" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label><span style="color:red">*</span> Surname</label>
+                                <input name="Surname" type="text" class="form-control" value="@tutor.MTutor.Surname" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label><span style="color:red">*</span> Email</label>
+                                <input name="Email" type="text" class="form-control" value="@tutor.Email" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-2" role="tabpanel">
+                    @* profile *@
+                    <form action="~/Tutors/UpdateTutorProfile" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="aspnet_user_id" value="@tutor.Id" />
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h5>Image</h5>
+                                @if (String.IsNullOrEmpty(tutor.MTutor.ImageUrl))
+                                {
+                                    <img src="~/assets/img/profile_place_holder.png" alt="..." class="img-thumbnail profile_picture_console"> }
+                                else
+                                {
+                                    <img src="~/Tutors/GetImage/@tutor.MTutor.ImageUrl" alt="..." class="img-thumbnail profile_picture_console">}
+                                <br />
+                                <br />
+                                <input type="file" class="form-control-file" name="profile_image" accept="image/*">
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h5>Country</h5>
+                                <div class="form-group">
+                                    <select class="chosen-select form-control" name="tutor_country_iso">
+                                        @foreach (var country in countries)
+                                        {
+                                            <option value="@country.CountryIso" selected="@(tutor.MTutor.CoutryIso==country.CountryIso)">@country.CountryName</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h5>Languages</h5>
+                                @foreach (var level in language_levels)
+                                {
+                                    <h6>@level.LanguageLevel</h6>
+                                    <div class="form-group">
+                                        <select class="chosen-select form-control" multiple name="languageLevel_@level.LanguageLevel">
+                                            @foreach (var language in languages)
+                                            {
+                                                <option value="@language.Id" selected="@(tutor.MAspnetUserLanguages.Where(i=>i.LanguageIdFk == language.Id &&  i.LanguageLevelIdFk==level.Id).Any())">@language.LanguageName</option>
+                                            }
+                                        </select>
+                                    </div>}
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h5>About</h5>
+                                <textarea rows="5" class="form-control" name="tutor_about" placeholder="type about here ...">@tutor.MTutor.About</textarea>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="pills-4" role="tabpanel">
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h5>Education</h5>
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_add_education">
+                                Add
+                            </button>
+                            <br />
+                            <br />
+                            <table class="table table-striped" style="width:100%">
+                                @foreach (var edu in tutor.MTutorEducations)
+                                {
+                                    <tr>
+                                        <td>
+                                            @edu.DateFrom.Value.ToString("yyyy") - @(edu.DateTo==null ? "Current" : edu.DateTo.Value.ToString("yyyy"))
+                                        </td>
+                                        <td>
+                                            <h5><b>@edu.InsituteOrUniversity</b></h5>
+                                            @edu.DiplomaOrDegree<br />
+                                            @if (edu.Verified)
+                                            {
+                                                <small style="color:green"><b>Verified</b></small>
+                                            }
+                                            else
+                                            {
+                                                <small style="color:red"><b>Not Verified</b></small>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a href="~/Tutors/RemoveEducation/@edu.Id" style="color:red"><i class="fa fa-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h5>Work Experience</h5>
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_add_work_experience">
+                                Add
+                            </button>
+                            <br />
+                            <br />
+                            <table class="table table-striped" style="width:100%">
+                                @foreach (var workexp in tutor.MTutorWorkExperiences)
+                                {
+                                    <tr>
+                                        <td>
+                                            @workexp.DateFrom.Value.ToString("yyyy") - @(workexp.DateTo==null ? "Current" : workexp.DateTo.Value.ToString("yyyy"))
+                                        </td>
+                                        <td>
+                                            <h5><b title="@workexp.Organization">@workexp.Organization</b></h5>
+                                            <p title="@workexp.Roles">@workexp.Roles</p>
+                                        </td>
+                                        <td>
+                                            <a href="~/Tutors/RemoveWorkExperience/@workexp.Id" style="color:red"><i class="fa fa-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-5" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form action="~/Tutors/SaveTimeTable" method="post">
+                                @foreach (var weekday in days_of_week)
+                                {
+                                    <h5>@weekday</h5>
+                                    <div class="row">
+                                        @foreach (var time_period in time_periods)
+                                        {
+                                            <div class="col-md-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="true" name="@(time_period.Id)_@(weekday)" @(tutor.MAspnetUserAvailableTimes.Where(i=>i.TimePeriod==time_period.Id && i.Weekday == weekday).Any() ? "checked" : "")>
+                                                    <label class="form-check-label">
+                                                        <b>@time_period.TimePeriod</b>
+                                                        <br />
+                                                        <p style="color:teal">@time_period.Title</p>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <hr />
+                                }
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- modal add education -->
+<div class="modal fade" id="modal_add_education" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Education</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="~/Tutors/AddEducation" method="post">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="disabledTextInput">Date From</label>
+                                <input type="text" id="edu_date_from" name="DateFrom" class="form-control date_from" required style="width:200px!important">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="disabledTextInput">Date To</label>
+                                <input type="text" id="edu_date_to" name="DateTo" class="form-control date_to" style="width:200px!important">
+                                <small>leave blank if current</small>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="disabledTextInput">Institute/University</label>
+                                <input type="text" name="InsituteOrUniversity" class="form-control" placeholder="Institute Or University" required>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="disabledTextInput">Diploma/Degree</label>
+                                <input type="text" name="DiplomaOrDegree" class="form-control" placeholder="Diploma Or Degree" required>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal add work experience -->
+<div class="modal fade" id="modal_add_work_experience" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Work Experience</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="~/Tutors/AddWorkExperience" method="post">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="disabledTextInput">Date From</label>
+                                <input type="text" id="work_experience_date_from" name="DateFrom" class="form-control date_from" required style="width:200px!important">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="disabledTextInput">Date To</label>
+                                <input type="text" id="work_experience_date_to" name="DateTo" class="form-control date_to" style="width:200px!important">
+                                <small>leave blank if current</small>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="disabledTextInput">Organization</label>
+                                <input type="text" name="Organization" class="form-control" placeholder="Organization" required>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="disabledTextInput">Roles</label>
+                                <input type="text" name="Roles" class="form-control" placeholder="Roles..." required>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(".chosen-select").chosen(
+        { width: '100%' }
+    );
+
+    $('#edu_date_from').Zebra_DatePicker({
+        format: 'm Y',
+        pair: $('#edu_date_to')
+    });
+    $('#edu_date_to').Zebra_DatePicker({
+        format: 'm Y',
+    });
+
+    $('#work_experience_date_from').Zebra_DatePicker({
+        format: 'm Y',
+        pair: $('#work_experience_date_to')
+    });
+    $('#work_experience_date_to').Zebra_DatePicker({
+        format: 'm Y',
+    });
+</script>

@@ -30,7 +30,7 @@ namespace AAL_TUTOR
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<MoodleRepository>();
+            services.AddScoped<Globals.MoodleRepository>();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -79,7 +79,7 @@ namespace AAL_TUTOR
             app.UseDeveloperExceptionPage();
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();//place  befroe mvc
+            app.UseCookiePolicy();//place before use mvc
 
             app.UseMvc();
             //boostrap the app
@@ -87,6 +87,7 @@ namespace AAL_TUTOR
             var userManager = serviceScope.ServiceProvider.GetService<UserManager<IdentityUser>>();
             var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
             var signInManager = serviceScope.ServiceProvider.GetService<SignInManager<IdentityUser>>();
+            Globals.AppSetup appSetup = new Globals.AppSetup(env, signInManager, userManager, roleManager);
             //
             var app_name = env.ApplicationName;
             app.Run(async (context) =>

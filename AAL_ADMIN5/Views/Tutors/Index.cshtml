@@ -1,0 +1,71 @@
+﻿@{ Layout = "~/Views/Shared/_LayoutMain.cshtml"; }
+@{
+    var tutors = (PagedList.Core.IPagedList<SharedModels.AspNetUser>)ViewBag.tutors;
+    var page = (int)ViewBag.page;
+    }
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" id="clients">
+            <table id="dt" class="table tblsm">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in tutors)
+                    {
+        <tr>
+            <td title="@item.Email">@item.Email</td>
+            <td>
+                <a href="~/Tutors/EditTutor/@item.Id" target="_blank" style="color:blue;">
+                    View Profile
+                </a>
+               @if(item.MTutor.Active==true)
+               {
+                    <span>|</span>
+                    <a href="~/Tutors/DisableTutor/@item.Id/@(page)" style="color:purple;">
+                        Disable
+                    </a>
+                } else
+               {
+                   <span>|</span>
+                    <a href="~/Tutors/EnableTutor/@item.Id/@(page)" style="color:green;">
+                       Enable
+                    </a>
+               }
+                    <span>|</span>
+                <a href="javascript:void(0);" style="color:red;" onclick="confirm_delete('@item.Id')">
+                    Delete
+                </a>
+            </td>
+        </tr>}
+                </tbody>
+            </table>
+            <pager class="pager-container" 
+                   list="@tutors" 
+                   options="@PagedList.Core.Mvc.PagedListRenderOptions.Bootstrap4PageNumbersOnly" 
+                   asp-action="Index" 
+                   asp-controller="Tutors" />
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirm_delete(id) {
+        $.confirm({
+            title: 'Information',
+            type: "red",
+            content: 'Delete this Tutor?',
+            buttons: {
+                Yes: function () {
+                    window.location = '@Url.Content("~/Tutors/DeleteTutor/")'+ id;
+                },
+                No: function () {
+                },
+            }
+        });
+    }
+</script>

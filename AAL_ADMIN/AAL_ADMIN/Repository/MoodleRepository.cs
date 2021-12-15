@@ -6,7 +6,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AAL_ADMIN.Globals;
+using Globals;
 
 namespace AAL_ADMIN.Repository
 {

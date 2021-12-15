@@ -15,11 +15,12 @@ using System.Dynamic;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using AAL_ADMIN.Repository;
-using AAL_ADMIN.Globals;
 using AAL_TUTOR.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.Extensions.Primitives;
+using Microsoft.Extensions.Configuration;
+using Globals;
 
 namespace Admin.Controllers
 {
@@ -32,6 +33,7 @@ namespace Admin.Controllers
         UserManager<IdentityUser> userManager;
         RoleManager<IdentityRole> roleManager;
         MoodleRepository moodleRepository;
+        IConfiguration configuration;
 
         protected override void Dispose(bool disposing)
         {
@@ -39,11 +41,12 @@ namespace Admin.Controllers
             db.Dispose();
         }
 
-        public TutorsController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
+        public TutorsController(IConfiguration configuration, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.moodleRepository = moodleRepository;
+            this.configuration = configuration;
         }
 
         //[HttpGet("Index")]
@@ -343,12 +346,12 @@ namespace Admin.Controllers
 
                 if (!string.IsNullOrEmpty(tutor.MTutor.ImageUrl))
                 {
-                    System.IO.File.Delete($"{Globals.profile_pictures_folder}/{tutor.MTutor.ImageUrl}");
+                    System.IO.File.Delete($"{Globals.Globals.profile_pictures_folder}/{tutor.MTutor.ImageUrl}");
                 }
                 if (profile_image != null)
                 {
                     var filename = $"{Guid.NewGuid().ToString()}.{Path.GetExtension(profile_image.FileName)}";
-                    var filepath = $"{Globals.profile_pictures_folder}/{filename}";
+                    var filepath = $"{Globals.Globals.profile_pictures_folder}/{filename}";
                     using (var stream = System.IO.File.Create(filepath))
                     {
                         await profile_image.CopyToAsync(stream);
@@ -377,7 +380,7 @@ namespace Admin.Controllers
         {
             try
             {
-                var filePath = System.IO.Path.Combine(Globals.profile_pictures_folder, file_name);
+                var filePath = System.IO.Path.Combine(Globals.Globals.profile_pictures_folder, file_name);
                 var memory = new MemoryStream();
                 using (var stream = new FileStream(filePath, FileMode.Open))
                 {

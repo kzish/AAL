@@ -343,13 +343,13 @@ namespace Admin.Controllers
                 tutor.MAspnetUserLanguages = advanced_language_levels;
                 //
 
-                if (!string.IsNullOrEmpty(tutor.MTutor.ImageUrl))
-                {
-                    System.IO.File.Delete($"{AppSettings.profile_pictures_folder}/{tutor.MTutor.ImageUrl}");
-                }
                 if (profile_image != null)
                 {
-                    var filename = $"{Guid.NewGuid().ToString()}.{Path.GetExtension(profile_image.FileName)}";
+                    if (!string.IsNullOrEmpty(tutor.MTutor.ImageUrl))
+                    {
+                        System.IO.File.Delete($"{AppSettings.profile_pictures_folder}/{tutor.MTutor.ImageUrl}");
+                    }
+                    var filename = $"{Guid.NewGuid()}.{Path.GetExtension(profile_image.FileName)}";
                     var filepath = $"{AppSettings.profile_pictures_folder}/{filename}";
                     using (var stream = System.IO.File.Create(filepath))
                     {

@@ -8,12 +8,81 @@
         </p>
      </center>
    </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="top-home-search">
+        <center>
+          <div class="input-group">
+              <input type="text" class="form-control top-home-search-text" placeholder="Type Course or topic">
+              <div class="input-group-append">
+                <button type="button" class="btn btn-primary top-home-search-text">
+                  Search Course<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+                </button>
+              </div>
+          </div>
+        </center>
+        <div class="row">
+          <div class="col-md-12">
+            country filter, language filter, availability filter drop downs
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
    <div class="tutor-list">
      <div class="row">
-       <div class="col-md-12" v-for="tutor in tutors" :key="tutor.Id">
+       <div class="col-md-12" v-for="tutor in tutors" :key="tutor.aspnetUserId">
          <div class="tutor-profile-item">
-           <img :src="globals.api_end_point+'/Tutors/GetImage/'+tutor.MTutor.ImageUrl" class="rounded float-left" alt="...">
-              {{tutor.MTutor.Firstname}} {{tutor.MTutor.Surname}}
+           <div class="row">
+             <div class="col-md-2">
+               <table>
+                 <tr>
+                   <td>
+                     <img v-if="tutor.imageUrl!=='' && tutor.imageUrl!== null" :src="globals.api_end_point+'/Tutors/GetImage/'+tutor.imageUrl" class="rounded float-left tutor-home-img" alt="...">
+                     <img v-if="tutor.imageUrl=='' || tutor.imageUrl==null" src="/assets/img/place-holder-profile-image.png" class="rounded float-left tutor-home-img" alt="...">
+                   </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      {{tutor.firstname}} {{tutor.surname}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>tutor rating</td>
+                  </tr>
+               </table>
+             </div>
+             <div class="col-md-10">
+               <table>
+                 <tr>
+                   <td>{{tutor.coutryName}}:flag icon</td>
+                 </tr>
+                 <tr>
+                   <td>
+                       <span v-for="language in tutor.languages" :key="language">{{language.trim()}}, </span>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td>
+                       <span v-for="course in tutor.courses" :key="course">{{course.trim().replace(" - " + tutor.email, "")}},</span>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td><i><b>{{tutor.about}}</b></i></td>
+                 </tr>
+               </table>
+             </div>
+           </div>
+           <div class="row">
+             <div class="col-md-12">
+               <div class="contact-tutor-icons">
+                  whatsapp, email, call
+               </div>
+             </div>
+           </div>
          </div>
        </div>
      </div>

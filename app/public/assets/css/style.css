@@ -12,5 +12,34 @@
 }
 
 .tutor-profile-item {
+    border:1px solid #e3edef;
+    padding: 20px;
+    margin:20px;
+    
+}
+
+.top-home-search {
+    padding-top:40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 40px;
+    background: #fff;
+    background: url('../img/_h_city_1.jpg');
+}
+
+.top-home-search-text {
+    height: 57px;
+    box-shadow: 0px 0px 10px #d8d8d8;
+}
+
+.tutor-home-img {
+    height: 150px;
+    width: 150px;
+    object-fit: contain;
+    box-shadow: 0px 0px 10px #d8d8d8;
+    border: 1px solid #d8d8d8;
+}
+
+.contact-tutor-icons {
     
 }

@@ -14,7 +14,12 @@
       <div class="top-home-search">
         <center>
           <div class="input-group">
-              <input type="text" class="form-control top-home-search-text" placeholder="Type Course or topic">
+              <input type="text" :value="this.search_term" class="form-control top-home-search-text" placeholder="Type Course or topic">
+               <div class="input-group-append">
+                <button type="button" @click="this.clearSearch();" class="btn btn-outline-danger top-home-search-text">
+                  X<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+                </button>
+              </div>
               <div class="input-group-append">
                 <button type="button" class="btn btn-primary top-home-search-text">
                   Search Course<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
@@ -34,7 +39,7 @@
 
    <div class="tutor-list">
      <div class="row">
-       <div class="col-md-12" v-for="tutor in tutors" :key="tutor.aspnetUserId">
+       <div class="col-md-12 tutor-profile-item-contianer" v-for="tutor in tutors" :key="tutor.aspnetUserId">
          <div class="tutor-profile-item">
            <div class="row">
              <div class="col-md-2">
@@ -71,7 +76,10 @@
                    </td>
                  </tr>
                  <tr>
-                   <td><i><b>{{tutor.about}}</b></i></td>
+                   <td><i><b>{{tutor.about.substring(0,100)}}...</b></i></td>
+                 </tr>
+                 <tr>
+                   <td><a href="javascript:void(0);">View more</a></td>
                  </tr>
                </table>
              </div>
@@ -102,12 +110,18 @@ export default {
     return {
       tutors: null,
       globals: globals,
+      search_term: 'hassan',
     }
   },
   mounted(){
      this.fetchTutors();
   },
   methods: {
+    clearSearch() {
+      this.search_term = 'imam';
+      // alert('called');
+      // this.fetchTutors();
+    },
     fetchTutors(){
       axios.get(globals.api_end_point+"/Tutors/FetchTutors")
           .then(response => {

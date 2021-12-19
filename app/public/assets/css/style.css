@@ -14,8 +14,12 @@
 .tutor-profile-item {
     border:1px solid #e3edef;
     padding: 20px;
-    margin:20px;
-    
+    margin:20px 20px 0px 20px;
+}
+
+.tutor-profile-item-contianer {
+    width: 80%;
+    margin: auto;
 }
 
 .top-home-search {

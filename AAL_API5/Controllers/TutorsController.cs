@@ -32,18 +32,31 @@ namespace AAL_API.Controllers
         }
 
         [HttpGet("FetchTutors")]
-        public JsonResult FetchTutors(int page = 1)
+        public JsonResult FetchTutors(string search_term, int page = 1)
         {
             page--;//page starts at 0
             try
             {
-                var tutors = db.AspNetUsers
-                .Where(i => i.AspNetUserRoles.Any(r => r.Role.Name == "tutor"))
+                var tutors_query = db.AspNetUsers.AsQueryable();
+                //filter
+                if (!string.IsNullOrEmpty(search_term))
+                {
+                    tutors_query = tutors_query
+                        .Where(i => i.MTutor.Firstname.Contains(search_term)
+                        || i.MTutor.Surname.Contains(search_term)
+                        || i.MTutor.About.Contains(search_term)
+                        || i.MTutorCourses.Where(c => c.Title.Contains(search_term)).Any()
+                        || i.MTutorCourses.Where(c => c.Description.Contains(search_term)).Any()
+                        );
+                }
+                //
+                tutors_query = tutors_query.Where(i => i.AspNetUserRoles.Any(r => r.Role.Name == "tutor"))
                 .Where(i => i.MTutor.Active)
                 .Include(i => i.MTutor)
                 .Include(i => i.MAspnetUserLanguages)
-                .Include(i => i.MTutorCourses)
-                .Skip(page * 15)
+                .Include(i => i.MTutorCourses);
+
+                var tutors = tutors_query.Skip(page * 15)
                 .Take(15)
                 .ToList();
 
@@ -61,7 +74,7 @@ namespace AAL_API.Controllers
                     apiTutor.About = t.MTutor.About;
                     apiTutor.CoutryName = db.MCountries.Find(t.MTutor.CoutryIso).CountryName;
                     //
-                    foreach(var lang in t.MAspnetUserLanguages)
+                    foreach (var lang in t.MAspnetUserLanguages)
                     {
                         apiTutor.Languages.Add(db.MLanguages.Find(lang.LanguageIdFk).LanguageName);
                     }

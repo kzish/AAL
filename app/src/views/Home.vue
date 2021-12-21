@@ -14,14 +14,14 @@
       <div class="top-home-search">
         <center>
           <div class="input-group">
-              <input type="text" :value="this.search_term" class="form-control top-home-search-text" placeholder="Type Course or topic">
+              <input type="text" v-model="search_term" class="form-control top-home-search-text" placeholder="Type Course or topic">
                <div class="input-group-append">
-                <button type="button" @click="this.clearSearch();" class="btn btn-outline-danger top-home-search-text">
+                <button type="button" @click="clearSearch" class="btn btn-outline-danger top-home-search-text">
                   X<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
                 </button>
               </div>
               <div class="input-group-append">
-                <button type="button" class="btn btn-primary top-home-search-text">
+                <button @click="fetchTutors" type="button" class="btn btn-primary top-home-search-text">
                   Search Course<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
                 </button>
               </div>
@@ -35,7 +35,6 @@
       </div>
     </div>
   </div>
-
 
    <div class="tutor-list">
      <div class="row">
@@ -56,14 +55,28 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>tutor rating</td>
+                    <td>
+                      
+                      <star-rating
+                      :increment="1"
+                      :rating="4"
+                      :max-rating="5"
+                      :read-only="true"
+                      :show-rating	="false"
+                      :star-size="20"
+                       />
+
+                    </td>
                   </tr>
                </table>
              </div>
              <div class="col-md-10">
                <table>
                  <tr>
-                   <td>{{tutor.coutryName}}:flag icon</td>
+                   <td>
+                     {{tutor.coutryName}}
+                     <country-flag :country='tutor.coutryIso' size='small'/>
+                   </td>
                  </tr>
                  <tr>
                    <td>
@@ -96,21 +109,34 @@
      </div>
    </div>
  </div>
+ <loading :active="isLoading" 
+        :can-cancel="true" 
+        :on-cancel="onCancel"
+        :is-full-page="true" />
 </template>
 
 <script>
 import {globals} from '@/assets/js/globals.js'
 import axios from "axios";
+import StarRating from 'vue-star-rating'//https://bestofvue.com/repo/craigh411-vue-star-rating-vuejs-miscellaneous
+import CountryFlag from 'vue-country-flag-next'
+import Loading from 'vue3-loading-overlay';
+import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
 
 export default {
   name: 'Home',
   components: {
+    StarRating,
+    CountryFlag,
+    Loading,
   },
   data(){
     return {
       tutors: null,
       globals: globals,
-      search_term: 'hassan',
+      search_term: '',
+      page: 1,
+      isLoading: false,
     }
   },
   mounted(){
@@ -118,12 +144,11 @@ export default {
   },
   methods: {
     clearSearch() {
-      this.search_term = 'imam';
-      // alert('called');
-      // this.fetchTutors();
+      this.search_term = '';
     },
     fetchTutors(){
-      axios.get(globals.api_end_point+"/Tutors/FetchTutors")
+      this.isLoading = true;
+      axios.get(globals.api_end_point+"/Tutors/FetchTutors?page=" + this.page + "&search_term=" + this.search_term)
           .then(response => {
             if(response.data.res === "ok") {
               this.tutors = response.data.data;
@@ -132,7 +157,9 @@ export default {
             }
           })
           .catch(error => console.log(error))
-          .finally(() => {})
+          .finally(() => {
+            this.isLoading = false;
+          })
     },
   }
 }

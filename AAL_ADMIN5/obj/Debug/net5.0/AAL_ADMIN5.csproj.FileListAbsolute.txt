@@ -92,3 +92,4 @@ C:\.NetProjects\AAL\AAL_ADMIN5\obj\Debug\net5.0\AAL_ADMIN5.dll
 C:\.NetProjects\AAL\AAL_ADMIN5\obj\Debug\net5.0\ref\AAL_ADMIN5.dll
 C:\.NetProjects\AAL\AAL_ADMIN5\obj\Debug\net5.0\AAL_ADMIN5.pdb
 C:\.NetProjects\AAL\AAL_ADMIN5\obj\Debug\net5.0\AAL_ADMIN5.genruntimeconfig.cache
+C:\.NetProjects\AAL\AAL_ADMIN5\obj\Debug\net5.0\AAL_ADMIN5.csproj.AssemblyReference.cache

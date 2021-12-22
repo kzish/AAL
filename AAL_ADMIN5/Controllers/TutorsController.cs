@@ -47,8 +47,8 @@ namespace Admin.Controllers
         public IActionResult Index(int page = 1)
         {
             ViewBag.title = "Tutors";
-            var tutors = db.AspNetUsers
-                .Where(i => i.AspNetUserRoles.Any(r => r.Role.Name == "tutor"))
+            var tutors = db.Aspnetusers
+                .Where(i => i.Aspnetuserroles.Any(r => r.Role.Name == "tutor"))
                 .Include(i => i.MTutor)
                 .ToPagedList(page, 15);
 
@@ -61,7 +61,7 @@ namespace Admin.Controllers
         public IActionResult EnableTutor(string id, int page)
         {
             var tutor = db.MTutors.Where(i => i.AspnetUserId == id).FirstOrDefault();
-            tutor.Active = true;
+            tutor.Active = 1;
             db.SaveChanges();
             TempData["type"] = "success";
             TempData["msg"] = "Enabled";
@@ -72,7 +72,7 @@ namespace Admin.Controllers
         public IActionResult DisableTutor(string id, int page)
         {
             var tutor = db.MTutors.Where(i => i.AspnetUserId == id).FirstOrDefault();
-            tutor.Active = false;
+            tutor.Active = 0;
             db.SaveChanges();
             TempData["type"] = "warning";
             TempData["msg"] = "Disabled";
@@ -121,7 +121,7 @@ namespace Admin.Controllers
         }
 
         [HttpPost("CreateTutor")]
-        public async Task<IActionResult> CreateTutor(AspNetUser aspNetUser, MTutor tutor)
+        public async Task<IActionResult> CreateTutor(Aspnetuser aspNetUser, MTutor tutor)
         {
             ViewBag.title = "Create Tutor";
             //
@@ -197,12 +197,11 @@ namespace Admin.Controllers
         {
             ViewBag.title = "Edit Tutor";
             //
-            var tutor = db.AspNetUsers
+            var tutor = db.Aspnetusers
                 .Where(i => i.Id == id)
                 .Include(i => i.MMoodleUsers)
                 .Include(i => i.MTutorRatings)
                 .Include(i => i.MAspnetUserLanguages)
-                .Include(i => i.MTutorsSubjects)
                 .Include(i => i.MTutor)
                 .FirstOrDefault();
             //

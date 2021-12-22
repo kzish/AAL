@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace SharedModels
 {
-    public partial class AspNetUserRole
+    public partial class Aspnetuserrole
     {
         public string UserId { get; set; }
         public string RoleId { get; set; }
 
-        public virtual AspNetRole Role { get; set; }
-        public virtual AspNetUser User { get; set; }
+        public virtual Aspnetrole Role { get; set; }
+        public virtual Aspnetuser User { get; set; }
     }
 }

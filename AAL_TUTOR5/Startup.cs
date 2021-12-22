@@ -36,13 +36,9 @@ namespace AAL_TUTOR5
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            var _connectionStringMysql = Configuration.GetConnectionString("db_mysql");
-            var _connectionStringSqlServer = Configuration.GetConnectionString("db");
-            var _connectionStringPostGress = Configuration.GetConnectionString("db_postgres");
-            //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("db")));
-            //services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(_connectionStringMysql, ServerVersion.AutoDetect(_connectionStringMysql)));
-            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(_connectionStringPostGress));
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            var con = Configuration.GetConnectionString("db_mysql");
+            var ver = ServerVersion.AutoDetect(con);
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySQL(con),ServiceLifetime.Singleton);
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddDefaultUI()

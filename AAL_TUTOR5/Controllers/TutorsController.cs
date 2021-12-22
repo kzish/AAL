@@ -97,7 +97,7 @@ namespace Admin.Controllers
         }
 
         [HttpPost("CreateTutor")]
-        public async Task<IActionResult> CreateTutor(AspNetUser aspNetUser, MTutor tutor)
+        public async Task<IActionResult> CreateTutor(Aspnetuser aspNetUser, MTutor tutor)
         {
             ViewBag.title = "Create Tutor";
             //
@@ -174,12 +174,11 @@ namespace Admin.Controllers
         {
             ViewBag.title = "Edit Tutor";
             //_userManager.GetUserAsync(HttpContext.User);
-            var tutor = db.AspNetUsers
+            var tutor = db.Aspnetusers
                 .Where(i => i.Email == User.Identity.Name)
                 .Include(i => i.MMoodleUsers)
                 .Include(i => i.MTutorRatings)
                 .Include(i => i.MAspnetUserLanguages)
-                .Include(i => i.MTutorsSubjects)
                 .Include(i => i.MTutor)
                 .Include(i => i.MTutorEducations)
                 .Include(i => i.MTutorWorkExperiences)
@@ -296,7 +295,7 @@ namespace Admin.Controllers
         {
             try
             {
-                var tutor = db.AspNetUsers
+                var tutor = db.Aspnetusers
                 .Where(i => i.Email == User.Identity.Name)
                 //.Include(i => i.MMoodleUser)
                 //.Include(i => i.MTutorRating)
@@ -488,7 +487,7 @@ namespace Admin.Controllers
         {
             try
             {
-                var aspnet_user = db.AspNetUsers
+                var aspnet_user = db.Aspnetusers
                     .Where(i => i.Id == userManager.GetUserId(HttpContext.User))
                     .Include(i=>i.MAspnetUserAvailableTimes)
                     .First();

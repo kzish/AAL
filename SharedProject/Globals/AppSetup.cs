@@ -51,7 +51,7 @@ namespace Globals
             string admin_email = "admin@rubiem.com";
             string admin_password = "Rubiem#99";
             //
-            var exist = db.AspNetUsers.Where(i => i.Email == "admin@rubiem.com").Any();
+            var exist = db.Aspnetusers.Where(i => i.Email == "admin@rubiem.com").Any();
             if (!exist)
             {
                 var admin_user = new IdentityUser();

@@ -50,7 +50,7 @@ namespace Admin.Controllers
         {
             ViewBag.title = "Courses";
             //_userManager.GetUserAsync(HttpContext.User);
-            var tutor = db.AspNetUsers
+            var tutor = db.Aspnetusers
                 .Where(i => i.Email == User.Identity.Name)
                 .Include(i => i.MTutorCourses)
                 .FirstOrDefault();
@@ -154,7 +154,7 @@ namespace Admin.Controllers
                 .Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User))
                 .FirstOrDefault();
 
-            var tutor = db.AspNetUsers
+            var tutor = db.Aspnetusers
                 .Where(i => i.Id == userManager.GetUserId(HttpContext.User))
                 .FirstOrDefault();
 

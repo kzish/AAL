@@ -10,7 +10,12 @@ C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\ref\AAL_TUTOR5.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\AAL_TUTOR5.pdb
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\AAL_TUTOR5.Views.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\AAL_TUTOR5.Views.pdb
+C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\BouncyCastle.Crypto.dll
+C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Google.Protobuf.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Humanizer.dll
+C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\K4os.Compression.LZ4.dll
+C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\K4os.Compression.LZ4.Streams.dll
+C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\K4os.Hash.xxHash.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.dll
@@ -22,6 +27,7 @@ C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dl
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.Design.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.Extensions.FileProviders.Embedded.dll
@@ -33,9 +39,16 @@ C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\MySql.Data.dll
+C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Ubiety.Dns.Core.dll
+C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\ZstdNet.dll
+C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\MySql.EntityFrameworkCore.dll
+C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\MySqlConnector.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\PagedList.Core.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\PagedList.Core.Mvc.dll
+C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Pomelo.EntityFrameworkCore.MySql.Design.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\System.Configuration.ConfigurationManager.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
@@ -61,9 +74,9 @@ C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.MvcApplicationPartsAs
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.MvcApplicationPartsAssemblyInfo.cache
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.RazorAssemblyInfo.cache
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.RazorAssemblyInfo.cs
+C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\scopedcss\bundle\AAL_TUTOR5.styles.css
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\staticwebassets\AAL_TUTOR5.StaticWebAssets.Manifest.cache
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\staticwebassets\AAL_TUTOR5.StaticWebAssets.xml
-C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\scopedcss\bundle\AAL_TUTOR5.styles.css
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.TagHelpers.input.cache
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.TagHelpers.output.cache
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.RazorCoreGenerate.cache
@@ -88,8 +101,4 @@ C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\ref\AAL_TUTOR5.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.pdb
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.genruntimeconfig.cache
-C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\MySqlConnector.dll
-C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.csproj.AssemblyReference.cache
-C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Npgsql.dll
-C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll

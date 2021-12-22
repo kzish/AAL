@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
-    var tutor = (SharedModels.AspNetUser)ViewBag.tutor;
+    var tutor = (SharedModels.Aspnetuser)ViewBag.tutor;
     var language_levels = (List<SharedModels.ELanguageLevel>)ViewBag.language_levels;
     var languages = (List<SharedModels.MLanguage>)ViewBag.languages;
     var countries = (List<SharedModels.MCountry>)ViewBag.countries;
@@ -137,7 +137,7 @@
                                         <td>
                                             <h5><b>@edu.InsituteOrUniversity</b></h5>
                                             @edu.DiplomaOrDegree<br />
-                                            @if (edu.Verified)
+                                            @if (edu.Verified == 1)
                                             {
                                                 <small style="color:green"><b>Verified</b></small>
                                             }

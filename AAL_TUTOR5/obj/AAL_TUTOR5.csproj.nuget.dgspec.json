@@ -47,27 +47,27 @@
           "dependencies": {
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.12, )"
+              "version": "[3.1.22, )"
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.12, )"
+              "version": "[3.1.22, )"
             },
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
-              "version": "[5.0.12, )"
+              "version": "[5.0.13, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[5.0.12, )"
+              "version": "[5.0.13, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "target": "Package",
-              "version": "[5.0.12, )"
+              "version": "[5.0.13, )"
             },
-            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+            "MySql.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.10, )"
+              "version": "[5.0.8, )"
             },
             "PagedList.Core.Mvc": {
               "target": "Package",
@@ -76,6 +76,10 @@
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[5.0.3, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql.Design": {
+              "target": "Package",
+              "version": "[1.1.2, )"
             }
           },
           "imports": [

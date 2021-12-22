@@ -1,6 +1,6 @@
 ﻿@{ Layout = "~/Views/Shared/_LayoutMain.cshtml"; }
 @{
-    var tutors = (PagedList.Core.IPagedList<SharedModels.AspNetUser>)ViewBag.tutors;
+    var tutors = (PagedList.Core.IPagedList<SharedModels.Aspnetuser>)ViewBag.tutors;
     var page = (int)ViewBag.page;
     }
 
@@ -23,7 +23,7 @@
                 <a href="~/Tutors/EditTutor/@item.Id" target="_blank" style="color:blue;">
                     View Profile
                 </a>
-               @if(item.MTutor.Active==true)
+               @if(item.MTutor.Active==1)
                {
                     <span>|</span>
                     <a href="~/Tutors/DisableTutor/@item.Id/@(page)" style="color:purple;">

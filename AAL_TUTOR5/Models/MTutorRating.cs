@@ -16,6 +16,6 @@ namespace SharedModels
         public int? OneStarRating { get; set; }
         public string RatorsIdNfk { get; set; }
 
-        public virtual AspNetUser TutorAspnetIdFkNavigation { get; set; }
+        public virtual Aspnetuser TutorAspnetIdFkNavigation { get; set; }
     }
 }

@@ -97,3 +97,7 @@ C:\.NetProjects\AAL\AAL_API5\obj\Debug\net5.0\AAL_API5.genruntimeconfig.cache
 C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
 C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.Design.dll
+C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\MySqlConnector.dll
+C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Pomelo.EntityFrameworkCore.MySql.Design.dll

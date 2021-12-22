@@ -14,12 +14,5 @@ namespace AAL_TUTOR5.Data
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-
-            builder.Entity<IdentityRole>(entity => entity.Property(m => m.Id).HasMaxLength(450));
-            builder.Entity<IdentityRole>(entity => entity.Property(m => m.ConcurrencyStamp).HasColumnType("varchar(256)"));
-        }
     }
 }

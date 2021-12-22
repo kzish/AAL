@@ -83,7 +83,7 @@ namespace admin.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(AspNetUser aspNetUser, MTutor tutor)
+        public async Task<IActionResult> Register(Aspnetuser aspNetUser, MTutor tutor)
         {
             ViewBag.title = "Register Tutor";
             //

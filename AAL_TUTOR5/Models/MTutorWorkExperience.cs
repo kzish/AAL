@@ -14,6 +14,6 @@ namespace SharedModels
         public string Organization { get; set; }
         public string Roles { get; set; }
 
-        public virtual AspNetUser AspnetUser { get; set; }
+        public virtual Aspnetuser AspnetUser { get; set; }
     }
 }

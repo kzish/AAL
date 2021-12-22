@@ -14,8 +14,8 @@ namespace SharedModels
         public string ImageUrl { get; set; }
         public string CoutryIso { get; set; }
         public string About { get; set; }
-        public bool Active { get; set; }
+        public sbyte Active { get; set; }
 
-        public virtual AspNetUser AspnetUser { get; set; }
+        public virtual Aspnetuser AspnetUser { get; set; }
     }
 }

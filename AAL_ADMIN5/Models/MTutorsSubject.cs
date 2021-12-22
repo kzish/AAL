@@ -17,7 +17,7 @@ namespace SharedModels
         public string AspnetUserIdFk { get; set; }
         public decimal PricePerHour { get; set; }
 
-        public virtual AspNetUser AspnetUserIdFkNavigation { get; set; }
+        public virtual Aspnetuser AspnetUserIdFkNavigation { get; set; }
         public virtual MSubject SubjectIdFkNavigation { get; set; }
         public virtual ICollection<MTutorsSubjectsSpeciality> MTutorsSubjectsSpecialities { get; set; }
     }

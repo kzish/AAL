@@ -12,8 +12,8 @@ namespace SharedModels
         public int LanguageIdFk { get; set; }
         public int LanguageLevelIdFk { get; set; }
 
-        public virtual AspNetUser AspnetUserIdFkNavigation { get; set; }
-        public virtual MLanguage LanguageIdFkNavigation { get; set; }
-        public virtual ELanguageLevel LanguageLevelIdFkNavigation { get; set; }
+        public virtual Aspnetuser AspnetUserIdFkNavigation { get; set; }
+        public virtual ELanguageLevel LanguageIdFkNavigation { get; set; }
+        public virtual MLanguage LanguageLevelIdFkNavigation { get; set; }
     }
 }

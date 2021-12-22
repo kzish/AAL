@@ -12,6 +12,6 @@ namespace SharedModels
         public string Weekday { get; set; }
         public string TimePeriod { get; set; }
 
-        public virtual AspNetUser AspnetUser { get; set; }
+        public virtual Aspnetuser AspnetUser { get; set; }
     }
 }

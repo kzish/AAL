@@ -36,8 +36,9 @@ namespace AAL_ADMIN5
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("db")));
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            var con = Configuration.GetConnectionString("db_mysql");
+            var ver = ServerVersion.AutoDetect(con);
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySQL(con), ServiceLifetime.Singleton);
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddDefaultUI()

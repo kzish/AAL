@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.Extensions.Primitives;
 using SharedModels;
+using Microsoft.Extensions.Logging;
 
 namespace Admin.Controllers
 {
@@ -30,6 +31,7 @@ namespace Admin.Controllers
         UserManager<IdentityUser> userManager;
         RoleManager<IdentityRole> roleManager;
         MoodleRepository moodleRepository;
+        ILogger<CoursesController> logger;
 
         protected override void Dispose(bool disposing)
         {
@@ -37,11 +39,12 @@ namespace Admin.Controllers
             db.Dispose();
         }
 
-        public CoursesController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
+        public CoursesController(ILogger<CoursesController> logger, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.moodleRepository = moodleRepository;
+            this.logger = logger;
         }
 
         [HttpGet("Index")]
@@ -95,7 +98,8 @@ namespace Admin.Controllers
             catch (Exception ex)
             {
                 TempData["type"] = "error";
-                TempData["msg"] = ex.Message;
+                TempData["msg"] = "Error occurred";
+                logger.LogError(ex.Message);
             }
 
             return RedirectToAction("Index");
@@ -140,7 +144,8 @@ namespace Admin.Controllers
             catch (Exception ex)
             {
                 TempData["type"] = "error";
-                TempData["msg"] = "Error: " + ex.Message;
+                TempData["msg"] = "Error occurred";
+                logger.LogError(ex.Message);
                 return RedirectToAction("Index");
             }
         }
@@ -197,7 +202,8 @@ namespace Admin.Controllers
             catch (Exception ex)
             {
                 TempData["type"] = "error";
-                TempData["msg"] = "Error: " + ex.Message;
+                TempData["msg"] = "Error occurred";
+                logger.LogError(ex.Message);
                 return RedirectToAction("Index");
             }
         }

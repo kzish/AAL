@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace SharedModels
 {
-    public partial class AspNetUserToken
+    public partial class Aspnetusertoken
     {
         public string UserId { get; set; }
         public string LoginProvider { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }
 
-        public virtual AspNetUser User { get; set; }
+        public virtual Aspnetuser User { get; set; }
     }
 }

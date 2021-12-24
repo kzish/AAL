@@ -65,10 +65,6 @@
               "target": "Package",
               "version": "[5.0.13, )"
             },
-            "MySql.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[5.0.8, )"
-            },
             "PagedList.Core.Mvc": {
               "target": "Package",
               "version": "[3.0.0, )"
@@ -76,10 +72,6 @@
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[5.0.3, )"
-            },
-            "Pomelo.EntityFrameworkCore.MySql.Design": {
-              "target": "Package",
-              "version": "[1.1.2, )"
             }
           },
           "imports": [

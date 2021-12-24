@@ -37,7 +37,13 @@
                 </div>
 
                 <center>
-                    <span>@TempData["msg"]</span>
+                    @if ((string)TempData["type"] == "success")
+                    {
+                        <span style="color:green">@TempData["msg"]</span>
+                    } else
+                    {
+                        <span>@TempData["msg"]</span>
+                    }
                 </center>
 
 

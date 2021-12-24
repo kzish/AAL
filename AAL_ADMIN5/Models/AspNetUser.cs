@@ -35,6 +35,7 @@ namespace SharedModels
         public string PhoneNumber { get; set; }
         public ulong PhoneNumberConfirmed { get; set; }
         public ulong TwoFactorEnabled { get; set; }
+        public DateTime? LockoutEnd { get; set; }
         public ulong LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
 

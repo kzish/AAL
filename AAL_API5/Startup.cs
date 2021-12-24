@@ -77,8 +77,10 @@ namespace AAL_API5
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("db")));
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            var con = Configuration.GetConnectionString("db");
+            var ver = ServerVersion.AutoDetect(con);
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(con, ver)
+            .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Error), ServiceLifetime.Transient);
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddDefaultUI()
@@ -143,7 +145,7 @@ namespace AAL_API5
             var userManager = serviceScope.ServiceProvider.GetService<UserManager<IdentityUser>>();
             var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
             var signInManager = serviceScope.ServiceProvider.GetService<SignInManager<IdentityUser>>();
-            Globals.AppSetup appSetup = new Globals.AppSetup(env, signInManager, userManager, roleManager);
+            Globals.AppSetup appSetup = new Globals.AppSetup(Configuration, env, signInManager, userManager, roleManager);
 
             var app_name = env.ApplicationName;
             app.Run(async (context) =>

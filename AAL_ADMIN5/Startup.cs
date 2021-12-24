@@ -36,13 +36,14 @@ namespace AAL_ADMIN5
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            var con = Configuration.GetConnectionString("db_mysql");
+            var con = Configuration.GetConnectionString("db");
             var ver = ServerVersion.AutoDetect(con);
-            services.AddDbContext<ApplicationDbContext>(options => options.UseMySQL(con), ServiceLifetime.Singleton);
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(con,ver), ServiceLifetime.Singleton);
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(ServiceLifetime.Transient);//similar to multiple active result sets for mysql
             services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opt =>
             {
                 opt.LoginPath = "/Auth/Login";
@@ -84,7 +85,7 @@ namespace AAL_ADMIN5
             var userManager = serviceScope.ServiceProvider.GetService<UserManager<IdentityUser>>();
             var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
             var signInManager = serviceScope.ServiceProvider.GetService<SignInManager<IdentityUser>>();
-            Globals.AppSetup appSetup = new Globals.AppSetup(env, signInManager, userManager, roleManager);
+            Globals.AppSetup appSetup = new Globals.AppSetup(Configuration, env, signInManager, userManager, roleManager);
 
             var app_name = env.ApplicationName;
             app.Run(async (context) =>

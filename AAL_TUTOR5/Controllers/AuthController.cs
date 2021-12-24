@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Globals;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SharedModels;
 
 namespace admin.Controllers
@@ -16,6 +17,7 @@ namespace admin.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         MoodleRepository moodleRepository;
+        ILogger<AuthController> logger;
 
         dbContext db = new dbContext();
 
@@ -24,12 +26,13 @@ namespace admin.Controllers
             base.Dispose(disposing);
             db.Dispose();
         }
-        public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,RoleManager<IdentityRole>roleManager, MoodleRepository moodleRepository)
+        public AuthController(ILogger<AuthController> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.moodleRepository = moodleRepository;
+            this.logger = logger;
         }
 
         [HttpGet("Login")]
@@ -89,7 +92,6 @@ namespace admin.Controllers
             //
             try
             {
-                db.Database.BeginTransaction();
                 //
                 var id_user = new IdentityUser()
                 {
@@ -110,7 +112,9 @@ namespace admin.Controllers
                 if (res.res == "err")
                 {
                     TempData["type"] = "error";
-                    TempData["msg"] = res.msg.ToString();
+                    TempData["msg"] = "Error occurred";
+                    string err = res.msg.ToString();
+                    logger.LogError(err);
                     return RedirectToAction("Register");
                 }
                 else if (res.res == "ok")
@@ -128,11 +132,10 @@ namespace admin.Controllers
                         db.SaveChanges();
                         //add identity user to tutor role
                         await userManager.AddToRoleAsync(id_user, "tutor");
-                        db.Database.CommitTransaction();
+                        //db.Database.CommitTransaction();
                         //
                         TempData["type"] = "success";
                         TempData["msg"] = "Account Created: You may now Login";
-
                     }
                     else
                     {
@@ -150,7 +153,8 @@ namespace admin.Controllers
             catch (Exception ex)
             {
                 TempData["type"] = "error";
-                TempData["msg"] = "Error: " + ex.Message;
+                TempData["msg"] = "Error occurred";
+                logger.LogError(ex.Message);
                 return RedirectToAction("Register");
             }
         }

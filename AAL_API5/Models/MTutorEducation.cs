@@ -13,8 +13,8 @@ namespace SharedModels
         public DateTime? DateTo { get; set; }
         public string InsituteOrUniversity { get; set; }
         public string DiplomaOrDegree { get; set; }
-        public bool Verified { get; set; }
+        public sbyte Verified { get; set; }
 
-        public virtual AspNetUser AspnetUser { get; set; }
+        public virtual Aspnetuser AspnetUser { get; set; }
     }
 }

@@ -16,5 +16,6 @@ namespace Globals
         public static string resources_folder;
         public static string profile_pictures_folder;
         public static string moodle_api_endpoint;
+        public static string connection_string;
     }
 }

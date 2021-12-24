@@ -20,6 +20,7 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.Extensions.Configuration;
 using Globals;
 using SharedModels;
+using Microsoft.Extensions.Logging;
 
 namespace Admin.Controllers
 {
@@ -33,6 +34,7 @@ namespace Admin.Controllers
         RoleManager<IdentityRole> roleManager;
         MoodleRepository moodleRepository;
         IConfiguration configuration;
+        ILogger<TutorsController> logger;
 
         protected override void Dispose(bool disposing)
         {
@@ -40,12 +42,13 @@ namespace Admin.Controllers
             db.Dispose();
         }
 
-        public TutorsController(IConfiguration configuration, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
+        public TutorsController(ILogger<TutorsController> logger,IConfiguration configuration, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.moodleRepository = moodleRepository;
             this.configuration = configuration;
+            this.logger = logger;
         }
 
         //[HttpGet("Index")]
@@ -367,7 +370,9 @@ namespace Admin.Controllers
             catch (Exception ex)
             {
                 TempData["type"] = "error";
-                TempData["msg"] = ex.Message;
+                TempData["msg"] = "Error occurred";
+                logger.LogError(ex.Message);
+                
             }
             return RedirectToAction("Profile");
 
@@ -390,6 +395,9 @@ namespace Admin.Controllers
             }
             catch (Exception ex)
             {
+                TempData["type"] = "error";
+                TempData["msg"] = "Error occurred";
+                logger.LogError(ex.Message);
                 return NotFound();
             }
         }
@@ -408,7 +416,9 @@ namespace Admin.Controllers
             catch (Exception ex)
             {
                 TempData["type"] = "error";
-                TempData["msg"] = ex.Message;
+                TempData["msg"] = "Error occurred";
+                logger.LogError(ex.Message);
+                
             }
 
             return RedirectToAction("Profile");
@@ -431,7 +441,8 @@ namespace Admin.Controllers
             catch (Exception ex)
             {
                 TempData["type"] = "error";
-                TempData["msg"] = ex.Message;
+                TempData["msg"] = "Error occurred";
+                logger.LogError(ex.Message);
             }
 
             return RedirectToAction("Profile");
@@ -452,7 +463,8 @@ namespace Admin.Controllers
             catch (Exception ex)
             {
                 TempData["type"] = "error";
-                TempData["msg"] = ex.Message;
+                TempData["msg"] = "Error occurred";
+                logger.LogError(ex.Message);
             }
 
             return RedirectToAction("Profile");
@@ -475,7 +487,8 @@ namespace Admin.Controllers
             catch (Exception ex)
             {
                 TempData["type"] = "error";
-                TempData["msg"] = ex.Message;
+                TempData["msg"] = "Error occurred";
+                logger.LogError(ex.Message);
             }
 
             return RedirectToAction("Profile");
@@ -518,7 +531,8 @@ namespace Admin.Controllers
             catch (Exception ex)
             {
                 TempData["type"] = "error";
-                TempData["msg"] = ex.Message;
+                TempData["msg"] = "Error occurred";
+                logger.LogError(ex.Message);
             }
 
             return RedirectToAction("Profile");

@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace SharedModels
 {
-    public partial class AspNetRole
+    public partial class Aspnetrole
     {
-        public AspNetRole()
+        public Aspnetrole()
         {
-            AspNetRoleClaims = new HashSet<AspNetRoleClaim>();
-            AspNetUserRoles = new HashSet<AspNetUserRole>();
+            Aspnetroleclaims = new HashSet<Aspnetroleclaim>();
+            Aspnetuserroles = new HashSet<Aspnetuserrole>();
         }
 
         public string Id { get; set; }
@@ -18,7 +18,7 @@ namespace SharedModels
         public string NormalizedName { get; set; }
         public string ConcurrencyStamp { get; set; }
 
-        public virtual ICollection<AspNetRoleClaim> AspNetRoleClaims { get; set; }
-        public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
+        public virtual ICollection<Aspnetroleclaim> Aspnetroleclaims { get; set; }
+        public virtual ICollection<Aspnetuserrole> Aspnetuserroles { get; set; }
     }
 }

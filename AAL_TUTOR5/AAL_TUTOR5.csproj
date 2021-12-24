@@ -6,35 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\**" />
-    <Content Remove="Models\**" />
-    <EmbeddedResource Remove="Models\**" />
-    <None Remove="Models\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Models\Aspnetrole.cs" />
-    <Compile Include="Models\Aspnetroleclaim.cs" />
-    <Compile Include="Models\Aspnetuser.cs" />
-    <Compile Include="Models\Aspnetuserclaim.cs" />
-    <Compile Include="Models\Aspnetuserlogin.cs" />
-    <Compile Include="Models\Aspnetuserrole.cs" />
-    <Compile Include="Models\Aspnetusertoken.cs" />
-    <Compile Include="Models\dbContext.cs" />
-    <Compile Include="Models\Efmigrationshistory.cs" />
-    <Compile Include="Models\ELanguageLevel.cs" />
-    <Compile Include="Models\ETimePeriod.cs" />
-    <Compile Include="Models\MAspnetUserAvailableTime.cs" />
-    <Compile Include="Models\MAspnetUserLanguage.cs" />
-    <Compile Include="Models\MCountry.cs" />
-    <Compile Include="Models\MLanguage.cs" />
-    <Compile Include="Models\MMoodleUser.cs" />
-    <Compile Include="Models\MTutor.cs" />
-    <Compile Include="Models\MTutorCourse.cs" />
-    <Compile Include="Models\MTutorEducation.cs" />
-    <Compile Include="Models\MTutorLanguage.cs" />
-    <Compile Include="Models\MTutorRating.cs" />
-    <Compile Include="Models\MTutorWorkExperience.cs" />
+    <Content Remove="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +17,7 @@
     <None Include="Views\Courses\Index.cshtml" />
     <None Include="Views\Shared\Error.cshtml" />
     <None Include="Views\Shared\_LayoutAuth.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
     <None Include="Views\Shared\_LayoutMain.cshtml" />
     <None Include="Views\Tutors\Index.cshtml" />
     <None Include="Views\Tutors\Profile.cshtml" />
@@ -53,15 +26,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.EntityFrameworkCore" Version="5.0.8" />
-    <PackageReference Include="PagedList.Core.Mvc" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.22" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.13" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.3" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
+    <PackageReference Include="PagedList.Core.Mvc" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.13" />
   </ItemGroup>
 
   <ItemGroup>

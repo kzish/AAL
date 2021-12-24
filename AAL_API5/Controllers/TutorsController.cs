@@ -32,26 +32,26 @@ namespace AAL_API.Controllers
         }
 
         [HttpGet("FetchTutors")]
-        public JsonResult FetchTutors(string search_term, int page = 1)
+        public JsonResult FetchTutors(string search_param, int page = 1)
         {
             page--;//page starts at 0
             try
             {
-                var tutors_query = db.AspNetUsers.AsQueryable();
+                var tutors_query = db.Aspnetusers.AsQueryable();
                 //filter
-                if (!string.IsNullOrEmpty(search_term))
+                if (!string.IsNullOrEmpty(search_param))
                 {
                     tutors_query = tutors_query
-                        .Where(i => i.MTutor.Firstname.Contains(search_term)
-                        || i.MTutor.Surname.Contains(search_term)
-                        || i.MTutor.About.Contains(search_term)
-                        || i.MTutorCourses.Where(c => c.Title.Contains(search_term)).Any()
-                        || i.MTutorCourses.Where(c => c.Description.Contains(search_term)).Any()
+                        .Where(i => i.MTutor.Firstname.Contains(search_param)
+                        || i.MTutor.Surname.Contains(search_param)
+                        || i.MTutor.About.Contains(search_param)
+                        || i.MTutorCourses.Where(c => c.Title.Contains(search_param)).Any()
+                        || i.MTutorCourses.Where(c => c.Description.Contains(search_param)).Any()
                         );
                 }
                 //
-                tutors_query = tutors_query.Where(i => i.AspNetUserRoles.Any(r => r.Role.Name == "tutor"))
-                .Where(i => i.MTutor.Active)
+                tutors_query = tutors_query.Where(i => i.Aspnetuserroles.Any(r => r.Role.Name == "tutor"))
+                .Where(i => i.MTutor.Active==1)
                 .Include(i => i.MTutor)
                 .Include(i => i.MAspnetUserLanguages)
                 .Include(i => i.MTutorCourses);
@@ -72,7 +72,7 @@ namespace AAL_API.Controllers
                     apiTutor.ImageUrl = t.MTutor.ImageUrl;
                     apiTutor.CoutryIso = t.MTutor.CoutryIso;
                     apiTutor.About = t.MTutor.About;
-                    apiTutor.CoutryName = db.MCountries.Find(t.MTutor.CoutryIso).CountryName;
+                    apiTutor.CoutryName = t.MTutor.CoutryIso == null ? "" : db.MCountries.Find(t.MTutor.CoutryIso).CountryName;
                     //
                     foreach (var lang in t.MAspnetUserLanguages)
                     {

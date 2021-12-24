@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using SharedModels;
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,16 @@ namespace Globals
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         public IHostingEnvironment env;
+        public IConfiguration configuration;
 
         dbContext db = new dbContext();
-        public AppSetup(IWebHostEnvironment env, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AppSetup(IConfiguration configuration,IWebHostEnvironment env, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.env = (IHostingEnvironment)env;
+            this.configuration = configuration;
 
             this.InitAppSettings();
             this.CreateRoles();
@@ -70,17 +73,18 @@ namespace Globals
 
         private void InitAppSettings()
         {
+            AppSettings.connection_string = configuration.GetConnectionString("db");
             if (env.IsDevelopment())
             {
                 AppSettings.resources_folder = @"C:\AAL_RESOURCES";
-                AppSettings.moodle_ws_token = "402faee3445fee742d7edadb76780439";
+                AppSettings.moodle_ws_token = "2cb31f38b05a075434014ce3cf7e5949";
                 AppSettings.profile_pictures_folder = $@"{AppSettings.resources_folder}\profile_pictures";
                 AppSettings.moodle_api_endpoint = $"http://moodle.test/webservice/rest/server.php?wstoken={AppSettings.moodle_ws_token}&moodlewsrestformat=json";
             }
             else
             {
                 AppSettings.resources_folder = @"C:\AAL_RESOURCES";
-                AppSettings.moodle_ws_token = "402faee3445fee742d7edadb76780439";
+                AppSettings.moodle_ws_token = "2cb31f38b05a075434014ce3cf7e5949";
                 AppSettings.profile_pictures_folder = $@"{AppSettings.resources_folder}\profile_pictures";
                 AppSettings.moodle_api_endpoint = $"http://moodle.test/webservice/rest/server.php?wstoken={AppSettings.moodle_ws_token}&moodlewsrestformat=json";
             }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using SharedModels;
 using System;
 using System.Collections.Generic;
@@ -18,17 +19,14 @@ namespace AAL_API.Controllers
     {
         dbContext db = new dbContext();
 
-        private readonly ILogger<TutorsController> logger;
-
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
             db.Dispose();
         }
 
-        public TutorsController(ILogger<TutorsController> logger)
+        public TutorsController()
         {
-            this.logger = logger;
         }
 
         [HttpGet("FetchTutors")]
@@ -94,7 +92,7 @@ namespace AAL_API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
+                Log.Error(ex.Message);
                 return Json(new
                 {
                     res = "err",
@@ -120,7 +118,7 @@ namespace AAL_API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
+                Log.Error(ex.Message);
                 return NotFound();
             }
         }

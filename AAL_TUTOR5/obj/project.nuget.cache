@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Ds4pJUTIxVcDyScgjrKKfAWzFNe7M5ovsBdEtudZsGmyO4DIRiYdRsulJzq/N3TgoXhiVN+jAzhrpPCFqCANCw==",
+  "dgSpecHash": "TnDJvlLv4HIFqFzbZQ9k3dbBh5GXAvjdBQeWPel6vG+T+ccV3+e56ja1rM2NJvogT6ALy8mlKkGN/4Ce/6+nZw==",
   "success": true,
   "projectFilePath": "C:\\.NetProjects\\AAL\\AAL_TUTOR5\\AAL_TUTOR5.csproj",
   "expectedPackageFiles": [
@@ -49,6 +49,9 @@
     "C:\\Users\\Kudzai\\.nuget\\packages\\pagedlist.core.mvc\\3.0.0\\pagedlist.core.mvc.3.0.0.nupkg.sha512",
     "C:\\Users\\Kudzai\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\5.0.3\\pomelo.entityframeworkcore.mysql.5.0.3.nupkg.sha512",
     "C:\\Users\\Kudzai\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
+    "C:\\Users\\Kudzai\\.nuget\\packages\\serilog\\2.10.0\\serilog.2.10.0.nupkg.sha512",
+    "C:\\Users\\Kudzai\\.nuget\\packages\\serilog.sinks.console\\4.0.1\\serilog.sinks.console.4.0.1.nupkg.sha512",
+    "C:\\Users\\Kudzai\\.nuget\\packages\\serilog.sinks.file\\5.0.0\\serilog.sinks.file.5.0.0.nupkg.sha512",
     "C:\\Users\\Kudzai\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
     "C:\\Users\\Kudzai\\.nuget\\packages\\system.collections.concurrent\\4.3.0\\system.collections.concurrent.4.3.0.nupkg.sha512",
     "C:\\Users\\Kudzai\\.nuget\\packages\\system.collections.immutable\\5.0.0\\system.collections.immutable.5.0.0.nupkg.sha512",

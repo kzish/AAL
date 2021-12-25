@@ -42,6 +42,9 @@ C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
 C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\PagedList.Core.dll
 C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\PagedList.Core.Mvc.dll
 C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Serilog.dll
+C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Serilog.Sinks.Console.dll
+C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Serilog.Sinks.File.dll
 C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\.NetProjects\AAL\AAL_API5\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -92,3 +95,4 @@ C:\.NetProjects\AAL\AAL_API5\obj\Debug\net5.0\AAL_API5.dll
 C:\.NetProjects\AAL\AAL_API5\obj\Debug\net5.0\ref\AAL_API5.dll
 C:\.NetProjects\AAL\AAL_API5\obj\Debug\net5.0\AAL_API5.pdb
 C:\.NetProjects\AAL\AAL_API5\obj\Debug\net5.0\AAL_API5.genruntimeconfig.cache
+C:\.NetProjects\AAL\AAL_API5\obj\Debug\net5.0\AAL_API5.csproj.AssemblyReference.cache

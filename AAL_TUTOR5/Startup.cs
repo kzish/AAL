@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using SharedModels;
 using System;
 
@@ -86,6 +87,11 @@ namespace AAL_TUTOR5
             var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
             var signInManager = serviceScope.ServiceProvider.GetService<SignInManager<IdentityUser>>();
             Globals.AppSetup appSetup = new Globals.AppSetup(Configuration, env, signInManager, userManager, roleManager);
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .WriteTo.File(Globals.AppSettings.logs)
+                .CreateLogger();
 
             var app_name = env.ApplicationName;
             app.Run(async (context) =>

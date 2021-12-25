@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -146,7 +147,11 @@ namespace AAL_API5
             var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
             var signInManager = serviceScope.ServiceProvider.GetService<SignInManager<IdentityUser>>();
             Globals.AppSetup appSetup = new Globals.AppSetup(Configuration, env, signInManager, userManager, roleManager);
-
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .WriteTo.File(Globals.AppSettings.logs)
+                .CreateLogger();
             var app_name = env.ApplicationName;
             app.Run(async (context) =>
             {

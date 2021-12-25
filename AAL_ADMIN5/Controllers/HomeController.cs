@@ -11,7 +11,7 @@ using SharedModels;
 namespace SpeedLinkAdminPortal.Controllers
 {
     [Route("Home")]
-    //[Authorize(Roles="admin")]
+    [Authorize(Roles = "admin")]
     public class HomeController : Controller
     {
         dbContext db = new dbContext();

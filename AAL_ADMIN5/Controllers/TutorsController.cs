@@ -28,7 +28,6 @@ namespace Admin.Controllers
         UserManager<IdentityUser> userManager;
         RoleManager<IdentityRole> roleManager;
         MoodleRepository moodleRepository;
-
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
@@ -63,7 +62,6 @@ namespace Admin.Controllers
             }
             //
             tutors_query = tutors_query.Where(i => i.Aspnetuserroles.Any(r => r.Role.Name == "tutor"))
-            .Where(i => i.MTutor.Active == 1)
             .Include(i => i.MTutor)
             .Include(i => i.MAspnetUserLanguages)
             .Include(i => i.MTutorCourses);

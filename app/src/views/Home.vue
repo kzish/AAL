@@ -89,7 +89,7 @@
                    </td>
                  </tr>
                  <tr>
-                   <td><i><b>{{tutor.about.substring(0,100)}}...</b></i></td>
+                   <td><i><b>{{(tutor.about == null ? '' : tutor.about).substring(0,100)}}...</b></i></td>
                  </tr>
                  <tr>
                    <td><a href="javascript:void(0);">View more</a></td>
@@ -109,6 +109,9 @@
      </div>
    </div>
  </div>
+ <br />
+ <br />
+ <br />
  <loading :active="isLoading" 
         :can-cancel="true" 
         :on-cancel="onCancel"
@@ -148,7 +151,7 @@ export default {
     },
     fetchTutors(){
       this.isLoading = true;
-      axios.get(globals.api_end_point+"/Tutors/FetchTutors?page=" + this.page + "&search_term=" + this.search_term)
+      axios.get(globals.api_end_point+"/Tutors/FetchTutors?page=" + this.page + "&search_param=" + this.search_term)
           .then(response => {
             if(response.data.res === "ok") {
               this.tutors = response.data.data;

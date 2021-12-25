@@ -22,6 +22,7 @@ namespace Globals
         public IConfiguration configuration;
 
         dbContext db = new dbContext();
+       
         public AppSetup(IConfiguration configuration,IWebHostEnvironment env, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             this.signInManager = signInManager;
@@ -34,6 +35,21 @@ namespace Globals
             this.CreateRoles();
             this.CreateAdminUser();
             this.CreateFolders();
+        }
+       
+        private void InitAppSettings()
+        {
+            AppSettings.connection_string = configuration.GetConnectionString("db");
+            AppSettings.resources_folder = @"C:\AAL_RESOURCES";
+            AppSettings.logs = $@"{AppSettings.resources_folder}\logs.txt";
+            AppSettings.profile_pictures_folder = $@"{AppSettings.resources_folder}\profile_pictures";
+            AppSettings.moodle_ws_token = "2cb31f38b05a075434014ce3cf7e5949";
+            AppSettings.moodle_api_endpoint = $"http://moodle.test/webservice/rest/server.php?wstoken={AppSettings.moodle_ws_token}&moodlewsrestformat=json";
+
+            if (!env.IsDevelopment())
+            {
+                //production settings here
+            }
         }
 
         private void CreateRoles()
@@ -69,27 +85,13 @@ namespace Globals
         {
             Directory.CreateDirectory(AppSettings.resources_folder);
             Directory.CreateDirectory(AppSettings.profile_pictures_folder);
+            if(!File.Exists(AppSettings.logs))
+            {
+                File.Create(AppSettings.logs);
+            }
         }
 
-        private void InitAppSettings()
-        {
-            AppSettings.connection_string = configuration.GetConnectionString("db");
-            if (env.IsDevelopment())
-            {
-                AppSettings.resources_folder = @"C:\AAL_RESOURCES";
-                AppSettings.moodle_ws_token = "2cb31f38b05a075434014ce3cf7e5949";
-                AppSettings.profile_pictures_folder = $@"{AppSettings.resources_folder}\profile_pictures";
-                AppSettings.moodle_api_endpoint = $"http://moodle.test/webservice/rest/server.php?wstoken={AppSettings.moodle_ws_token}&moodlewsrestformat=json";
-            }
-            else
-            {
-                AppSettings.resources_folder = @"C:\AAL_RESOURCES";
-                AppSettings.moodle_ws_token = "2cb31f38b05a075434014ce3cf7e5949";
-                AppSettings.profile_pictures_folder = $@"{AppSettings.resources_folder}\profile_pictures";
-                AppSettings.moodle_api_endpoint = $"http://moodle.test/webservice/rest/server.php?wstoken={AppSettings.moodle_ws_token}&moodlewsrestformat=json";
-            }
-
-        }
+       
     }
 
 

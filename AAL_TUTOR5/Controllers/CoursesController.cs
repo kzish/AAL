@@ -20,6 +20,7 @@ using System.IO;
 using Microsoft.Extensions.Primitives;
 using SharedModels;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Admin.Controllers
 {
@@ -31,7 +32,6 @@ namespace Admin.Controllers
         UserManager<IdentityUser> userManager;
         RoleManager<IdentityRole> roleManager;
         MoodleRepository moodleRepository;
-        ILogger<CoursesController> logger;
 
         protected override void Dispose(bool disposing)
         {
@@ -44,7 +44,6 @@ namespace Admin.Controllers
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.moodleRepository = moodleRepository;
-            this.logger = logger;
         }
 
         [HttpGet("Index")]
@@ -99,7 +98,7 @@ namespace Admin.Controllers
             {
                 TempData["type"] = "error";
                 TempData["msg"] = "Error occurred";
-                logger.LogError(ex.Message);
+                Log.Error(ex.Message);
             }
 
             return RedirectToAction("Index");
@@ -145,7 +144,7 @@ namespace Admin.Controllers
             {
                 TempData["type"] = "error";
                 TempData["msg"] = "Error occurred";
-                logger.LogError(ex.Message);
+                Log.Error(ex.Message);
                 return RedirectToAction("Index");
             }
         }
@@ -203,7 +202,7 @@ namespace Admin.Controllers
             {
                 TempData["type"] = "error";
                 TempData["msg"] = "Error occurred";
-                logger.LogError(ex.Message);
+                Log.Error(ex.Message);
                 return RedirectToAction("Index");
             }
         }

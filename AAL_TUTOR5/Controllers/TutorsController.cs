@@ -21,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Globals;
 using SharedModels;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Admin.Controllers
 {
@@ -34,7 +35,6 @@ namespace Admin.Controllers
         RoleManager<IdentityRole> roleManager;
         MoodleRepository moodleRepository;
         IConfiguration configuration;
-        ILogger<TutorsController> logger;
 
         protected override void Dispose(bool disposing)
         {
@@ -42,13 +42,12 @@ namespace Admin.Controllers
             db.Dispose();
         }
 
-        public TutorsController(ILogger<TutorsController> logger,IConfiguration configuration, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
+        public TutorsController(IConfiguration configuration, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.moodleRepository = moodleRepository;
             this.configuration = configuration;
-            this.logger = logger;
         }
 
         //[HttpGet("Index")]
@@ -371,8 +370,7 @@ namespace Admin.Controllers
             {
                 TempData["type"] = "error";
                 TempData["msg"] = "Error occurred";
-                logger.LogError(ex.Message);
-                
+                Log.Error(ex.Message);
             }
             return RedirectToAction("Profile");
 
@@ -397,7 +395,7 @@ namespace Admin.Controllers
             {
                 TempData["type"] = "error";
                 TempData["msg"] = "Error occurred";
-                logger.LogError(ex.Message);
+                Log.Error(ex.Message);
                 return NotFound();
             }
         }
@@ -417,8 +415,7 @@ namespace Admin.Controllers
             {
                 TempData["type"] = "error";
                 TempData["msg"] = "Error occurred";
-                logger.LogError(ex.Message);
-                
+                Log.Error(ex.Message);
             }
 
             return RedirectToAction("Profile");
@@ -442,7 +439,7 @@ namespace Admin.Controllers
             {
                 TempData["type"] = "error";
                 TempData["msg"] = "Error occurred";
-                logger.LogError(ex.Message);
+                Log.Error(ex.Message);
             }
 
             return RedirectToAction("Profile");
@@ -464,7 +461,7 @@ namespace Admin.Controllers
             {
                 TempData["type"] = "error";
                 TempData["msg"] = "Error occurred";
-                logger.LogError(ex.Message);
+                Log.Error(ex.Message);
             }
 
             return RedirectToAction("Profile");
@@ -488,7 +485,7 @@ namespace Admin.Controllers
             {
                 TempData["type"] = "error";
                 TempData["msg"] = "Error occurred";
-                logger.LogError(ex.Message);
+                Log.Error(ex.Message);
             }
 
             return RedirectToAction("Profile");
@@ -496,7 +493,7 @@ namespace Admin.Controllers
 
 
         [HttpPost("SaveTimeTable")]
-        public IActionResult SaveTimeTable(IFormCollection formcollection)
+        public async Task<IActionResult> SaveTimeTable(IFormCollection formcollection)
         {
             try
             {
@@ -505,7 +502,7 @@ namespace Admin.Controllers
                     .Include(i=>i.MAspnetUserAvailableTimes)
                     .First();
                 //
-                var post_data = new StreamReader(Request.Body).ReadToEnd();
+                var post_data = await new StreamReader(Request.Body).ReadToEndAsync();
                 var days_of_week = new List<string> { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
                 var time_periods = db.ETimePeriods.OrderBy(i=>i.Sequence).ToList();
                 aspnet_user.MAspnetUserAvailableTimes.Clear();//remove old items
@@ -532,7 +529,7 @@ namespace Admin.Controllers
             {
                 TempData["type"] = "error";
                 TempData["msg"] = "Error occurred";
-                logger.LogError(ex.Message);
+                Log.Error(ex.Message);
             }
 
             return RedirectToAction("Profile");

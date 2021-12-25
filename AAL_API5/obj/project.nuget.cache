@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "wbVupuHEE/C+KrTNZFCda1BjAnD+8ZWggZE4KZzafgAvxip1ZAq6hTOs90qrR+8lmULYYLG8XW3r9pu/8QPIQg==",
+  "dgSpecHash": "Z0CTWpb0XDiN3c3uSykrkcZBjsPo7qs2fuRDNT7ilh+lR3TqbyROrzzDDvj7xWFvsG5bEXdVjN8i94x5wjg2vg==",
   "success": true,
   "projectFilePath": "C:\\.NetProjects\\AAL\\AAL_API5\\AAL_API5.csproj",
   "expectedPackageFiles": [
@@ -54,6 +54,9 @@
     "C:\\Users\\Kudzai\\.nuget\\packages\\pagedlist.core.mvc\\3.0.0\\pagedlist.core.mvc.3.0.0.nupkg.sha512",
     "C:\\Users\\Kudzai\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\5.0.3\\pomelo.entityframeworkcore.mysql.5.0.3.nupkg.sha512",
     "C:\\Users\\Kudzai\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
+    "C:\\Users\\Kudzai\\.nuget\\packages\\serilog\\2.10.0\\serilog.2.10.0.nupkg.sha512",
+    "C:\\Users\\Kudzai\\.nuget\\packages\\serilog.sinks.console\\4.0.1\\serilog.sinks.console.4.0.1.nupkg.sha512",
+    "C:\\Users\\Kudzai\\.nuget\\packages\\serilog.sinks.file\\5.0.0\\serilog.sinks.file.5.0.0.nupkg.sha512",
     "C:\\Users\\Kudzai\\.nuget\\packages\\swashbuckle.aspnetcore\\5.0.0\\swashbuckle.aspnetcore.5.0.0.nupkg.sha512",
     "C:\\Users\\Kudzai\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.0.0\\swashbuckle.aspnetcore.swagger.5.0.0.nupkg.sha512",
     "C:\\Users\\Kudzai\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.0.0\\swashbuckle.aspnetcore.swaggergen.5.0.0.nupkg.sha512",

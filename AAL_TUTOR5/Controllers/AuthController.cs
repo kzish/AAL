@@ -6,6 +6,7 @@ using Globals;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using SharedModels;
 
 namespace admin.Controllers
@@ -17,8 +18,6 @@ namespace admin.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         MoodleRepository moodleRepository;
-        ILogger<AuthController> logger;
-
         dbContext db = new dbContext();
 
         protected override void Dispose(bool disposing)
@@ -26,13 +25,12 @@ namespace admin.Controllers
             base.Dispose(disposing);
             db.Dispose();
         }
-        public AuthController(ILogger<AuthController> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
+        public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.moodleRepository = moodleRepository;
-            this.logger = logger;
         }
 
         [HttpGet("Login")]
@@ -114,7 +112,7 @@ namespace admin.Controllers
                     TempData["type"] = "error";
                     TempData["msg"] = "Error occurred";
                     string err = res.msg.ToString();
-                    logger.LogError(err);
+                    Log.Error(err);
                     return RedirectToAction("Register");
                 }
                 else if (res.res == "ok")
@@ -154,7 +152,7 @@ namespace admin.Controllers
             {
                 TempData["type"] = "error";
                 TempData["msg"] = "Error occurred";
-                logger.LogError(ex.Message);
+                Log.Error(ex.Message);
                 return RedirectToAction("Register");
             }
         }

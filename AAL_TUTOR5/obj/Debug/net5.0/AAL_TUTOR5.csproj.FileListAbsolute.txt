@@ -1,11 +1,3 @@
-C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.GeneratedMSBuildEditorConfig.editorconfig
-C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.AssemblyInfoInputs.cache
-C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.AssemblyInfo.cs
-C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.csproj.CoreCompileInputs.cache
-C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.MvcApplicationPartsAssemblyInfo.cs
-C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.MvcApplicationPartsAssemblyInfo.cache
-C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.RazorAssemblyInfo.cache
-C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.RazorAssemblyInfo.cs
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\appsettings.Development.json
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\appsettings.json
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\AAL_TUTOR5.StaticWebAssets.xml
@@ -67,6 +59,14 @@ C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\runtimes\win-x86\native\Microsof
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.csproj.AssemblyReference.cache
+C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.GeneratedMSBuildEditorConfig.editorconfig
+C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.AssemblyInfoInputs.cache
+C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.AssemblyInfo.cs
+C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.csproj.CoreCompileInputs.cache
+C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.MvcApplicationPartsAssemblyInfo.cs
+C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.MvcApplicationPartsAssemblyInfo.cache
+C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.RazorAssemblyInfo.cache
+C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\AAL_TUTOR5.RazorAssemblyInfo.cs
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\scopedcss\bundle\AAL_TUTOR5.styles.css
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\staticwebassets\AAL_TUTOR5.StaticWebAssets.Manifest.cache
 C:\.NetProjects\AAL\AAL_TUTOR5\obj\Debug\net5.0\staticwebassets\AAL_TUTOR5.StaticWebAssets.xml

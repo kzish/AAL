@@ -6,9 +6,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Areas\Subjects\**" />
 		<Compile Remove="Views\Subjects\**" />
+		<Content Remove="Areas\Subjects\**" />
 		<Content Remove="Views\Subjects\**" />
+		<EmbeddedResource Remove="Areas\Subjects\**" />
 		<EmbeddedResource Remove="Views\Subjects\**" />
+		<None Remove="Areas\Subjects\**" />
 		<None Remove="Views\Subjects\**" />
 	</ItemGroup>
 

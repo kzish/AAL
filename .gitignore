@@ -1,0 +1,9 @@
+.vs
+AAL_ADMIN5/bin
+AAL_ADMIN5/obj
+AAL_API5/bin
+AAL_API5/obj
+AAL_TUTOR5/bin
+AAL_TUTOR5/obj
+app/node_modules
+app/dist

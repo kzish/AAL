@@ -19,6 +19,8 @@ namespace AAL_API.Controllers
     {
         dbContext db = new dbContext();
 
+        private const int array_limit = 15;
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
@@ -54,8 +56,8 @@ namespace AAL_API.Controllers
                 .Include(i => i.MAspnetUserLanguages)
                 .Include(i => i.MTutorCourses);
 
-                var tutors = tutors_query.Skip(page * 15)
-                .Take(15)
+                var tutors = tutors_query.Skip(page * array_limit)
+                .Take(array_limit)
                 .ToList();
 
                 //convert to api model
@@ -87,7 +89,9 @@ namespace AAL_API.Controllers
                 return Json(new
                 {
                     res = "ok",
-                    data = apiTutors
+                    tutors = apiTutors,
+                    total_tutors = tutors_query.Count(),
+                    items_per_page = array_limit
                 });
             }
             catch (Exception ex)
@@ -120,6 +124,52 @@ namespace AAL_API.Controllers
             {
                 Log.Error(ex.Message);
                 return NotFound();
+            }
+        }
+
+        [HttpGet("FetchCountries")]
+        public JsonResult FetchCountries()
+        {
+            try
+            {
+                var countries = db.MCountries.ToList();
+                return Json(new
+                {
+                    res = "ok",
+                    countries = countries,
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return Json(new
+                {
+                    res = "err",
+                    msg = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("FetchLanguages")]
+        public JsonResult FetchLanguages()
+        {
+            try
+            {
+                var languages = db.MLanguages.ToList();
+                return Json(new
+                {
+                    res = "ok",
+                    languages = languages,
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return Json(new
+                {
+                    res = "err",
+                    msg = ex.Message
+                });
             }
         }
 

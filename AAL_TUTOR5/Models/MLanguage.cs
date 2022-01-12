@@ -16,6 +16,7 @@ namespace SharedModels
         public int Id { get; set; }
         public string LanguageName { get; set; }
         public string Iso { get; set; }
+        public string Value { get; set; }
 
         public virtual ICollection<MAspnetUserLanguage> MAspnetUserLanguages { get; set; }
         public virtual ICollection<MTutorLanguage> MTutorLanguages { get; set; }

@@ -43,14 +43,14 @@ namespace SharedModels
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySql(Globals.AppSettings.connection_string, Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.27-mysql"));
+                optionsBuilder.UseMySql(Globals.AppSettings.connection_string, Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.7.33-mysql"));
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasCharSet("utf8mb4")
-                .UseCollation("utf8mb4_general_ci");
+            modelBuilder.HasCharSet("latin1")
+                .UseCollation("latin1_swedish_ci");
 
             modelBuilder.Entity<Aspnetrole>(entity =>
             {
@@ -86,7 +86,9 @@ namespace SharedModels
 
                 entity.HasIndex(e => e.RoleId, "IX_AspNetRoleClaims_RoleId");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.ClaimType)
                     .HasMaxLength(450)
@@ -123,6 +125,8 @@ namespace SharedModels
                     .HasMaxLength(450)
                     .UseCollation("utf8_general_ci")
                     .HasCharSet("utf8");
+
+                entity.Property(e => e.AccessFailedCount).HasColumnType("int(11)");
 
                 entity.Property(e => e.ConcurrencyStamp)
                     .HasMaxLength(450)
@@ -181,7 +185,9 @@ namespace SharedModels
 
                 entity.HasIndex(e => e.UserId, "IX_AspNetUserClaims_UserId");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.ClaimType)
                     .HasMaxLength(450)
@@ -311,10 +317,9 @@ namespace SharedModels
             {
                 entity.ToTable("e_language_levels");
 
-                entity.HasCharSet("latin1")
-                    .UseCollation("latin1_swedish_ci");
-
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("id");
 
                 entity.Property(e => e.LanguageLevel)
                     .HasMaxLength(50)
@@ -325,14 +330,13 @@ namespace SharedModels
             {
                 entity.ToTable("e_time_periods");
 
-                entity.HasCharSet("latin1")
-                    .UseCollation("latin1_swedish_ci");
-
                 entity.Property(e => e.Id)
                     .HasMaxLength(50)
                     .HasColumnName("id");
 
-                entity.Property(e => e.Sequence).HasColumnName("sequence");
+                entity.Property(e => e.Sequence)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("sequence");
 
                 entity.Property(e => e.TimePeriod)
                     .HasMaxLength(50)
@@ -350,7 +354,8 @@ namespace SharedModels
 
                 entity.ToTable("__efmigrationshistory");
 
-                entity.UseCollation("utf8mb4_0900_ai_ci");
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_general_ci");
 
                 entity.Property(e => e.MigrationId).HasMaxLength(150);
 
@@ -363,12 +368,11 @@ namespace SharedModels
             {
                 entity.ToTable("m_aspnet_user_available_times");
 
-                entity.HasCharSet("latin1")
-                    .UseCollation("latin1_swedish_ci");
-
                 entity.HasIndex(e => e.AspnetUserId, "FK_m_aspnet_user_available_times_AspNetUsers");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("id");
 
                 entity.Property(e => e.AspnetUserId)
                     .HasMaxLength(450)
@@ -395,16 +399,15 @@ namespace SharedModels
             {
                 entity.ToTable("m_aspnet_user_languages");
 
-                entity.HasCharSet("latin1")
-                    .UseCollation("latin1_swedish_ci");
-
                 entity.HasIndex(e => e.AspnetUserIdFk, "FK_m_aspnet_user_languages_AspNetUsers");
 
                 entity.HasIndex(e => e.LanguageIdFk, "FK_m_aspnet_user_languages_e_language_levels");
 
                 entity.HasIndex(e => e.LanguageLevelIdFk, "FK_m_aspnet_user_languages_m_languages");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("id");
 
                 entity.Property(e => e.AspnetUserIdFk)
                     .IsRequired()
@@ -413,9 +416,12 @@ namespace SharedModels
                     .UseCollation("utf8_general_ci")
                     .HasCharSet("utf8");
 
-                entity.Property(e => e.LanguageIdFk).HasColumnName("language_id_fk");
+                entity.Property(e => e.LanguageIdFk)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("language_id_fk");
 
                 entity.Property(e => e.LanguageLevelIdFk)
+                    .HasColumnType("int(11)")
                     .HasColumnName("language_level_id_fk")
                     .HasComment("join the tutor and the languages that he speaks together with the proficiency level");
 
@@ -427,12 +433,12 @@ namespace SharedModels
                 entity.HasOne(d => d.LanguageIdFkNavigation)
                     .WithMany(p => p.MAspnetUserLanguages)
                     .HasForeignKey(d => d.LanguageIdFk)
-                    .HasConstraintName("FK_m_aspnet_user_languages_e_language_levels");
+                    .HasConstraintName("FK_m_aspnet_user_languages_m_languages_2");
 
                 entity.HasOne(d => d.LanguageLevelIdFkNavigation)
                     .WithMany(p => p.MAspnetUserLanguages)
                     .HasForeignKey(d => d.LanguageLevelIdFk)
-                    .HasConstraintName("FK_m_aspnet_user_languages_m_languages");
+                    .HasConstraintName("FK_m_aspnet_user_languages_e_language_levels");
             });
 
             modelBuilder.Entity<MCountry>(entity =>
@@ -442,15 +448,14 @@ namespace SharedModels
 
                 entity.ToTable("m_countries");
 
-                entity.HasCharSet("latin1")
-                    .UseCollation("latin1_swedish_ci");
-
                 entity.Property(e => e.CountryIso)
                     .HasMaxLength(2)
                     .HasColumnName("country_iso")
                     .IsFixedLength(true);
 
-                entity.Property(e => e.CallingCode).HasColumnName("calling_code");
+                entity.Property(e => e.CallingCode)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("calling_code");
 
                 entity.Property(e => e.CountryIso3)
                     .HasMaxLength(3)
@@ -461,16 +466,21 @@ namespace SharedModels
                     .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("country_name");
+
+                entity.Property(e => e.Value)
+                    .IsRequired()
+                    .HasMaxLength(2)
+                    .HasColumnName("value")
+                    .IsFixedLength(true);
             });
 
             modelBuilder.Entity<MLanguage>(entity =>
             {
                 entity.ToTable("m_languages");
 
-                entity.HasCharSet("latin1")
-                    .UseCollation("latin1_swedish_ci");
-
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("id");
 
                 entity.Property(e => e.Iso)
                     .HasMaxLength(2)
@@ -482,18 +492,22 @@ namespace SharedModels
                     .HasMaxLength(50)
                     .HasColumnName("language_name")
                     .IsFixedLength(true);
+
+                entity.Property(e => e.Value)
+                    .HasMaxLength(2)
+                    .HasColumnName("value")
+                    .IsFixedLength(true);
             });
 
             modelBuilder.Entity<MMoodleUser>(entity =>
             {
                 entity.ToTable("m_moodle_user");
 
-                entity.HasCharSet("latin1")
-                    .UseCollation("latin1_swedish_ci");
-
                 entity.HasIndex(e => e.AspnetUserId, "FK_m_moodle_user_aspnetusers");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("id");
 
                 entity.Property(e => e.AspnetUserId)
                     .IsRequired()
@@ -511,7 +525,9 @@ namespace SharedModels
                     .HasMaxLength(50)
                     .HasColumnName("firstname");
 
-                entity.Property(e => e.MoodleId).HasColumnName("moodle_id");
+                entity.Property(e => e.MoodleId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("moodle_id");
 
                 entity.Property(e => e.Password).HasColumnName("password");
 
@@ -533,9 +549,6 @@ namespace SharedModels
 
                 entity.ToTable("m_tutor");
 
-                entity.HasCharSet("latin1")
-                    .UseCollation("latin1_swedish_ci");
-
                 entity.Property(e => e.AspnetUserId)
                     .HasMaxLength(450)
                     .HasColumnName("aspnet_user_id")
@@ -544,7 +557,9 @@ namespace SharedModels
 
                 entity.Property(e => e.About).HasColumnName("about");
 
-                entity.Property(e => e.Active).HasColumnName("active");
+                entity.Property(e => e.Active)
+                    .HasColumnType("tinyint(4)")
+                    .HasColumnName("active");
 
                 entity.Property(e => e.CoutryIso)
                     .HasMaxLength(5)
@@ -574,12 +589,11 @@ namespace SharedModels
             {
                 entity.ToTable("m_tutor_courses");
 
-                entity.HasCharSet("latin1")
-                    .UseCollation("latin1_swedish_ci");
-
                 entity.HasIndex(e => e.AspnetUserId, "FK_m_tutor_courses_aspnetusers");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("id");
 
                 entity.Property(e => e.AspnetUserId)
                     .HasMaxLength(450)
@@ -593,7 +607,9 @@ namespace SharedModels
                     .HasMaxLength(50)
                     .HasColumnName("duration");
 
-                entity.Property(e => e.MoodleCourseId).HasColumnName("moodle_course_id");
+                entity.Property(e => e.MoodleCourseId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("moodle_course_id");
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(150)
@@ -610,12 +626,11 @@ namespace SharedModels
             {
                 entity.ToTable("m_tutor_education");
 
-                entity.HasCharSet("latin1")
-                    .UseCollation("latin1_swedish_ci");
-
                 entity.HasIndex(e => e.AspnetUserId, "FK_m_tutor_education_aspnetusers");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("id");
 
                 entity.Property(e => e.AspnetUserId)
                     .IsRequired()
@@ -640,7 +655,9 @@ namespace SharedModels
                     .HasMaxLength(150)
                     .HasColumnName("insitute_or_university");
 
-                entity.Property(e => e.Verified).HasColumnName("verified");
+                entity.Property(e => e.Verified)
+                    .HasColumnType("tinyint(4)")
+                    .HasColumnName("verified");
 
                 entity.HasOne(d => d.AspnetUser)
                     .WithMany(p => p.MTutorEducations)
@@ -652,9 +669,6 @@ namespace SharedModels
             {
                 entity.ToTable("m_tutor_languages");
 
-                entity.HasCharSet("latin1")
-                    .UseCollation("latin1_swedish_ci");
-
                 entity.HasIndex(e => e.AspnetUserId, "FK_m_tutor_languages_aspnetusers");
 
                 entity.HasIndex(e => e.LanguageLevelId, "FK_m_tutor_languages_e_language_levels");
@@ -662,6 +676,7 @@ namespace SharedModels
                 entity.HasIndex(e => e.LanguageId, "FK_m_tutor_languages_m_languages");
 
                 entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
                     .ValueGeneratedNever()
                     .HasColumnName("id");
 
@@ -672,9 +687,13 @@ namespace SharedModels
                     .UseCollation("utf8_general_ci")
                     .HasCharSet("utf8");
 
-                entity.Property(e => e.LanguageId).HasColumnName("language_id");
+                entity.Property(e => e.LanguageId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("language_id");
 
-                entity.Property(e => e.LanguageLevelId).HasColumnName("language_level_id");
+                entity.Property(e => e.LanguageLevelId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("language_level_id");
 
                 entity.HasOne(d => d.AspnetUser)
                     .WithMany(p => p.MTutorLanguages)
@@ -696,18 +715,23 @@ namespace SharedModels
             {
                 entity.ToTable("m_tutor_rating");
 
-                entity.HasCharSet("latin1")
-                    .UseCollation("latin1_swedish_ci");
-
                 entity.HasIndex(e => e.TutorAspnetIdFk, "FK_m_tutor_rating_aspnetusers");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("id");
 
-                entity.Property(e => e.FiveStarRating).HasColumnName("five_star_rating");
+                entity.Property(e => e.FiveStarRating)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("five_star_rating");
 
-                entity.Property(e => e.FourStarRating).HasColumnName("four_star_rating");
+                entity.Property(e => e.FourStarRating)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("four_star_rating");
 
-                entity.Property(e => e.OneStarRating).HasColumnName("one_star_rating");
+                entity.Property(e => e.OneStarRating)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("one_star_rating");
 
                 entity.Property(e => e.RatorsIdNfk)
                     .HasMaxLength(450)
@@ -715,7 +739,9 @@ namespace SharedModels
                     .UseCollation("utf8_general_ci")
                     .HasCharSet("utf8");
 
-                entity.Property(e => e.ThreeStarRating).HasColumnName("three_star_rating");
+                entity.Property(e => e.ThreeStarRating)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("three_star_rating");
 
                 entity.Property(e => e.TutorAspnetIdFk)
                     .IsRequired()
@@ -724,7 +750,9 @@ namespace SharedModels
                     .UseCollation("utf8_general_ci")
                     .HasCharSet("utf8");
 
-                entity.Property(e => e.TwoStarRating).HasColumnName("two_star_rating");
+                entity.Property(e => e.TwoStarRating)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("two_star_rating");
 
                 entity.HasOne(d => d.TutorAspnetIdFkNavigation)
                     .WithMany(p => p.MTutorRatings)
@@ -736,12 +764,11 @@ namespace SharedModels
             {
                 entity.ToTable("m_tutor_work_experience");
 
-                entity.HasCharSet("latin1")
-                    .UseCollation("latin1_swedish_ci");
-
                 entity.HasIndex(e => e.AspnetUserId, "FK_m_tutor_work_experience_aspnetusers");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("id");
 
                 entity.Property(e => e.AspnetUserId)
                     .IsRequired()

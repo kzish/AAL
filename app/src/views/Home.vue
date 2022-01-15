@@ -2,7 +2,7 @@
   <div>
     <div class="home-banner">
       <center>
-          <h4>Online English tutors & teachers for private lessons</h4>
+          <h4 class="top-title">Online English tutors & teachers for private lessons</h4>
           <p>
             Looking for an online tutor? Adeyemi Academy is the leading online language learning platform in the country. You can choose from 12402+ tutors. Book a lesson with a private tutor today and start learning.
           </p>
@@ -21,7 +21,7 @@
                     </button>
                   </div>
                   <div class="input-group-append">
-                    <button @click="fetchTutors" type="button" class="btn btn-primary top-home-search-text">
+                    <button @click="fetchTutors" type="button" class="btn btn-outline-primary top-home-search-text">
                       Search Course<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
                     </button>
                   </div>
@@ -31,6 +31,7 @@
             <div class="row">
                 <div class="col-md-4">
                   <Multiselect
+                  :class="top-home-search-text"
                     placeholder="Select country"
                     mode="tags"
                     searchable="true"
@@ -53,22 +54,9 @@
                 </div>
 
                 <div class="col-md-4">
-                  <Multiselect
-                      v-model="value"
-                      mode="multiple"
-                      :close-on-select="false"
-                      :groups="true"
-                      :options="[
-                        {
-                          label: 'DC',
-                          options: ['Batman', 'Robin', 'Joker'],
-                        },
-                        {
-                          label: 'Marvel',
-                          options: ['Spiderman', 'Iron Man', 'Captain America'],
-                        },
-                      ]"
-                    />
+                  <select class="form-control" placeholder="Select time">
+                    <option value="">Select time</option>
+                  </select>
                 </div>
             </div>
           </div>
@@ -78,7 +66,7 @@
 
   <div class="tutor-list">
     <div class="row">
-      <div class="col-md-12 tutor-profile-item-contianer" v-for="tutor in tutors" :key="tutor.aspnetUserId">
+      <div class="col-md-12 tutor-profile-item-contianer" v-for="tutor in tutors" :key="tutor.aspnetUserId" data-bs-toggle="modal" data-bs-target="#tutor-details-modal">
         <div class="tutor-profile-item tutor-profile-item-border">
           <div class="row">
             <div class="col-md-2">
@@ -132,7 +120,7 @@
                   <td><i><b>{{(tutor.about == null ? '' : tutor.about).substring(0,100)}}...</b></i></td>
                 </tr>
                 <tr>
-                  <td><a href="javascript:void(0);">View more</a></td>
+                  <td><a @click="loadTutorDetails(tutor)" href="javascript:void(0);" >View more</a></td>
                 </tr>
               </table>
             </div>
@@ -162,7 +150,17 @@
     </div>
   </div>
 
-  
+<div id="tutor-details-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="row">
+          <div class="col-md-12">
+            <DisplayTutorInformation :tutor="selectedTutorToDisplay" v-if="selectedTutorToDisplay"/>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 
  <br />
  <br />
@@ -185,6 +183,9 @@ import "@hennge/vue3-pagination/dist/vue3-pagination.css";//https://github.com/H
 import Multiselect from '@vueform/multiselect';//https://bestofvue.com/repo/vueform-multiselect-vuejs-form-select
 import '@vueform/multiselect/themes/default.css';
 
+import DisplayTutorInformation from '@/components/DisplayTutorInformation.vue'
+
+
 export default {
   name: 'Home',
   components: {
@@ -192,7 +193,8 @@ export default {
     CountryFlag,
     Loading,
     VPagination,
-    Multiselect
+    Multiselect,
+    DisplayTutorInformation
   },
   data(){
     return {
@@ -207,6 +209,8 @@ export default {
       selected_countries: null,
       all_languages: null,
       selected_languages: null,
+      showTutorModal: false,
+      selectedTutorToDisplay:null,
     }
   },
   mounted(){
@@ -215,6 +219,9 @@ export default {
      this.fetchLanguages();
   },
   methods: {
+    loadTutorDetails(tutor) {
+      this.selectedTutorToDisplay = tutor;
+    },
     updateTutorPaginationHandler(page_number) {
       this.page = Math.trunc(page_number);
       this.fetchTutors();

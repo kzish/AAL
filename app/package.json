@@ -13,7 +13,6 @@
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
     "register-service-worker": "^1.7.1",
-    "vue": "^3.0.0",
     "vue-country-flag-next": "^2.3.2",
     "vue-router": "^4.0.0-0",
     "vue-star-rating": "^2.1.0",

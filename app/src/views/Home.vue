@@ -66,101 +66,107 @@
 
   <div class="tutor-list">
     <div class="row">
-      <div class="col-md-12 tutor-profile-item-contianer" v-for="tutor in tutors" :key="tutor.aspnetUserId" data-bs-toggle="modal" data-bs-target="#tutor-details-modal">
-        <div class="tutor-profile-item tutor-profile-item-border">
-          <div class="row">
-            <div class="col-md-2">
-              <table>
-                <tr>
-                  <td>
-                    <img v-if="tutor.imageUrl!=='' && tutor.imageUrl!== null" :src="globals.api_end_point+'/Tutors/GetImage/'+tutor.imageUrl" class="rounded float-left tutor-home-img" alt="...">
-                    <img v-if="tutor.imageUrl=='' || tutor.imageUrl==null" src="/assets/img/place-holder-profile-image.png" class="rounded float-left tutor-home-img" alt="...">
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    {{tutor.firstname}} {{tutor.surname}}
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    
-                    <star-rating
-                    :increment="1"
-                    :rating="4"
-                    :max-rating="5"
-                    :read-only="true"
-                    :show-rating	="false"
-                    :star-size="20"
-                      />
+      <div class="col-md-12">
+          <div class="col-home-left">
+            <div v-for="tutor in tutors" :key="tutor.aspnetUserId" @click="loadTutorDetails(tutor)">
+              <div class="tutor-profile-item tutor-profile-item-border">
+                <div class="row">
+                  <div class="col-md-12">
+                    <table>
+                      <tr>
+                        <td>
+                          {{tutor.firstname}} {{tutor.surname}} <country-flag :country='tutor.coutryIso' size='small'/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <star-rating
+                          :increment="1"
+                          :rating="4"
+                          :max-rating="5"
+                          :read-only="true"
+                          :show-rating	="false"
+                          :star-size="20"
+                            />
 
-                  </td>
-                </tr>
-              </table>
-            </div>
-            <div class="col-md-10">
-              <table>
-                <tr>
-                  <td>
-                    {{tutor.coutryName}}
-                    <country-flag :country='tutor.coutryIso' size='small'/>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                      <span v-for="language in tutor.languages" :key="language">{{language.trim()}}, </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                      <span v-for="course in tutor.courses" :key="course">{{course.trim().replace(" - " + tutor.email, "")}},</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td><i><b>{{(tutor.about == null ? '' : tutor.about).substring(0,100)}}...</b></i></td>
-                </tr>
-                <tr>
-                  <td><a @click="loadTutorDetails(tutor)" href="javascript:void(0);" >View more</a></td>
-                </tr>
-              </table>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="contact-tutor-icons">
-                whatsapp, email, call
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="contact-tutor-icons">
+                      <img src="/assets/img/whatsapp_icon.png" class="tutor-contact-icons" />
+                      <img src="/assets/img/call_icon.png" class="tutor-contact-icons" />
+                      <img src="/assets/img/email_icon.png" class="tutor-contact-icons-email" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+          <div class="col-home-right">
+            <!-- information -->
+            <div class="tutor-profile-item tutor-profile-item-border" v-if="selectedTutorToDisplay">
+              <div class="row">
+                <div class="col-md-12">
+
+                  <div class="row">
+
+                    <div class="col-md-3">
+                      <img v-if="selectedTutorToDisplay.imageUrl!=='' && selectedTutorToDisplay.imageUrl!== null" :src="globals.api_end_point+'/Tutors/GetImage/'+selectedTutorToDisplay.imageUrl" class="rounded float-left tutor-home-img" alt="...">
+                      <img v-if="selectedTutorToDisplay.imageUrl=='' || selectedTutorToDisplay.imageUrl==null" src="/assets/img/place-holder-profile-image.png" class="rounded float-left tutor-home-img" alt="...">
+                    </div>
+
+                    <div class="col-md-9">
+                      <table>
+                        <tr>
+                          <td>
+                            {{selectedTutorToDisplay.coutryName}}
+                            <country-flag :country='selectedTutorToDisplay.coutryIso' size='small'/>
+                          </td> 
+                        </tr>
+                        <tr>
+                          <td>
+                            <span v-for="language in selectedTutorToDisplay.languages" :key="language">{{language.trim()}}, </span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                              <span v-for="course in selectedTutorToDisplay.courses" :key="course">{{course.trim().replace(" - " + selectedTutorToDisplay.email, "")}},</span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-10">
+                      <b>{{selectedTutorToDisplay.about}}</b>
+                    </div>
+                  </div>
+                </div>
+               </div>
+            </div>
+          </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12 tutor-profile-item-contianer">
-        <div class="tutor-profile-item">
-          <v-pagination
-              v-model="page"
-              :pages="total_pages"
-              :range-size="1"
-              active-color="#DCEDFF"
-              @update:modelValue="updateTutorPaginationHandler"
-            />
+      <div class="row">
+        <div class="col-md-12 tutor-profile-item-contianer">
+          <div class="tutor-profile-item">
+            <v-pagination
+                v-model="page"
+                :pages="total_pages"
+                :range-size="1"
+                active-color="#DCEDFF"
+                @update:modelValue="updateTutorPaginationHandler"
+              />
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-<div id="tutor-details-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="row">
-          <div class="col-md-12">
-            <DisplayTutorInformation :tutor="selectedTutorToDisplay" v-if="selectedTutorToDisplay"/>
-          </div>
-        </div>
-      </div>
-    </div>
-</div>
 
  <br />
  <br />
@@ -183,7 +189,7 @@ import "@hennge/vue3-pagination/dist/vue3-pagination.css";//https://github.com/H
 import Multiselect from '@vueform/multiselect';//https://bestofvue.com/repo/vueform-multiselect-vuejs-form-select
 import '@vueform/multiselect/themes/default.css';
 
-import DisplayTutorInformation from '@/components/DisplayTutorInformation.vue'
+// import DisplayTutorInformation from '@/components/DisplayTutorInformation.vue'
 
 
 export default {
@@ -194,7 +200,7 @@ export default {
     Loading,
     VPagination,
     Multiselect,
-    DisplayTutorInformation
+    // DisplayTutorInformation
   },
   data(){
     return {
@@ -235,6 +241,7 @@ export default {
           .then(response => {
             if(response.data.res === "ok") {
               this.tutors = response.data.tutors;
+              this.selectedTutorToDisplay = this.tutors[0];
               this.items_per_page = parseInt(response.data.items_per_page);
               var total_pages = parseInt(response.data.total_tutors)/this.items_per_page;
               if(total_pages == 0 || total_pages == 1) {

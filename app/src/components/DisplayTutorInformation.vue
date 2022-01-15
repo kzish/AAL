@@ -5,13 +5,13 @@
               <table>
                 <tr>
                   <td>
-                    <img v-if="tutor.imageUrl!=='' && tutor.imageUrl!== null" :src="globals.api_end_point+'/Tutors/GetImage/'+tutor.imageUrl" class="rounded float-left tutor-home-img" alt="...">
-                    <img v-if="tutor.imageUrl=='' || tutor.imageUrl==null" src="/assets/img/place-holder-profile-image.png" class="rounded float-left tutor-home-img" alt="...">
+                    <img v-if="selectedTutorToDisplay.imageUrl!=='' && selectedTutorToDisplay.imageUrl!== null" :src="globals.api_end_point+'/Tutors/GetImage/'+selectedTutorToDisplay.imageUrl" class="rounded float-left tutor-home-img" alt="...">
+                    <img v-if="selectedTutorToDisplay.imageUrl=='' || selectedTutorToDisplay.imageUrl==null" src="/assets/img/place-holder-profile-image.png" class="rounded float-left tutor-home-img" alt="...">
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    {{tutor.firstname}} {{tutor.surname}}
+                    {{selectedTutorToDisplay.firstname}} {{selectedTutorToDisplay.surname}}
                   </td>
                 </tr>
                 <tr>
@@ -34,22 +34,22 @@
               <table>
                 <tr>
                   <td>
-                    {{tutor.coutryName}}
-                    <country-flag :country='tutor.coutryIso' size='small'/>
+                    {{selectedTutorToDisplay.coutryName}}
+                    <country-flag :country='selectedTutorToDisplay.coutryIso' size='small'/>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                      <span v-for="language in tutor.languages" :key="language">{{language.trim()}}, </span>
+                      <span v-for="language in selectedTutorToDisplay.languages" :key="language">{{language.trim()}}, </span>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                      <span v-for="course in tutor.courses" :key="course">{{course.trim().replace(" - " + tutor.email, "")}},</span>
+                      <span v-for="course in selectedTutorToDisplay.courses" :key="course">{{course.trim().replace(" - " + selectedTutorToDisplay.email, "")}},</span>
                   </td>
                 </tr>
                 <tr>
-                  <td><i><b>{{tutor.about}}</b></i></td>
+                  <td><i><b>{{selectedTutorToDisplay.about}}</b></i></td>
                 </tr>
               </table>
             </div>

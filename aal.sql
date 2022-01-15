@@ -656,7 +656,7 @@ CREATE TABLE IF NOT EXISTS `m_moodle_user` (
   CONSTRAINT `FK_m_moodle_user_aspnetusers` FOREIGN KEY (`aspnet_user_id`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
--- Dumping data for table aal.m_moodle_user: ~4 rows (approximately)
+-- Dumping data for table aal.m_moodle_user: ~5 rows (approximately)
 DELETE FROM `m_moodle_user`;
 /*!40000 ALTER TABLE `m_moodle_user` DISABLE KEYS */;
 INSERT INTO `m_moodle_user` (`id`, `aspnet_user_id`, `firstname`, `surname`, `moodle_id`, `password`, `email`) VALUES
@@ -681,7 +681,7 @@ CREATE TABLE IF NOT EXISTS `m_tutor` (
   CONSTRAINT `FK_m_tutor_aspnetusers` FOREIGN KEY (`aspnet_user_id`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table aal.m_tutor: ~4 rows (approximately)
+-- Dumping data for table aal.m_tutor: ~5 rows (approximately)
 DELETE FROM `m_tutor`;
 /*!40000 ALTER TABLE `m_tutor` DISABLE KEYS */;
 INSERT INTO `m_tutor` (`aspnet_user_id`, `firstname`, `surname`, `email`, `image_url`, `coutry_iso`, `about`, `active`) VALUES
@@ -705,7 +705,7 @@ CREATE TABLE IF NOT EXISTS `m_tutor_courses` (
   CONSTRAINT `FK_m_tutor_courses_aspnetusers` FOREIGN KEY (`aspnet_user_id`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table aal.m_tutor_courses: ~0 rows (approximately)
+-- Dumping data for table aal.m_tutor_courses: ~1 rows (approximately)
 DELETE FROM `m_tutor_courses`;
 /*!40000 ALTER TABLE `m_tutor_courses` DISABLE KEYS */;
 INSERT INTO `m_tutor_courses` (`id`, `aspnet_user_id`, `title`, `description`, `duration`, `moodle_course_id`) VALUES
@@ -796,7 +796,7 @@ CREATE TABLE IF NOT EXISTS `__efmigrationshistory` (
   PRIMARY KEY (`MigrationId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table aal.__efmigrationshistory: ~0 rows (approximately)
+-- Dumping data for table aal.__efmigrationshistory: ~1 rows (approximately)
 DELETE FROM `__efmigrationshistory`;
 /*!40000 ALTER TABLE `__efmigrationshistory` DISABLE KEYS */;
 INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES

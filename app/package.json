@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "ys": "yarn serve"
+    "ys": "yarn serve",
+    "yb": "yarn build"
   },
   "dependencies": {
     "@hennge/vue3-pagination": "^1.0.17",

@@ -66,7 +66,7 @@
     <div class="row">
       <div class="col-md-12">
           <div class="col-home-left">
-            <div v-for="tutor in tutors" :key="tutor.aspnetUserId" @click="loadTutorDetails(tutor)">
+            <div class="tutor-profile-item-hover" v-for="tutor in tutors" :key="tutor.aspnetUserId" @click="loadTutorDetails(tutor)">
               <div class="tutor-profile-item tutor-profile-item-border">
                 <div class="row">
                   <div class="col-md-12">
@@ -106,7 +106,7 @@
           </div>
           <div class="col-home-right">
             <!-- information -->
-            <div class="tutor-profile-item tutor-profile-item-border" v-if="selectedTutorToDisplay">
+            <div class="tutor-profile-item tutor-profile-item-border tutor-profile-item-information" v-if="selectedTutorToDisplay">
               <div class="row">
                 <div class="col-md-12">
 
@@ -169,7 +169,8 @@
 <!-- select time offcanvas -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRightSelectTime" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
-    <h5 id="offcanvasRightLabel">Select Time</h5>
+    <!-- <h5 id="offcanvasRightLabel">Select Time</h5> -->
+    <button type="button" class="btn btn-outline-danger">Clear all</button>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">

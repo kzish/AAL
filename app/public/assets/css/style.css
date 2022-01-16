@@ -33,10 +33,17 @@
 
 .tutor-profile-item {
     padding: 20px;
-    /* margin:20px 20px 0px 20px; */
     margin:10px;
     cursor: pointer;
     border-radius: 5px;
+}
+
+.tutor-profile-item-hover :hover {
+    background: rgb(234, 236, 236);
+}
+
+.tutor-profile-item-information {
+    min-height: 100vh;
 }
 
 .tutor-profile-item-border {

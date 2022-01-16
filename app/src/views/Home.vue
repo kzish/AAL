@@ -54,9 +54,7 @@
                 </div>
 
                 <div class="col-md-4">
-                  <select class="form-control" placeholder="Select time">
-                    <option value="">Select time</option>
-                  </select>
+                  <input type="text" class="form-control" placeholder="Select time" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightSelectTime" />
                 </div>
             </div>
           </div>
@@ -168,6 +166,37 @@
     </div>
   </div>
 
+<!-- select time offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRightSelectTime" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Select Time</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+   
+    <div v-for="weekday in days_of_week" :key="weekday">
+      <h5>{{weekday}}</h5>
+      <div class="row" style="font-size:12px">
+        <div class="col-md-4"  v-for="time_period in all_time_periods" :key="time_period.id">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" @click="addRemoveTimePeriod('time_period.Id_weekday')">
+            <label class="form-check-label">
+                <b>{{time_period.timePeriod}}</b>
+                <br />
+                <p style="color:teal">{{time_period.title}}</p>
+            </label>
+          </div>
+        </div>
+      </div>
+      <hr />
+    </div>
+
+   
+  </div>
+</div>
+
+
+
  <br />
  <br />
  <br />
@@ -188,9 +217,7 @@ import VPagination from "@hennge/vue3-pagination";
 import "@hennge/vue3-pagination/dist/vue3-pagination.css";//https://github.com/HENNGE/vue3-pagination
 import Multiselect from '@vueform/multiselect';//https://bestofvue.com/repo/vueform-multiselect-vuejs-form-select
 import '@vueform/multiselect/themes/default.css';
-
 // import DisplayTutorInformation from '@/components/DisplayTutorInformation.vue'
-
 
 export default {
   name: 'Home',
@@ -217,12 +244,16 @@ export default {
       selected_languages: null,
       showTutorModal: false,
       selectedTutorToDisplay:null,
+      days_of_week: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      all_time_periods: null,
+      selected_time_periods: null,
     }
   },
   mounted(){
      this.fetchTutors();
      this.fetchCountries();
      this.fetchLanguages();
+     this.fetchTimePeriods();
   },
   methods: {
     loadTutorDetails(tutor) {
@@ -251,6 +282,21 @@ export default {
               } else {
                 this.total_pages = total_pages + 1;
               }
+            } else {
+              alert(response.data.msg);
+            }
+          })
+          .catch(error => console.log(error))
+          .finally(() => {
+            this.isLoading = false;
+          })
+    },
+    fetchTimePeriods(){
+      this.isLoading = true;
+      axios.get(globals.api_end_point+"/Tutors/FetchTimePeriods")
+          .then(response => {
+            if(response.data.res === "ok") {
+              this.all_time_periods = response.data.time_periods;
             } else {
               alert(response.data.msg);
             }

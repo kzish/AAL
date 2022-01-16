@@ -5,13 +5,16 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "ys": "yarn serve"
   },
   "dependencies": {
     "@hennge/vue3-pagination": "^1.0.17",
     "@vueform/multiselect": "^2.3.1",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "jquery": "^3.6.0",
+    "jquery-ui": "^1.13.0",
     "register-service-worker": "^1.7.1",
     "vue-country-flag-next": "^2.3.2",
     "vue-router": "^4.0.0-0",

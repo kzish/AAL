@@ -173,5 +173,29 @@ namespace AAL_API.Controllers
             }
         }
 
+
+        [HttpGet("FetchTimePeriods")]
+        public JsonResult FetchTimePeriods()
+        {
+            try
+            {
+                var time_periods = db.ETimePeriods.OrderBy(i => i.Sequence).ToList();
+                return Json(new
+                {
+                    res = "ok",
+                    time_periods = time_periods,
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return Json(new
+                {
+                    res = "err",
+                    msg = ex.Message
+                });
+            }
+        }
+
     }
 }

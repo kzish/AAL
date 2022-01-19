@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="home-banner">
+    <div class="home-banner mystyle">
       <center>
           <h4 class="top-title">Online English tutors & teachers for private lessons</h4>
           <p>
@@ -178,7 +178,7 @@
     <div v-for="weekday in days_of_week" :key="weekday">
       <h5>{{weekday}}</h5>
       <div class="row" style="font-size:12px">
-        <div class="col-md-4"  v-for="time_period in all_time_periods" :key="time_period.id">
+        <div class="col-md-4 col-sm-6"  v-for="time_period in all_time_periods" :key="time_period.id">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="true" @click="addRemoveTimePeriod('time_period.Id_weekday')">
             <label class="form-check-label">

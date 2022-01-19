@@ -1,0 +1,91 @@
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .home-banner {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgb(255,255,255);
+        background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,182,255,1) 100%);
+    }
+    
+    .tutor-contact-icons {
+        height: 25px;
+        width: auto;
+        margin:10px;
+    }
+    
+    .tutor-contact-icons-email {
+        height: 20px;
+        width: auto;
+        margin:10px;
+    }
+    
+    .top-title {
+        color:#000;
+        text-shadow: 1px 1px #fff;
+    }
+    
+    .tutor-list {
+        background: #fff;
+        padding: 10px;
+        margin-left:100px;
+        margin-right:100px;
+    }
+    
+    .tutor-profile-item {
+        padding: 20px;
+        margin:10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    
+    .tutor-profile-item-hover :hover {
+        background: rgb(234, 236, 236);
+    }
+    
+    .tutor-profile-item-information {
+        min-height: 100vh;
+    }
+    
+    .tutor-profile-item-border {
+        border:1px solid #d5d9da;
+    }
+    
+    .col-home-left{
+        float: left;
+        width: 40%;
+    }
+    
+    .col-home-right{
+        float: left;
+        width: 60%;
+    }
+    
+    .top-home-search {
+        padding-top:40px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 40px;
+        padding: 50px;
+        background: #fff;
+        background: url('../img/city_crop.jpg');
+    }
+    
+    .top-home-search-text {
+        height: 57px;
+        box-shadow: 0px 0px 10px #000;
+    }
+    
+    .tutor-home-img {
+        height: 150px;
+        width: 150px;
+        object-fit: contain;
+        box-shadow: 0px 0px 10px #d8d8d8;
+        border: 1px solid #d8d8d8;
+    }
+    
+    .contact-tutor-icons {
+        
+    }
+}

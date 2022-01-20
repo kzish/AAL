@@ -1,5 +1,10 @@
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
+    
+    .lg-hide {
+        display: none;
+    }
+
     .home-banner {
         padding: 20px;
         display: flex;

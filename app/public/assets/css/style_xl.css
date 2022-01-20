@@ -1,5 +1,10 @@
 /* X-Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
+    
+    .xl-hide{
+        display: none;
+    }
+
     .home-banner {
         padding: 20px;
         display: flex;

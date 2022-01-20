@@ -15,7 +15,7 @@
             <center>
               <div class="input-group">
                   <input type="text" v-model="search_term" class="form-control top-home-search-text" placeholder="Type Course or topic">
-                  <div class="input-group-append">
+                  <div class="input-group-append xs-hide">
                     <button type="button" @click="clearSearch" class="btn btn-outline-danger top-home-search-text">
                       X<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
                     </button>
@@ -29,9 +29,9 @@
             </center>
             <hr />
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 col-sm-12 col-xs-12">
                   <Multiselect
-                  :class="top-home-search-text"
+                    class="top-home-search-text"
                     placeholder="Select country"
                     mode="tags"
                     searchable="true"
@@ -40,9 +40,11 @@
                     :options="all_countries"
                     ref="multiselect_countries"
                   />
+                  <br />
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-sm-12 col-xs-12">
                   <Multiselect
+                    class="top-home-search-text"
                     placeholder="Select language"
                     mode="tags"
                     searchable="true"
@@ -51,10 +53,12 @@
                     :options="all_languages"
                     ref="multiselect_languages"
                   />
+                  <br/>
                 </div>
 
-                <div class="col-md-4">
-                  <input type="text" class="form-control" placeholder="Select time" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightSelectTime" />
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                  <input type="text" class="form-control top-home-search-text" placeholder="Select time" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightSelectTime" readonly />
+                  <br />
                 </div>
             </div>
           </div>
@@ -66,7 +70,7 @@
     <div class="row">
       <div class="col-md-12">
           <div class="col-home-left">
-            <div class="tutor-profile-item-hover" v-for="tutor in tutors" :key="tutor.aspnetUserId" @click="loadTutorDetails(tutor)">
+            <div class="tutor-profile-item-hover" v-for="tutor in tutors" :key="tutor.aspnetUserId" @click="loadTutorDetails(tutor)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightViewSelectedTutor">
               <div class="tutor-profile-item tutor-profile-item-border">
                 <div class="row">
                   <div class="col-md-12">
@@ -104,50 +108,9 @@
               </div>
             </div>
           </div>
-          <div class="col-home-right">
-            <!-- information -->
-            <div class="tutor-profile-item tutor-profile-item-border tutor-profile-item-information" v-if="selectedTutorToDisplay">
-              <div class="row">
-                <div class="col-md-12">
-
-                  <div class="row">
-
-                    <div class="col-md-3">
-                      <img v-if="selectedTutorToDisplay.imageUrl!=='' && selectedTutorToDisplay.imageUrl!== null" :src="globals.api_end_point+'/Tutors/GetImage/'+selectedTutorToDisplay.imageUrl" class="rounded float-left tutor-home-img" alt="...">
-                      <img v-if="selectedTutorToDisplay.imageUrl=='' || selectedTutorToDisplay.imageUrl==null" src="/assets/img/place-holder-profile-image.png" class="rounded float-left tutor-home-img" alt="...">
-                    </div>
-
-                    <div class="col-md-9">
-                      <table>
-                        <tr>
-                          <td>
-                            {{selectedTutorToDisplay.coutryName}}
-                            <country-flag :country='selectedTutorToDisplay.coutryIso' size='small'/>
-                          </td> 
-                        </tr>
-                        <tr>
-                          <td>
-                            <span v-for="language in selectedTutorToDisplay.languages" :key="language">{{language.trim()}}, </span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                              <span v-for="course in selectedTutorToDisplay.courses" :key="course">{{course.trim().replace(" - " + selectedTutorToDisplay.email, "")}},</span>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-10">
-                      <b>{{selectedTutorToDisplay.about}}</b>
-                    </div>
-                  </div>
-                </div>
-               </div>
-            </div>
+          <div class="col-home-right xs-hide sm-hide">
+            <!-- tutor information -->
+            <DisplayTutorInformation :selectedTutorToDisplay="selectedTutorToDisplay"/> 
           </div>
       </div>
       <div class="row">
@@ -170,7 +133,7 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRightSelectTime" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
     <!-- <h5 id="offcanvasRightLabel">Select Time</h5> -->
-    <button type="button" class="btn btn-outline-danger">Clear all</button>
+    <button type="button" class="btn btn-outline-danger">Clear all</button> Select Availability
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
@@ -196,7 +159,17 @@
   </div>
 </div>
 
-
+<!-- view selected tutor for small devices -->
+<div class="offcanvas offcanvas-end md-hide lg-hide xl-hide xxl-hide" data-bs-backdrop="false" tabindex="-1" id="offcanvasRightViewSelectedTutor" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    &nbsp;
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body offcanvas-body-no-padding-no-margin">
+    <!-- tutor information -->
+    <DisplayTutorInformation :selectedTutorToDisplay="selectedTutorToDisplay"/> 
+  </div>
+</div>
 
  <br />
  <br />
@@ -218,7 +191,7 @@ import VPagination from "@hennge/vue3-pagination";
 import "@hennge/vue3-pagination/dist/vue3-pagination.css";//https://github.com/HENNGE/vue3-pagination
 import Multiselect from '@vueform/multiselect';//https://bestofvue.com/repo/vueform-multiselect-vuejs-form-select
 import '@vueform/multiselect/themes/default.css';
-// import DisplayTutorInformation from '@/components/DisplayTutorInformation.vue'
+import DisplayTutorInformation from '@/components/DisplayTutorInformation.vue'
 
 export default {
   name: 'Home',
@@ -228,7 +201,7 @@ export default {
     Loading,
     VPagination,
     Multiselect,
-    // DisplayTutorInformation
+    DisplayTutorInformation
   },
   data(){
     return {

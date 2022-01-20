@@ -1,5 +1,14 @@
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
+
+    .sm-hide {
+        display: block;
+    }
+
+    .md-hide {
+        display: none;
+    }
+
     .home-banner {
         padding: 20px;
         display: flex;
@@ -28,9 +37,9 @@
     
     .tutor-list {
         background: #fff;
-        padding: 10px;
-        margin-left:100px;
-        margin-right:100px;
+        /* padding: 10px; */
+        /* margin-left:100px; */
+        /* margin-right:100px; */
     }
     
     .tutor-profile-item {

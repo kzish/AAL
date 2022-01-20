@@ -1,5 +1,14 @@
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
+
+    .xs-hide {
+        display: block;
+    }
+
+    .sm-hide {
+        display: none;
+    }
+
     .home-banner {
         padding: 20px;
         display: flex;
@@ -28,9 +37,6 @@
     
     .tutor-list {
         background: #fff;
-        padding: 10px;
-        margin-left:100px;
-        margin-right:100px;
     }
     
     .tutor-profile-item {
@@ -54,7 +60,7 @@
     
     .col-home-left{
         float: left;
-        width: 40%;
+        width: 100%;
     }
     
     .col-home-right{
@@ -73,7 +79,7 @@
     }
     
     .top-home-search-text {
-        height: 57px;
+        height:57px;
         box-shadow: 0px 0px 10px #000;
     }
     

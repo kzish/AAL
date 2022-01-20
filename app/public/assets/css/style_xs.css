@@ -1,5 +1,19 @@
 /* X-Small devices (portrait phones, less than 576px) */
 /* No media query for `xs` since this is the default in Bootstrap */
+
+html, body {
+    overflow-x:hidden !important;
+}
+
+.offcanvas-body-no-padding-no-margin {
+    padding: 0px!important;
+    margin: 0px!important;
+}
+
+.xs-hide {
+    display: none;
+}
+
 .home-banner {
     padding: 20px;
     display: flex;
@@ -28,9 +42,6 @@
 
 .tutor-list {
     background: #fff;
-    padding: 10px;
-    margin-left:100px;
-    margin-right:100px;
 }
 
 .tutor-profile-item {
@@ -54,7 +65,7 @@
 
 .col-home-left{
     float: left;
-    width: 40%;
+    width: 100%;
 }
 
 .col-home-right{
@@ -63,23 +74,24 @@
 }
 
 .top-home-search {
-    padding-top:40px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 40px;
-    padding: 50px;
+    padding: 10px;
     background: #fff;
     background: url('../img/city_crop.jpg');
 }
 
 .top-home-search-text {
-    height: 57px;
+    height:57px;
     box-shadow: 0px 0px 10px #000;
 }
 
+.top-home-search-text-margin {
+    margin: 10px 0px 10px 0px;
+    border: 1px solid red;
+}
+
 .tutor-home-img {
-    height: 150px;
-    width: 150px;
+    height: 110px!important;
+    width: 110px!important;
     object-fit: contain;
     box-shadow: 0px 0px 10px #d8d8d8;
     border: 1px solid #d8d8d8;

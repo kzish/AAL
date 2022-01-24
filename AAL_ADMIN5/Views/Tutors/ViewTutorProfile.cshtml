@@ -1,0 +1,98 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    var tutor = (SharedModels.Aspnetuser)ViewBag.tutor;
+    var language_levels = (List<SharedModels.ELanguageLevel>)ViewBag.language_levels;
+    var languages = (List<SharedModels.MLanguage>)ViewBag.languages;
+    var countries = (List<SharedModels.MCountry>)ViewBag.countries;
+    var days_of_week = new List<string> { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    var time_periods = (List<SharedModels.ETimePeriod>)ViewBag.time_periods;
+    var degrees = (List<SharedModels.MDiplomasOrDegree>)ViewBag.degrees;
+}
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-12">
+        <div class="tutor-profile-item tutor-profile-item-border tutor-profile-item-information" v-if="selectedTutorToDisplay">
+        <div class="row">
+            <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-12">
+                <div class="float-start">
+                    @if(string.IsNullOrEmpty(tutor.MTutor.ImageUrl))
+                    {
+                       <img src="~/assets/img/place-holder-profile-image.png" class="rounded float-left tutor-home-img" alt="..." />
+                    } else
+                    {
+                       <img src='@(Globals.AppSettings.api_endpoint + "/Tutors/GetImage/" + tutor.MTutor.ImageUrl)' class="rounded float-left tutor-home-img" alt="..." />
+                    }
+                </div>
+                <div class="float-end">
+                    <table style="width:100%">
+                    <tr>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>@countries.Where(i=>i.CountryIso == tutor.MTutor.CoutryIso).FirstOrDefault()?.CountryName</td>
+                                    <td><div id="flag"></div></td> 
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <h5>Languages</h5>
+                                    @foreach (var level in language_levels)
+                                    {
+                                        <h6>@level.LanguageLevel</h6>
+                                        <div class="form-group">
+                                            <select class="chosen-select form-control" multiple name="languageLevel_@level.LanguageLevel" disabled>
+                                                @foreach (var language in languages)
+                                                {
+                                                    <option value="@language.Id" selected="@(tutor.MAspnetUserLanguages.Where(i=>i.LanguageIdFk == language.Id &&  i.LanguageLevelIdFk==level.Id).Any())">@language.LanguageName</option>
+                                                }
+                                            </select>
+                                        </div>}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                @foreach(var course in  tutor.MTutorCourses)
+                                {
+                                    <li>@course.Title.Trim().Replace(" - " + tutor.Email, "")</li>                
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    @tutor.MTutor.About
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    const parentElement = document.getElementById("flag");
+    const flag = new CountryFlag(parentElement);
+    flag.selectByAlpha2("@tutor.MTutor.CoutryIso");
+    $(".chosen-select").chosen(
+        { width: '100%' }
+    );
+</script>

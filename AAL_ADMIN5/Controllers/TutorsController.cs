@@ -331,5 +331,41 @@ namespace Admin.Controllers
 
         }
 
+
+        [HttpGet("ViewTutorProfile/{id}")]
+        public IActionResult ViewTutorProfile(string id)
+        {
+            ViewBag.title = "ViewTutorProfile";
+
+            var tutor = db.Aspnetusers
+                .Where(i => i.Id == id)
+                .Include(i => i.MMoodleUsers)
+                .Include(i => i.MTutorRatings)
+                .Include(i => i.MAspnetUserLanguages)
+                .Include(i => i.MTutor)
+                .Include(i => i.MTutorEducations)
+                .Include(i => i.MTutorCourses)
+                .Include(i => i.MTutorWorkExperiences)
+                .Include(i => i.MAspnetUserAvailableTimes)
+                .FirstOrDefault();
+            //
+            var language_levels = db.ELanguageLevels.ToList();
+            var languages = db.MLanguages.ToList();
+            var countries = db.MCountries.ToList();
+            var degrees = db.MDiplomasOrDegrees.ToList();
+            var time_periods = db.ETimePeriods.OrderBy(i => i.Sequence).ToList();
+
+
+            ViewBag.time_periods = time_periods;
+            ViewBag.language_levels = language_levels;
+            ViewBag.languages = languages;
+            ViewBag.degrees = degrees;
+            ViewBag.countries = countries;
+            ViewBag.tutor = tutor;
+
+            return View();
+        }
+
+
     }
 }

@@ -6,6 +6,7 @@
     var countries = (List<SharedModels.MCountry>)ViewBag.countries;
     var days_of_week = new List<string> { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     var time_periods = (List<SharedModels.ETimePeriod>)ViewBag.time_periods;
+    var degrees = (List<SharedModels.MDiplomasOrDegree>)ViewBag.degrees;
 }
 
 <div class="container">
@@ -258,7 +259,13 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <label for="disabledTextInput">Diploma/Degree</label>
-                                <input type="text" name="DiplomaOrDegree" class="form-control" placeholder="Diploma Or Degree" required>
+                                <select name="DiplomaOrDegree" class="select2 form-control" style="width:100%;height:50px">
+                                    @foreach(var item in degrees)
+                                    {
+                                        <option value="@item.DegreeOrDiploma">@item.DegreeOrDiploma</option>
+                                    }
+                                </select>
+                                @*<input type="text" name="" class="form-control" placeholder="Diploma Or Degree" required>*@
                             </div>
                         </div>
                     </div>
@@ -321,6 +328,10 @@
     $(".chosen-select").chosen(
         { width: '100%' }
     );
+
+    $(".select2").select2({
+        tags: true,
+    });
 
     $('#edu_date_from').Zebra_DatePicker({
         format: 'm Y',

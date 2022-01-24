@@ -23,7 +23,7 @@ using SharedModels;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
-namespace Admin.Controllers
+namespace AAL_TUTOR5.Controllers
 {
     [Route("Tutors")]
     [Route("")]
@@ -190,12 +190,14 @@ namespace Admin.Controllers
             var language_levels = db.ELanguageLevels.ToList();
             var languages = db.MLanguages.ToList();
             var countries = db.MCountries.ToList();
+            var degrees = db.MDiplomasOrDegrees.ToList();
             var time_periods = db.ETimePeriods.OrderBy(i => i.Sequence).ToList();
 
 
             ViewBag.time_periods = time_periods;
             ViewBag.language_levels = language_levels;
             ViewBag.languages = languages;
+            ViewBag.degrees = degrees;
             ViewBag.countries = countries;
             ViewBag.tutor = tutor;
             //

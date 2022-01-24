@@ -43,6 +43,7 @@ namespace Globals
             //dev settings here
             AppSettings.resources_folder = @"C:\AAL_RESOURCES";
             AppSettings.moodle_ws_token = "2cb31f38b05a075434014ce3cf7e5949";
+            AppSettings.api_endpoint = "https://localhost:44343";
             AppSettings.moodle_api_endpoint = $"http://moodle.test/webservice/rest/server.php?wstoken={AppSettings.moodle_ws_token}&moodlewsrestformat=json";
 
             if (!env.IsDevelopment())
@@ -50,6 +51,7 @@ namespace Globals
                 //production settings here
                 AppSettings.resources_folder = @"/var/www/html/AAL/AAL_RESOURCES";
                 AppSettings.moodle_ws_token = "5c7ba33a34dbc60eef27401a8d057259";
+                AppSettings.api_endpoint = "https://localhost:83";
                 AppSettings.moodle_api_endpoint = $"http://13.244.163.207:84/webservice/rest/server.php?wstoken={AppSettings.moodle_ws_token}&moodlewsrestformat=json";
 
             }

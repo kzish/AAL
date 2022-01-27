@@ -9,22 +9,22 @@
     var degrees = (List<SharedModels.MDiplomasOrDegree>)ViewBag.degrees;
 }
 
+
 <div class="container">
     <div class="row">
-
         <div class="col-md-12">
             <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" data-toggle="pill" href="#pills-1" role="tab" aria-controls="pills-1" aria-selected="true">Basic</a>
+                    <a class="nav-link active" data-toggle="pill" href="#pills-1" role="tab" aria-controls="pills-1" aria-selected="false">Basic</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-toggle="pill" href="#pills-2" role="tab" aria-selected="false">Profile</a>
+                    <a class="nav-link" data-toggle="pill" href="#pills-2" role="tab" aria-controls="pills-2" aria-selected="false">Profile</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-toggle="pill" href="#pills-4" role="tab" aria-selected="false">Resume</a>
+                    <a class="nav-link" data-toggle="pill" href="#pills-4" role="tab" aria-controls="pills-4" aria-selected="false">Resume</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-toggle="pill" href="#pills-5" role="tab" aria-selected="false">Availability</a>
+                    <a class="nav-link" data-toggle="pill" href="#pills-5" role="tab" aria-controls="pills-5" aria-selected="false">Availability</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -104,7 +104,7 @@
                         <div class="row">
                             <div class="col-md-9">
                                 <h5>About</h5>
-                                <textarea rows="5" class="form-control" name="tutor_about" placeholder="type about here ...">@tutor.MTutor.About</textarea>
+                                <textarea rows="15" class="form-control" name="tutor_about" placeholder="type about here ...">@tutor.MTutor.About</textarea>
                             </div>
                         </div>
                         <br />
@@ -128,16 +128,24 @@
                             </button>
                             <br />
                             <br />
-                            <table class="table table-striped" style="width:100%">
+                                @{
+                                    int index = 0;
+                                }
                                 @foreach (var edu in tutor.MTutorEducations)
-                                {
-                                    <tr>
-                                        <td>
+                                {   
+                                    {
+                                        index++;
+                                    }
+                                    <div class="row" style="margin-bottom:40px;">
+                                        <div class="col-md-1">
+                                            <a href="~/Tutors/RemoveEducation/@edu.Id" style="color:red"><i class="fa fa-trash-alt"></i></a>
+                                        </div>
+                                        <div class="col-md-2">
                                             @edu.DateFrom.Value.ToString("yyyy") - @(edu.DateTo==null ? "Current" : edu.DateTo.Value.ToString("yyyy"))
-                                        </td>
-                                        <td>
-                                            <h5><b>@edu.InsituteOrUniversity</b></h5>
-                                            @edu.DiplomaOrDegree<br />
+                                        </div>
+                                        <div class="col-md-9">
+                                            <b>@edu.InsituteOrUniversity</b><br />
+                                            @edu.DiplomaOrDegree
                                             @if (edu.Verified == 1)
                                             {
                                                 <small style="color:green"><b>Verified</b></small>
@@ -146,13 +154,9 @@
                                             {
                                                 <small style="color:red"><b>Not Verified</b></small>
                                             }
-                                        </td>
-                                        <td>
-                                            <a href="~/Tutors/RemoveEducation/@edu.Id" style="color:red"><i class="fa fa-trash-alt"></i></a>
-                                        </td>
-                                    </tr>
+                                        </div>
+                                    </div>
                                 }
-                            </table>
                         </div>
                     </div>
                     <br />
@@ -166,23 +170,22 @@
                             </button>
                             <br />
                             <br />
-                            <table class="table table-striped" style="width:100%">
-                                @foreach (var workexp in tutor.MTutorWorkExperiences)
-                                {
-                                    <tr>
-                                        <td>
-                                            @workexp.DateFrom.Value.ToString("yyyy") - @(workexp.DateTo==null ? "Current" : workexp.DateTo.Value.ToString("yyyy"))
-                                        </td>
-                                        <td>
-                                            <h5><b title="@workexp.Organization">@workexp.Organization</b></h5>
-                                            <p title="@workexp.Roles">@workexp.Roles</p>
-                                        </td>
-                                        <td>
-                                            <a href="~/Tutors/RemoveWorkExperience/@workexp.Id" style="color:red"><i class="fa fa-trash-alt"></i></a>
-                                        </td>
-                                    </tr>
-                                }
-                            </table>
+                            @foreach (var workexp in tutor.MTutorWorkExperiences)
+                            {
+                                <div class="row" style="margin-bottom:40px">
+                                    <div class="col-md-1">
+                                        <a href="~/Tutors/RemoveWorkExperience/@workexp.Id" style="color:red"><i class="fa fa-trash-alt"></i></a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        @workexp.DateFrom.Value.ToString("yyyy") - @(workexp.DateTo==null ? "Current" : workexp.DateTo.Value.ToString("yyyy"))
+                                    </div>
+                                    <div class="col-md-9">
+                                        <b>@workexp.Organization</b>
+                                        <br />
+                                        <p>@workexp.Roles</p>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -216,13 +219,9 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
-
     </div>
 </div>
-
 
 <!-- modal add education -->
 <div class="modal fade" id="modal_add_education" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -275,7 +274,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- modal add work experience -->
 <div class="modal fade" id="modal_add_work_experience" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

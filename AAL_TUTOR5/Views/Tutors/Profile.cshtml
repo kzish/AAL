@@ -128,14 +128,8 @@
                             </button>
                             <br />
                             <br />
-                                @{
-                                    int index = 0;
-                                }
                                 @foreach (var edu in tutor.MTutorEducations)
                                 {   
-                                    {
-                                        index++;
-                                    }
                                     <div class="row" style="margin-bottom:40px;">
                                         <div class="col-md-1">
                                             <a href="~/Tutors/RemoveEducation/@edu.Id" style="color:red"><i class="fa fa-trash-alt"></i></a>

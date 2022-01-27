@@ -11,97 +11,145 @@
 
 <div class="container">
     <div class="row">
-
         <div class="col-md-12">
-        <div class="tutor-profile-item tutor-profile-item-border tutor-profile-item-information" v-if="selectedTutorToDisplay">
-        <div class="row">
-            <div class="col-md-12">
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="float-start.">
-                        <table style="width:34%">
-                            <tr>
-                                <td>
-                                    @if(string.IsNullOrEmpty(tutor.MTutor.ImageUrl))
-                                    {
-                                        <img src="~/assets/img/place-holder-profile-image.png" class="rounded float-left tutor-home-img" alt="..." />
-                                    } else
-                                    {
-                                        <img src='@(Globals.AppSettings.api_endpoint + "/Tutors/GetImage/" + tutor.MTutor.ImageUrl)' class="rounded float-left tutor-home-img" alt="..." />
-                                    }
-                                </td>
-                                <td valign="top">
-                                    <table style="width:100%; border 1px solid red;">
-                                        <tr>
-                                            <td>@tutor.MTutor.Firstname @tutor.MTutor.Surname</td> 
-                                        </tr>
+            <div class="tutor-profile-item tutor-profile-item-border tutor-profile-item-information" v-if="selectedTutorToDisplay">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="float-start.">
+                                    <table style="width:34%">
                                         <tr>
                                             <td>
-                                                <table>
+                                                @if(string.IsNullOrEmpty(tutor.MTutor.ImageUrl))
+                                                {
+                                                    <img src="~/assets/img/place-holder-profile-image.png" class="rounded float-left tutor-home-img" alt="..." />
+                                                } else
+                                                {
+                                                    <img src='@(Globals.AppSettings.api_endpoint + "/Tutors/GetImage/" + tutor.MTutor.ImageUrl)' class="rounded float-left tutor-home-img" alt="..." />
+                                                }
+                                            </td>
+                                            <td valign="top">
+                                                <table style="width:100%; border 1px solid red;">
                                                     <tr>
-                                                         <td>@countries.Where(i=>i.CountryIso == tutor.MTutor.CoutryIso).FirstOrDefault()?.CountryName</td>
-                                                         <td><div id="flag"></div></td> 
+                                                        <td>@tutor.MTutor.Firstname @tutor.MTutor.Surname</td> 
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                     <td>@countries.Where(i=>i.CountryIso == tutor.MTutor.CoutryIso).FirstOrDefault()?.CountryName</td>
+                                                                     <td><div id="flag"></div></td> 
+                                                                </tr>
+                                                            </table>
+                                                        </td>
                                                     </tr>
                                                 </table>
                                             </td>
                                         </tr>
                                     </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                <div class="float-end.">
-                    <br />
-                    <table style="width:100%">
-                        <tr>
-                            <td>
-                                <div class="row">
-                                    <div class="col-md-9">
-                                        <h5>Languages</h5>
-                                        <hr />
-                                        @foreach (var level in language_levels)
-                                        {
-                                            <h6>@level.LanguageLevel</h6>
-                                            <div class="form-group">
-                                                <select class="chosen-select form-control" multiple name="languageLevel_@level.LanguageLevel" disabled>
-                                                    @foreach (var language in languages)
-                                                    {
-                                                        <option value="@language.Id" selected="@(tutor.MAspnetUserLanguages.Where(i=>i.LanguageIdFk == language.Id &&  i.LanguageLevelIdFk==level.Id).Any())">@language.LanguageName</option>
-                                                    }
-                                                </select>
-                                            </div>}
-                                    </div>
                                 </div>
-                            </td>
-                            </tr>
-                        <tr>
-                            <td>
-                            <h5>Courses</h5>
-                            <hr />
-                                <ul>
-                                    @foreach(var course in  tutor.MTutorCourses)
-                                    {
-                                        <li>@course.Title.Trim().Replace(" - " + tutor.Email, "")</li>                
-                                    }
-                                </ul>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                                <div class="float-end.">
+                                    <br />
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <h5>Languages</h5>
+                                                        <hr />
+                                                        @foreach (var level in language_levels)
+                                                        {
+                                                            <h6>@level.LanguageLevel</h6>
+                                                            <div class="form-group">
+                                                                <select class="chosen-select form-control" multiple name="languageLevel_@level.LanguageLevel" disabled>
+                                                                    @foreach (var language in languages)
+                                                                    {
+                                                                        <option value="@language.Id" selected="@(tutor.MAspnetUserLanguages.Where(i=>i.LanguageIdFk == language.Id &&  i.LanguageLevelIdFk==level.Id).Any())">@language.LanguageName</option>
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <br />
+                                                <h5>Courses</h5>
+                                                <hr />
+                                                <ul>
+                                                    @foreach(var course in  tutor.MTutorCourses)
+                                                    {
+                                                        <li>@course.Title.Trim().Replace(" - " + tutor.Email, "")</li>                
+                                                    }
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                         <div class="row">
+                            <div class="col-md-10">
+                                <h5>Education</h5>
+                                <hr />
+                               @foreach (var edu in tutor.MTutorEducations)
+                                {   
+                                    <div class="row" style="margin-bottom:40px;">
+                                        
+                                        <div class="col-md-2">
+                                            @edu.DateFrom.Value.ToString("yyyy") - @(edu.DateTo==null ? "Current" : edu.DateTo.Value.ToString("yyyy"))
+                                        </div>
+                                        <div class="col-md-10">
+                                            <b>@edu.InsituteOrUniversity</b><br />
+                                            @edu.DiplomaOrDegree
+                                            @if (edu.Verified == 1)
+                                            {
+                                                <small style="color:green"><b>Verified</b></small>
+                                            }
+                                            else
+                                            {
+                                                <small style="color:red"><b>Not Verified</b></small>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <hr />
+                         <div class="row">
+                            <div class="col-md-10">
+                                <h5>Work Experiance</h5>
+                                <hr />
+                                @foreach (var workexp in tutor.MTutorWorkExperiences)
+                                {
+                                    <div class="row" style="margin-bottom:40px">
+                                        <div class="col-md-2">
+                                            @workexp.DateFrom.Value.ToString("yyyy") - @(workexp.DateTo==null ? "Current" : workexp.DateTo.Value.ToString("yyyy"))
+                                        </div>
+                                        <div class="col-md-10">
+                                            <b>@workexp.Organization</b>
+                                            <br />
+                                            @workexp.Roles
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h5>About</h5>
+                                @tutor.MTutor.About
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-10">
-                    <h5>About</h5>
-                    @tutor.MTutor.About
-                </div>
-            </div>
-            </div>
         </div>
-        </div>
-        </div>
-
     </div>
 </div>
 

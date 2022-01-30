@@ -1,5 +1,7 @@
 <template>
-  <div class="tutor-profile-item tutor-profile-item-border tutor-profile-item-information" v-if="selectedTutorToDisplay">
+  <div class="tutor-profile-item tutor-profile-item-information"
+   v-bind:class="{ 'tutor-profile-item-border' : border }"
+   v-if="selectedTutorToDisplay">
     <div class="row">
       <div class="col-md-12">
 
@@ -51,7 +53,8 @@ export default {
     CountryFlag,
   },
   props: {
-    selectedTutorToDisplay: Object
+    selectedTutorToDisplay: Object,
+    border: Boolean
   },
   data(){
     return {

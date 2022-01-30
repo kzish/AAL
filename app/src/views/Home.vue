@@ -1,4 +1,12 @@
 <template>
+  <affix class="sidebar-menu" relative-element-selector="#example-content" style="width: 300px" :offset="{ top: 40, bottom: 40 }">
+  <a href="#markup-1">Markup 1</a>
+  <a href="#markup-2">Markup 2</a>
+  <a href="#markup-3">Markup 3</a>
+</affix>
+<section id="example-content">
+  <p>This is the #example-content section which the sidebar will be relatively affixed!</p>
+</section>
   <div>
     <div class="home-banner mystyle">
       <center>
@@ -110,7 +118,7 @@
           </div>
           <div class="col-home-right xs-hide sm-hide">
             <!-- tutor information -->
-            <DisplayTutorInformation :selectedTutorToDisplay="selectedTutorToDisplay"/> 
+            <DisplayTutorInformation :selectedTutorToDisplay="selectedTutorToDisplay" :border="true"/> 
           </div>
       </div>
       <div class="row">
@@ -167,7 +175,7 @@
   </div>
   <div class="offcanvas-body offcanvas-body-no-padding-no-margin">
     <!-- tutor information -->
-    <DisplayTutorInformation :selectedTutorToDisplay="selectedTutorToDisplay"/> 
+    <DisplayTutorInformation :selectedTutorToDisplay="selectedTutorToDisplay" :border="false"/> 
   </div>
 </div>
 
@@ -191,8 +199,8 @@ import VPagination from "@hennge/vue3-pagination";
 import "@hennge/vue3-pagination/dist/vue3-pagination.css";//https://github.com/HENNGE/vue3-pagination
 import Multiselect from '@vueform/multiselect';//https://bestofvue.com/repo/vueform-multiselect-vuejs-form-select
 import '@vueform/multiselect/themes/default.css';
-import DisplayTutorInformation from '@/components/DisplayTutorInformation.vue'
-
+import DisplayTutorInformation from '@/components/DisplayTutorInformation.vue';
+window.$ = window.jQuery = require('jquery');
 export default {
   name: 'Home',
   components: {
@@ -201,7 +209,7 @@ export default {
     Loading,
     VPagination,
     Multiselect,
-    DisplayTutorInformation
+    DisplayTutorInformation,
   },
   data(){
     return {
@@ -228,6 +236,9 @@ export default {
      this.fetchCountries();
      this.fetchLanguages();
      this.fetchTimePeriods();
+    //  window.$( document ).ready(function() {
+    //     alert('ready');
+    // });
   },
   methods: {
     loadTutorDetails(tutor) {

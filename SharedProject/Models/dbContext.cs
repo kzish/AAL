@@ -805,6 +805,10 @@ namespace SharedModels
                     .HasMaxLength(150)
                     .HasColumnName("organization");
 
+                entity.Property(e => e.PositionHeld)
+                    .HasMaxLength(150)
+                    .HasColumnName("position_held");
+
                 entity.Property(e => e.Roles).HasColumnName("roles");
 
                 entity.HasOne(d => d.AspnetUser)

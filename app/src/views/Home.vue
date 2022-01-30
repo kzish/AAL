@@ -1,14 +1,7 @@
 <template>
-  <affix class="sidebar-menu" relative-element-selector="#example-content" style="width: 300px" :offset="{ top: 40, bottom: 40 }">
-  <a href="#markup-1">Markup 1</a>
-  <a href="#markup-2">Markup 2</a>
-  <a href="#markup-3">Markup 3</a>
-</affix>
-<section id="example-content">
-  <p>This is the #example-content section which the sidebar will be relatively affixed!</p>
-</section>
+
   <div>
-    <div class="home-banner mystyle">
+    <div class="home-banner">
       <center>
           <h4 class="top-title">Online English tutors & teachers for private lessons</h4>
           <p>
@@ -137,55 +130,56 @@
     </div>
   </div>
 
-<!-- select time offcanvas -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRightSelectTime" aria-labelledby="offcanvasRightLabel">
-  <div class="offcanvas-header">
-    <!-- <h5 id="offcanvasRightLabel">Select Time</h5> -->
-    <button type="button" class="btn btn-outline-danger">Clear all</button> Select Availability
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-   
-    <div v-for="weekday in days_of_week" :key="weekday">
-      <h5>{{weekday}}</h5>
-      <div class="row" style="font-size:12px">
-        <div class="col-md-4 col-sm-6"  v-for="time_period in all_time_periods" :key="time_period.id">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="true" @click="addRemoveTimePeriod('time_period.Id_weekday')">
-            <label class="form-check-label">
-                <b>{{time_period.timePeriod}}</b>
-                <br />
-                <p style="color:teal">{{time_period.title}}</p>
-            </label>
+  <!-- select time offcanvas -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRightSelectTime" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+      <!-- <h5 id="offcanvasRightLabel">Select Time</h5> -->
+      <button type="button" class="btn btn-outline-danger">Clear all</button> Select Availability
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+    
+      <div v-for="weekday in days_of_week" :key="weekday">
+        <h5>{{weekday}}</h5>
+        <div class="row" style="font-size:12px">
+          <div class="col-md-4 col-sm-6"  v-for="time_period in all_time_periods" :key="time_period.id">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="true" @click="addRemoveTimePeriod('time_period.Id_weekday')">
+              <label class="form-check-label">
+                  <b>{{time_period.timePeriod}}</b>
+                  <br />
+                  <p style="color:teal">{{time_period.title}}</p>
+              </label>
+            </div>
           </div>
         </div>
+        <hr />
       </div>
-      <hr />
+
+    
     </div>
-
-   
   </div>
-</div>
 
-<!-- view selected tutor for small devices -->
-<div class="offcanvas offcanvas-end md-hide lg-hide xl-hide xxl-hide" data-bs-backdrop="false" tabindex="-1" id="offcanvasRightViewSelectedTutor" aria-labelledby="offcanvasRightLabel">
-  <div class="offcanvas-header">
-    &nbsp;
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  <!-- view selected tutor for small devices -->
+  <div class="offcanvas offcanvas-end md-hide lg-hide xl-hide xxl-hide" data-bs-backdrop="false" tabindex="-1" id="offcanvasRightViewSelectedTutor" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+      &nbsp;
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body offcanvas-body-no-padding-no-margin">
+      <!-- tutor information -->
+      <DisplayTutorInformation :selectedTutorToDisplay="selectedTutorToDisplay" :border="false"/> 
+    </div>
   </div>
-  <div class="offcanvas-body offcanvas-body-no-padding-no-margin">
-    <!-- tutor information -->
-    <DisplayTutorInformation :selectedTutorToDisplay="selectedTutorToDisplay" :border="false"/> 
-  </div>
-</div>
 
- <br />
- <br />
- <br />
- <loading :active="isLoading" 
-        :can-cancel="true" 
-        :on-cancel="onCancel"
-        :is-full-page="true" />
+  <br />
+  <br />
+  <br />
+  <loading :active="isLoading" 
+          :can-cancel="true" 
+          :on-cancel="onCancel"
+          :is-full-page="true" />
+
 </template>
 
 <script>
@@ -201,6 +195,7 @@ import Multiselect from '@vueform/multiselect';//https://bestofvue.com/repo/vuef
 import '@vueform/multiselect/themes/default.css';
 import DisplayTutorInformation from '@/components/DisplayTutorInformation.vue';
 window.$ = window.jQuery = require('jquery');
+
 export default {
   name: 'Home',
   components: {

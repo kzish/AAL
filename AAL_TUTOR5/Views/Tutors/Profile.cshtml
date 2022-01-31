@@ -91,7 +91,8 @@
                                 {
                                     <h6>@level.LanguageLevel</h6>
                                     <div class="form-group">
-                                        <select class="chosen-select form-control" multiple name="languageLevel_@level.LanguageLevel">
+                                        <select class="chosen-select form-control" name="languageLevel_@level.LanguageLevel">
+                                            <option value="">None</option>
                                             @foreach (var language in languages)
                                             {
                                                 <option value="@language.Id" selected="@(tutor.MAspnetUserLanguages.Where(i=>i.LanguageIdFk == language.Id &&  i.LanguageLevelIdFk==level.Id).Any())">@language.LanguageName</option>

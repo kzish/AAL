@@ -1,72 +1,64 @@
 <template>
 
-  <div>
-    <div class="home-banner">
-      <center>
-          <h4 class="top-title">Online English tutors & teachers for private lessons</h4>
-          <p>
-            Looking for an online tutor? Adeyemi Academy is the leading online language learning platform in the country. You can choose from 12402+ tutors. Book a lesson with a private tutor today and start learning.
-          </p>
-      </center>
-    </div>
-
-      <div class="row">
-        <div class="col-md-12">
-          <div class="top-home-search">
-            <center>
-              <div class="input-group">
-                  <input type="text" v-model="search_term" class="form-control top-home-search-text" placeholder="Type Course or topic">
-                  <div class="input-group-append xs-hide">
-                    <button type="button" @click="clearSearch" class="btn btn-outline-danger top-home-search-text">
-                      X<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-                    </button>
-                  </div>
-                  <div class="input-group-append">
-                    <button @click="fetchTutors" type="button" class="btn btn-outline-primary top-home-search-text">
-                      Search Course<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-                    </button>
-                  </div>
-              </div>
-            </center>
-            <hr />
-            <div class="row">
-                <div class="col-md-4 col-sm-12 col-xs-12">
-                  <Multiselect
-                    class="top-home-search-text"
-                    placeholder="Select country"
-                    mode="tags"
-                    searchable="true"
-                    label="countryName"
-                    v-model="selected_countries"
-                    :options="all_countries"
-                    ref="multiselect_countries"
-                  />
-                  <br />
-                </div>
-                <div class="col-md-4 col-sm-12 col-xs-12">
-                  <Multiselect
-                    class="top-home-search-text"
-                    placeholder="Select language"
-                    mode="tags"
-                    searchable="true"
-                    label="languageName"
-                    v-model="selected_languages"
-                    :options="all_languages"
-                    ref="multiselect_languages"
-                  />
-                  <br/>
-                </div>
-
-                <div class="col-md-4 col-sm-12 col-xs-12">
-                  <input type="text" class="form-control top-home-search-text" placeholder="Select time" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightSelectTime" readonly />
-                  <br />
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="home-banner">
+    <center>
+        <h4 class="top-title">Online English tutors & teachers for private lessons</h4>
+        <p>
+          Looking for an online tutor? Adeyemi Academy is the leading online language learning platform in the country. You can choose from 12402+ tutors. Book a lesson with a private tutor today and start learning.
+        </p>
+    </center>
   </div>
 
+  <div class="top-home-search sticky.">
+    <center>
+      <div class="input-group">
+          <input type="text" v-model="search_term" class="form-control top-home-search-text" placeholder="Type Course or topic">
+          <div class="input-group-append xs-hide">
+            <button type="button" @click="clearSearch" class="btn btn-outline-danger top-home-search-text">
+              X<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="input-group-append">
+            <button @click="fetchTutors" type="button" class="btn btn-outline-primary top-home-search-text">
+              Search Course<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+            </button>
+          </div>
+      </div>
+    </center>
+    <hr />
+    <div class="row">
+      <div class="col-md-4 col-sm-12 col-xs-12">
+        <Multiselect
+          class="top-home-search-text"
+          placeholder="Select country"
+          mode="tags"
+          searchable="true"
+          label="countryName"
+          v-model="selected_countries"
+          :options="all_countries"
+          ref="multiselect_countries"
+        />
+        <br />
+      </div>
+      <div class="col-md-4 col-sm-12 col-xs-12">
+        <Multiselect
+          class="top-home-search-text"
+          placeholder="Select language"
+          mode="tags"
+          searchable="true"
+          label="languageName"
+          v-model="selected_languages"
+          :options="all_languages"
+          ref="multiselect_languages"
+        />
+        <br/>
+      </div>
+      <div class="col-md-4 col-sm-12 col-xs-12">
+        <input type="text" class="form-control top-home-search-text" placeholder="Select time" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightSelectTime" readonly />
+        <br />
+      </div>
+    </div>
+  </div>
   <div class="tutor-list">
     <div class="row">
       <div class="col-md-12">
@@ -161,7 +153,7 @@
   </div>
 
   <!-- view selected tutor for small devices -->
-  <div class="offcanvas offcanvas-end md-hide lg-hide xl-hide xxl-hide" data-bs-backdrop="false" tabindex="-1" id="offcanvasRightViewSelectedTutor" aria-labelledby="offcanvasRightLabel">
+  <div style="display: none!mportant" class="offcanvas offcanvas-end md-hide lg-hide xl-hide xxl-hide" data-bs-backdrop="true" tabindex="-1" id="offcanvasRightViewSelectedTutor" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
       &nbsp;
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>

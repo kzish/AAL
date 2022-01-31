@@ -15,22 +15,56 @@
               <table>
                 <tr>
                   <td>
+                    <br />
                     {{selectedTutorToDisplay.coutryName}}
                     <country-flag :country='selectedTutorToDisplay.coutryIso' size='small'/>
                   </td> 
                 </tr>
                 <tr>
                   <td>
-                    <span v-for="language in selectedTutorToDisplay.languages" :key="language">{{language.trim()}}, </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span v-for="course in selectedTutorToDisplay.courses" :key="course">{{course.trim().replace(" - " + selectedTutorToDisplay.email, "")}},</span>
+
+                    <span v-for="language in selectedTutorToDisplay.languages" :key="language">
+                      <div v-if="language.level == 3">
+                        Advanced: 
+                          <b>
+                            {{language.lang.trim()}}
+                          </b>
+                      </div>
+                    </span>
+                    <br />
+
+                    <span v-for="language in selectedTutorToDisplay.languages" :key="language">
+                      <div v-if="language.level == 2">
+                        Intermediate: 
+                          <b>
+                            {{language.lang.trim()}}
+                          </b>
+                      </div>
+                    </span>
+                    <br />
+
+                    <span v-for="language in selectedTutorToDisplay.languages" :key="language">
+                      <div v-if="language.level == 1">
+                        Beginner :
+                          <b>
+                            {{language.lang.trim()}}
+                          </b>
+                      </div>
+                    </span>
+                    
                   </td>
                 </tr>
               </table>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <ul>
+              <li v-for="course in selectedTutorToDisplay.courses" 
+                  :key="course">{{course.trim().replace(" - " + selectedTutorToDisplay.email, "")}}
+              </li>
+            </ul>
           </div>
         </div>
         <div class="row">

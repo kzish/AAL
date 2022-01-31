@@ -2,7 +2,10 @@
 /* No media query for `xs` since this is the default in Bootstrap */
 
 html, body {
-    overflow-x:hidden !important;
+    /* overflow-x:hidden !important;
+    margin:0;
+    padding:0;
+    overflow-x:hidden; */
 }
 
 .offcanvas-body-no-padding-no-margin {
@@ -12,6 +15,13 @@ html, body {
 
 .xs-hide {
     display: none;
+}
+
+.sticky {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 99;
 }
 
 
@@ -43,6 +53,7 @@ html, body {
 
 .tutor-list {
     background: #fff;
+    height: 100vh!important;
 }
 
 .tutor-profile-item {
@@ -67,14 +78,25 @@ html, body {
 .col-home-left{
     float: left;
     width: 100%;
+    max-height:100vh;
+    overflow-y: scroll;
+    overflow: -moz-scrollbars-none;
+    /* overflow-y: -moz-hidden-unscrollable; */
+}
+
+.col-home-left::-webkit-scrollbar {
+    display: none;
+}
+
+.col-home-left::-moz-scrollbar {
+    display: none;
 }
 
 .col-home-right{
     float: right;
     width: 60%;
-    /* position: fixed!important;
-    right: 0!important;
-    top: 50% !important;; */
+    max-height:100vh;
+    overflow-y: scroll;
 }
 
 .top-home-search {
@@ -99,6 +121,7 @@ html, body {
     object-fit: contain;
     box-shadow: 0px 0px 10px #d8d8d8;
     border: 1px solid #d8d8d8;
+    margin:10px;
 }
 
 .contact-tutor-icons {

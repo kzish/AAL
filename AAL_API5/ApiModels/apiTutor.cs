@@ -15,7 +15,14 @@ namespace AAL_API5.ApiModels
         public string CoutryIso { get; set; }
         public string CoutryName { get; set; }
         public string About { get; set; }
-        public List<string> Languages { get; set; } = new List<string>();
+        public List<Language> Languages { get; set; } = new List<Language>();
         public List<string> Courses { get; set; } = new List<string>();
+    }
+
+    public class Language
+    {
+        public int level { get; set; }
+        public string lang { get; set; }
+
     }
 }

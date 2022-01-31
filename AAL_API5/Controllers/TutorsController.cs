@@ -76,13 +76,27 @@ namespace AAL_API.Controllers
                     //
                     foreach (var lang in t.MAspnetUserLanguages)
                     {
-                        apiTutor.Languages.Add(db.MLanguages.Find(lang.LanguageIdFk).LanguageName);
+                        var language = new Language() { 
+                            level = lang.LanguageLevelIdFk,
+                            lang = db.MLanguages.Find(lang.LanguageIdFk).LanguageName
+                        };
+                        apiTutor.Languages.Add(language);
                     }
                     //
                     foreach (var course in t.MTutorCourses)
                     {
                         apiTutor.Courses.Add(course.Title);
                     }
+                    apiTutors.Add(apiTutor);
+                    apiTutors.Add(apiTutor);
+                    apiTutors.Add(apiTutor);
+                    apiTutors.Add(apiTutor);
+                    apiTutors.Add(apiTutor);
+                    apiTutors.Add(apiTutor);
+                    apiTutors.Add(apiTutor);
+                    apiTutors.Add(apiTutor);
+                    apiTutors.Add(apiTutor);
+                    apiTutors.Add(apiTutor);
                     apiTutors.Add(apiTutor);
                 }
 

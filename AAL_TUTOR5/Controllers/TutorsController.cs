@@ -316,6 +316,7 @@ namespace AAL_TUTOR5.Controllers
                 //beginner lanaguage level
                 foreach (var lang in languageLevel_Beginner)
                 {
+                    if (string.IsNullOrEmpty(lang)) continue;
                     var ll = new MAspnetUserLanguage();
                     ll.LanguageIdFk = int.Parse(lang);
                     ll.LanguageLevelIdFk = language_levels.Where(i => i.LanguageLevel == "Beginner").First().Id;
@@ -324,6 +325,7 @@ namespace AAL_TUTOR5.Controllers
                 //intermediate lanaguage level
                 foreach (var lang in languageLevel_Intermediate)
                 {
+                    if (string.IsNullOrEmpty(lang)) continue;
                     var ll = new MAspnetUserLanguage();
                     ll.LanguageIdFk = int.Parse(lang);
                     ll.LanguageLevelIdFk = language_levels.Where(i => i.LanguageLevel == "Intermediate").First().Id;
@@ -332,6 +334,7 @@ namespace AAL_TUTOR5.Controllers
                 //advanced lanaguage level
                 foreach (var lang in languageLevel_Advanced)
                 {
+                    if (string.IsNullOrEmpty(lang)) continue;
                     var ll = new MAspnetUserLanguage();
                     ll.LanguageIdFk = int.Parse(lang);
                     ll.LanguageLevelIdFk = language_levels.Where(i => i.LanguageLevel == "Advanced").First().Id;

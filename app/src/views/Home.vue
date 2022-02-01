@@ -9,7 +9,7 @@
     </center>
   </div>
 
-  <div class="top-home-search sticky.">
+  <div class="top-home-search">
     <center>
       <div class="input-group">
           <input type="text" v-model="search_term" class="form-control top-home-search-text" placeholder="Type Course or topic">

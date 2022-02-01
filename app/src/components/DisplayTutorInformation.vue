@@ -31,7 +31,6 @@
                           </b>
                       </div>
                     </span>
-                    <br />
 
                     <span v-for="language in selectedTutorToDisplay.languages" :key="language">
                       <div v-if="language.level == 2">
@@ -41,7 +40,6 @@
                           </b>
                       </div>
                     </span>
-                    <br />
 
                     <span v-for="language in selectedTutorToDisplay.languages" :key="language">
                       <div v-if="language.level == 1">

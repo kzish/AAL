@@ -153,7 +153,7 @@
   </div>
 
   <!-- view selected tutor for small devices -->
-  <div style="display: none!mportant" class="offcanvas offcanvas-end md-hide lg-hide xl-hide xxl-hide" data-bs-backdrop="true" tabindex="-1" id="offcanvasRightViewSelectedTutor" aria-labelledby="offcanvasRightLabel">
+  <div style="display: none!mportant" class="offcanvas offcanvas-end md-hide lg-hide xl-hide xxl-hide" data-bs-backdrop="false" tabindex="-1" id="offcanvasRightViewSelectedTutor" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
       &nbsp;
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>

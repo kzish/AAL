@@ -88,16 +88,6 @@ namespace AAL_API.Controllers
                         apiTutor.Courses.Add(course.Title);
                     }
                     apiTutors.Add(apiTutor);
-                    apiTutors.Add(apiTutor);
-                    apiTutors.Add(apiTutor);
-                    apiTutors.Add(apiTutor);
-                    apiTutors.Add(apiTutor);
-                    apiTutors.Add(apiTutor);
-                    apiTutors.Add(apiTutor);
-                    apiTutors.Add(apiTutor);
-                    apiTutors.Add(apiTutor);
-                    apiTutors.Add(apiTutor);
-                    apiTutors.Add(apiTutor);
                 }
 
                 return Json(new

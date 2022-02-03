@@ -135,7 +135,7 @@
       <div v-for="weekday in days_of_week" :key="weekday">
         <h5>{{weekday}}</h5>
         <div class="row" style="font-size:12px">
-          <div class="col-md-4 col-sm-6"  v-for="time_period in all_time_periods" :key="time_period.id">
+          <div class="col-md-4 col-sm-6" v-for="time_period in all_time_periods" :key="time_period.id">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="true" @click="addRemoveTimePeriod('time_period.Id_weekday')">
               <label class="form-check-label">
@@ -285,12 +285,14 @@ export default {
       this.$refs.tutor_other_mobile.innerHTML = tutor.otherMobile;
     },
     sendTutorEmail(tutor){
- var message = "Hi, I am intrested in your course on Adeyemi Academy ..."
+      var message = "Hi, I am intrested in your course on Adeyemi Academy ..."
       var link = `https://api.whatsapp.com/send?phone=${tutor.mobile}&source=${tutor.email}&text=${message}`
       this.$refs.tutor_whats_app_link.innerHTML = link;
     },
     loadTutorDetails(tutor) {
       this.selectedTutorToDisplay = tutor;
+      document.body.style.overflowY = "visible";
+      document.body.style.paddingRight = "0px";
     },
     updateTutorPaginationHandler(page_number) {
       this.page = Math.trunc(page_number);

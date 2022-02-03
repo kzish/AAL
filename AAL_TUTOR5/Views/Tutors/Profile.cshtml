@@ -29,27 +29,51 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="pills-1" role="tabpanel">
-                    @*row*@
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><span style="color:red">*</span> Firstname</label>
-                                <input name="Firstname" type="text" class="form-control" value="@tutor.MTutor.Firstname" required>
+                    <form action="~/Tutors/UpdateBasicInformation" method="post">
+                        <input type="hidden" name="aspnet_user_id" value="@tutor.Id" />
+                        @*row*@
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><span style="color:red">*</span> Firstname</label>
+                                    <input name="Firstname" type="text" class="form-control" value="@tutor.MTutor.Firstname" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><span style="color:red">*</span> Surname</label>
+                                    <input name="Surname" type="text" class="form-control" value="@tutor.MTutor.Surname" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><span style="color:red">*</span> Email</label>
+                                    <input name="Email" type="text" class="form-control" value="@tutor.Email" required>
+                                    <small><input type="checkbox" value="1" name="ShowEmail" checked="@(tutor.MTutor.ShowEmail==1)" /> display email on profile</small>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><span style="color:red">*</span> Surname</label>
-                                <input name="Surname" type="text" class="form-control" value="@tutor.MTutor.Surname" required>
+
+                        @*row*@
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><span style="color:red"></span> Mobile</label>
+                                    <input name="Mobile" id="Mobile" type="text" value="@tutor.MTutor.Mobile" class="form-control" >
+                                    <br />
+                                    <small><input type="checkbox" value="1" name="MobileAvailableOnWhatsapp" checked="@(tutor.MTutor.MobileAvailableOnWhatsapp==1)" /> available on whatsapp</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><span style="color:red"></span> Other Mobiles</label>
+                                    <input name="OtherMobile" type="text" class="form-control" value="@tutor.MTutor.OtherMobile">
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><span style="color:red">*</span> Email</label>
-                                <input name="Email" type="text" class="form-control" value="@tutor.Email" required>
-                            </div>
-                        </div>
-                    </div>
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
                 <div class="tab-pane fade" id="pills-2" role="tabpanel">
                     @* profile *@
@@ -176,6 +200,8 @@
                                     </div>
                                     <div class="col-md-9">
                                         <b>@workexp.Organization</b>
+                                        <br />
+                                        <b>@workexp.PositionHeld</b>
                                         <br />
                                         <p>@workexp.Roles</p>
                                     </div>
@@ -304,6 +330,13 @@
                         <br />
                         <div class="row">
                             <div class="col-md-12">
+                                <label>Position Held</label>
+                                <input type="text" name="PositionHeld" class="form-control" placeholder="Position Held..." required>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
                                 <label for="disabledTextInput">Roles</label>
                                 <input type="text" name="Roles" class="form-control" placeholder="Roles..." required>
                             </div>
@@ -340,5 +373,17 @@
     });
     $('#work_experience_date_to').Zebra_DatePicker({
         format: 'm Y',
+    });
+
+    var input = document.querySelector("#Mobile");
+    window.intlTelInput(input, {
+        nationalMode:false,
+        initialCountry: "auto",
+        geoIpLookup: function(success, failure) {
+            $.get("https://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+                var countryCode = (resp && resp.country) ? resp.country : "us";
+                success(countryCode);
+            });
+        },
     });
 </script>

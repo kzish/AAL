@@ -15,6 +15,10 @@ namespace SharedModels
         public string CoutryIso { get; set; }
         public string About { get; set; }
         public sbyte Active { get; set; }
+        public string Mobile { get; set; }
+        public string OtherMobile { get; set; }
+        public sbyte MobileAvailableOnWhatsapp { get; set; }
+        public sbyte ShowEmail { get; set; }
 
         public virtual Aspnetuser AspnetUser { get; set; }
     }

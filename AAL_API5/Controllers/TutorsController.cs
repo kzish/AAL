@@ -72,6 +72,10 @@ namespace AAL_API.Controllers
                     apiTutor.ImageUrl = t.MTutor.ImageUrl;
                     apiTutor.CoutryIso = t.MTutor.CoutryIso;
                     apiTutor.About = t.MTutor.About;
+                    apiTutor.Mobile = t.MTutor.Mobile;
+                    apiTutor.OtherMobile = t.MTutor.OtherMobile;
+                    apiTutor.MobileAvailableOnWhatsapp = t.MTutor.MobileAvailableOnWhatsapp;
+                    apiTutor.ShowEmail = t.MTutor.ShowEmail;
                     apiTutor.CoutryName = t.MTutor.CoutryIso == null ? "" : db.MCountries.Find(t.MTutor.CoutryIso).CountryName;
                     //
                     foreach (var lang in t.MAspnetUserLanguages)

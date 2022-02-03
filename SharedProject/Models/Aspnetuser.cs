@@ -18,7 +18,6 @@ namespace SharedModels
             MMoodleUsers = new HashSet<MMoodleUser>();
             MTutorCourses = new HashSet<MTutorCourse>();
             MTutorEducations = new HashSet<MTutorEducation>();
-            MTutorLanguages = new HashSet<MTutorLanguage>();
             MTutorRatings = new HashSet<MTutorRating>();
             MTutorWorkExperiences = new HashSet<MTutorWorkExperience>();
         }
@@ -49,7 +48,6 @@ namespace SharedModels
         public virtual ICollection<MMoodleUser> MMoodleUsers { get; set; }
         public virtual ICollection<MTutorCourse> MTutorCourses { get; set; }
         public virtual ICollection<MTutorEducation> MTutorEducations { get; set; }
-        public virtual ICollection<MTutorLanguage> MTutorLanguages { get; set; }
         public virtual ICollection<MTutorRating> MTutorRatings { get; set; }
         public virtual ICollection<MTutorWorkExperience> MTutorWorkExperiences { get; set; }
     }

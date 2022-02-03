@@ -59,6 +59,7 @@
       </div>
     </div>
   </div>
+  
   <div class="tutor-list">
     <div class="row">
       <div class="col-md-12">
@@ -92,9 +93,9 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="contact-tutor-icons">
-                      <img src="/assets/img/whatsapp_icon.png" class="tutor-contact-icons" />
-                      <img src="/assets/img/call_icon.png" class="tutor-contact-icons" />
-                      <img src="/assets/img/email_icon.png" class="tutor-contact-icons-email" />
+                      <img @click="showTutorWhatsAppLink(tutor)" v-if="tutor.mobileAvailableOnWhatsapp" data-bs-toggle="modal" data-bs-target="#tutor_contact_details_whatsapp" src="/assets/img/whatsapp_icon.png" class="tutor-contact-icons" />
+                      <img @click="showTutorMobileNumbers(tutor)" v-if="tutor.mobile != null" data-bs-toggle="modal" data-bs-target="#tutor_contact_details_call" src="/assets/img/call_icon.png" class="tutor-contact-icons" />
+                      <img @click="sendTutorEmail(tutor)" data-bs-toggle="modal" data-bs-target="#tutor_contact_details_email" src="/assets/img/email_icon.png" class="tutor-contact-icons-email" />
                     </div>
                   </div>
                 </div>
@@ -172,6 +173,51 @@
           :on-cancel="onCancel"
           :is-full-page="true" />
 
+  <!-- tutor contact details modal -->
+  <div class="modal fade" id="tutor_contact_details_whatsapp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Contact Tutor on Whatsapp</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6>click the link below to contact the tutor on whatsapp</h6>
+          <div ref="tutor_whats_app_link"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="tutor_contact_details_call" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Tutor Mobile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div ref="tutor_mobile"></div>
+          <hr />
+          Other numbers
+          <div ref="tutor_other_mobile"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="tutor_contact_details_email" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Contact Tutor on Email</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6>click the link below to contact the tutor on whatsapp</h6>
+          <div ref="tutor_whats_app_link1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -228,6 +274,21 @@ export default {
     // });
   },
   methods: {
+
+    showTutorWhatsAppLink(tutor){
+      var message = "Hi, I am intrested in your course on Adeyemi Academy ..."
+      var link = `https://api.whatsapp.com/send?phone=${tutor.mobile}&source=${tutor.email}&text=${message}`
+      this.$refs.tutor_whats_app_link.innerHTML = `<a href='${link}' target='${tutor.email}'>${link}</a>`;
+    },
+    showTutorMobileNumbers(tutor){
+      this.$refs.tutor_mobile.innerHTML = tutor.mobile;
+      this.$refs.tutor_other_mobile.innerHTML = tutor.otherMobile;
+    },
+    sendTutorEmail(tutor){
+ var message = "Hi, I am intrested in your course on Adeyemi Academy ..."
+      var link = `https://api.whatsapp.com/send?phone=${tutor.mobile}&source=${tutor.email}&text=${message}`
+      this.$refs.tutor_whats_app_link.innerHTML = link;
+    },
     loadTutorDetails(tutor) {
       this.selectedTutorToDisplay = tutor;
     },

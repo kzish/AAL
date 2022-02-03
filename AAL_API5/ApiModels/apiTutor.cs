@@ -17,6 +17,10 @@ namespace AAL_API5.ApiModels
         public string About { get; set; }
         public List<Language> Languages { get; set; } = new List<Language>();
         public List<string> Courses { get; set; } = new List<string>();
+        public string Mobile { get; set; }
+        public string OtherMobile { get; set; }
+        public sbyte MobileAvailableOnWhatsapp { get; set; }
+        public sbyte ShowEmail { get; set; }
     }
 
     public class Language

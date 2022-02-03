@@ -204,89 +204,46 @@ namespace AAL_TUTOR5.Controllers
             return View();
         }
 
+        [HttpPost("UpdateBasicInformation")]
+         public async Task<IActionResult> UpdateBasicInformation(string aspnet_user_id
+            , sbyte MobileAvailableOnWhatsapp
+            , string Mobile
+            , string Firstname
+            , string Surname
+            , string Email
+            , string OtherMobile
+            , sbyte ShowEmail
+            )
+        {
+            try
+            {
+                var tutor = db.Aspnetusers
+                .Where(i => i.Email == User.Identity.Name)
+                .Include(i => i.MTutor)
+                .FirstOrDefault();
+                //
+                tutor.MTutor.Firstname = Firstname;
+                tutor.MTutor.Surname = Surname;
+                tutor.MTutor.Email = Email;
+                tutor.MTutor.Mobile = Mobile;
+                tutor.MTutor.OtherMobile = OtherMobile;
+                tutor.MTutor.ShowEmail = ShowEmail;
+                tutor.MTutor.MobileAvailableOnWhatsapp = MobileAvailableOnWhatsapp;
+                //
+                await db.SaveChangesAsync();
 
-        ////[HttpGet("EditClient/{id}")]
-        ////public IActionResult EditClient(string id)
-        ////{
-        ////    ViewBag.title = "Edit Client";
-        ////    var client = db.AspNetUsers.Where(i => i.Id == id).Include(i => i.MClient).FirstOrDefault();
-        ////    ViewBag.client = client;
-        ////    return View();
-        ////}
-        ////[HttpPost("EditClient")]
-        ////public IActionResult EditClient(MClient client, string id)
-        ////{
-        ////    ViewBag.title = "Edit Client";
-        ////    try
-        ////    {
-        ////        var asp_net_user = db.AspNetUsers.Where(i => i.Id == id).Include(i => i.MClient).FirstOrDefault();
-        ////        asp_net_user.MClient = client;
-        ////        db.SaveChanges();
-        ////        TempData["msg"] = "Saved";
-        ////        TempData["type"] = "success";
-        ////    }
-        ////    catch (Exception ex)
-        ////    {
-        ////        TempData["msg"] = ex.Message;
-        ////        TempData["type"] = "error";
-        ////    }
-        ////    return RedirectToAction("EditClient", new { id });
-        ////}
+                TempData["type"] = "success";
+                TempData["msg"] = "Saved";
+            }
+            catch (Exception ex)
+            {
+                TempData["type"] = "error";
+                TempData["msg"] = "Error occurred";
+                Log.Error(ex.Message);
+            }
+            return RedirectToAction("Profile");
 
-        ////[HttpGet("ScheduleClientUpdates/{id}")]
-        ////public IActionResult ScheduleClientUpdates(string id)
-        ////{
-        ////    var asp_net_user = db.AspNetUsers
-        ////        .Where(i => i.Id == id)
-        ////        .Include(i => i.MScheduledUpdates)
-        ////        .Include(i => i.MClient)
-        ////        .FirstOrDefault();
-        ////    ViewBag.title = "ScheduleClientUpdates";
-        ////    ViewBag.client = asp_net_user;
-        ////    return View();
-        ////}
-
-        ////[HttpPost("AddScheduleClientUpdates")]
-        ////public IActionResult AddScheduleClientUpdates(MScheduledUpdates schedule)
-        ////{
-        ////    try
-        ////    {
-        ////        ViewBag.title = "ScheduleClientUpdates";
-        ////        db.MScheduledUpdates.Add(schedule);
-        ////        db.SaveChanges();
-        ////        TempData["msg"] = "Saved";
-        ////        TempData["type"] = "success";
-        ////    }
-        ////    catch (Exception ex)
-        ////    {
-        ////        TempData["msg"] = ex.Message;
-        ////        TempData["type"] = "error";
-        ////    }
-        ////    return RedirectToAction("ScheduleClientUpdates", new { id = schedule.AspNetUserId });
-        ////}
-
-        ////[HttpGet("DeleteScheduleClientUpdates/{id}")]
-        ////public IActionResult DeleteScheduleClientUpdates(int id)
-        ////{
-        ////    string asp_net_user_id = string.Empty;
-        ////    try
-        ////    {
-        ////        ViewBag.title = "DeleteScheduleClientUpdates";
-        ////        var schedule = db.MScheduledUpdates.Find(id);
-        ////        asp_net_user_id = schedule.AspNetUserId;
-        ////        db.MScheduledUpdates.Remove(schedule);
-        ////        db.SaveChanges();
-        ////        TempData["msg"] = "Deleted";
-        ////        TempData["type"] = "success";
-        ////    }
-        ////    catch (Exception ex)
-        ////    {
-        ////        TempData["msg"] = ex.Message;
-        ////        TempData["type"] = "error";
-        ////    }
-        ////    return RedirectToAction("ScheduleClientUpdates", new { id = asp_net_user_id });
-        ////}
-
+        }
 
         [HttpPost("UpdateTutorProfile")]
         public async Task<IActionResult> UpdateTutorProfile(string aspnet_user_id
@@ -450,7 +407,6 @@ namespace AAL_TUTOR5.Controllers
             return RedirectToAction("Profile");
         }
 
-
         [HttpPost("AddWorkExperience")]
         public IActionResult AddWorkExperience(MTutorWorkExperience workexp)
         {
@@ -496,7 +452,6 @@ namespace AAL_TUTOR5.Controllers
             return RedirectToAction("Profile");
         }
 
-
         [HttpPost("SaveTimeTable")]
         public async Task<IActionResult> SaveTimeTable(IFormCollection formcollection)
         {
@@ -539,8 +494,6 @@ namespace AAL_TUTOR5.Controllers
 
             return RedirectToAction("Profile");
         }
-
-
 
     }
 }

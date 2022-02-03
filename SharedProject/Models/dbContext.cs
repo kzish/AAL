@@ -36,7 +36,6 @@ namespace SharedModels
         public virtual DbSet<MTutor> MTutors { get; set; }
         public virtual DbSet<MTutorCourse> MTutorCourses { get; set; }
         public virtual DbSet<MTutorEducation> MTutorEducations { get; set; }
-        public virtual DbSet<MTutorLanguage> MTutorLanguages { get; set; }
         public virtual DbSet<MTutorRating> MTutorRatings { get; set; }
         public virtual DbSet<MTutorWorkExperience> MTutorWorkExperiences { get; set; }
 
@@ -591,6 +590,22 @@ namespace SharedModels
 
                 entity.Property(e => e.ImageUrl).HasColumnName("image_url");
 
+                entity.Property(e => e.Mobile)
+                    .HasMaxLength(50)
+                    .HasColumnName("mobile");
+
+                entity.Property(e => e.MobileAvailableOnWhatsapp)
+                    .HasColumnType("tinyint(4)")
+                    .HasColumnName("mobile_available_on_whatsapp");
+
+                entity.Property(e => e.OtherMobile)
+                    .HasMaxLength(150)
+                    .HasColumnName("other_mobile");
+
+                entity.Property(e => e.ShowEmail)
+                    .HasColumnType("tinyint(4)")
+                    .HasColumnName("show_email");
+
                 entity.Property(e => e.Surname)
                     .HasMaxLength(50)
                     .HasColumnName("surname");
@@ -679,52 +694,6 @@ namespace SharedModels
                     .WithMany(p => p.MTutorEducations)
                     .HasForeignKey(d => d.AspnetUserId)
                     .HasConstraintName("FK_m_tutor_education_aspnetusers");
-            });
-
-            modelBuilder.Entity<MTutorLanguage>(entity =>
-            {
-                entity.ToTable("m_tutor_languages");
-
-                entity.HasIndex(e => e.AspnetUserId, "FK_m_tutor_languages_aspnetusers");
-
-                entity.HasIndex(e => e.LanguageLevelId, "FK_m_tutor_languages_e_language_levels");
-
-                entity.HasIndex(e => e.LanguageId, "FK_m_tutor_languages_m_languages");
-
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
-
-                entity.Property(e => e.AspnetUserId)
-                    .IsRequired()
-                    .HasMaxLength(450)
-                    .HasColumnName("aspnet_user_id")
-                    .UseCollation("utf8_general_ci")
-                    .HasCharSet("utf8");
-
-                entity.Property(e => e.LanguageId)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("language_id");
-
-                entity.Property(e => e.LanguageLevelId)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("language_level_id");
-
-                entity.HasOne(d => d.AspnetUser)
-                    .WithMany(p => p.MTutorLanguages)
-                    .HasForeignKey(d => d.AspnetUserId)
-                    .HasConstraintName("FK_m_tutor_languages_aspnetusers");
-
-                entity.HasOne(d => d.Language)
-                    .WithMany(p => p.MTutorLanguages)
-                    .HasForeignKey(d => d.LanguageId)
-                    .HasConstraintName("FK_m_tutor_languages_m_languages");
-
-                entity.HasOne(d => d.LanguageLevel)
-                    .WithMany(p => p.MTutorLanguages)
-                    .HasForeignKey(d => d.LanguageLevelId)
-                    .HasConstraintName("FK_m_tutor_languages_e_language_levels");
             });
 
             modelBuilder.Entity<MTutorRating>(entity =>

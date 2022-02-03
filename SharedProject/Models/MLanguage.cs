@@ -10,7 +10,6 @@ namespace SharedModels
         public MLanguage()
         {
             MAspnetUserLanguages = new HashSet<MAspnetUserLanguage>();
-            MTutorLanguages = new HashSet<MTutorLanguage>();
         }
 
         public int Id { get; set; }
@@ -19,6 +18,5 @@ namespace SharedModels
         public string Value { get; set; }
 
         public virtual ICollection<MAspnetUserLanguage> MAspnetUserLanguages { get; set; }
-        public virtual ICollection<MTutorLanguage> MTutorLanguages { get; set; }
     }
 }

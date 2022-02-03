@@ -54,6 +54,10 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\data\" />
+  </ItemGroup>
+
   <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
 
 </Project>

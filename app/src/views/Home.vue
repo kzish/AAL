@@ -36,6 +36,7 @@
           label="countryName"
           v-model="selected_countries"
           :options="all_countries"
+          max="2"
           ref="multiselect_countries"
         />
         <br />
@@ -49,6 +50,7 @@
           label="languageName"
           v-model="selected_languages"
           :options="all_languages"
+          max="3"
           ref="multiselect_languages"
         />
         <br/>
@@ -291,7 +293,7 @@ export default {
     },
     loadTutorDetails(tutor) {
       this.selectedTutorToDisplay = tutor;
-      document.body.style.overflowY = "visible";
+      document.body.style.overflowY = "visible";//stop bropback from preventing the document scrolling
       document.body.style.paddingRight = "0px";
     },
     updateTutorPaginationHandler(page_number) {
@@ -303,7 +305,11 @@ export default {
     },
     fetchTutors(){
       this.isLoading = true;
-      axios.get(globals.api_end_point+"/Tutors/FetchTutors?page=" + this.page + "&search_param=" + this.search_term)
+      axios.get(globals.api_end_point + "/Tutors/FetchTutors?page=" + this.page
+      + "&search_param=" + this.search_term
+      + "&selected_countries=" + this.selected_countries
+      + "&selected_languages=" + this.selected_languages
+      )
           .then(response => {
             if(response.data.res === "ok") {
               this.tutors = response.data.tutors;

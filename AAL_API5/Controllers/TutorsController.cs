@@ -32,8 +32,20 @@ namespace AAL_API.Controllers
         }
 
         [HttpGet("FetchTutors")]
-        public JsonResult FetchTutors(string search_param, int page = 1)
+        public JsonResult FetchTutors(string search_param, string selected_countries, string selected_languages, int page = 1)
         {
+            var list_countries = new List<string>();
+            var list_languages = new List<string>();
+
+            if (!string.IsNullOrEmpty(selected_countries))
+            {
+                list_countries = selected_countries.Split(',').ToList();
+            }
+            if (!string.IsNullOrEmpty(selected_languages))
+            {
+                list_languages = selected_languages.Split(',').ToList();
+            }
+
             page--;//page starts at 0
             try
             {
@@ -55,6 +67,18 @@ namespace AAL_API.Controllers
                 .Include(i => i.MTutor)
                 .Include(i => i.MAspnetUserLanguages)
                 .Include(i => i.MTutorCourses);
+
+                if(list_languages.Count > 0)
+                {
+                    var db_languages = db.MLanguages.Where(i => list_languages.Contains(i.Iso)).Select(i=>i.Id).ToList();
+                    tutors_query = tutors_query.Where(i => i.MAspnetUserLanguages.Any(l => db_languages.Contains(l.LanguageIdFk)));
+                }
+
+                if (list_countries.Count > 0)
+                {
+                    var db_countries = db.MCountries.Where(i => list_countries.Contains(i.CountryIso)).Select(i => i.CountryIso).ToList();
+                    tutors_query = tutors_query.Where(i => db_countries.Contains(i.MTutor.CoutryIso));
+                }
 
                 var tutors = tutors_query.Skip(page * array_limit)
                 .Take(array_limit)

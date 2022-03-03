@@ -206,7 +206,7 @@ namespace AAL_API.Controllers
                 .From(page * array_limit)
                 .Size(array_limit)
                 .Query(q =>q.Match(m=>m.Field(f=>f.About).Query(search_param))
-                        || q.Match(m=>m.Field(f=>f.Firstname).Query("*"+search_param+"*"))
+                        || q.Match(m=>m.Field(f=>f.Firstname).Query(search_param))
                         || q.Match(m=>m.Field(f=>f.Surname).Query(search_param))
                         || q.Match(m=>m.Field(f=>f.Courses).Query(search_param))
                     )

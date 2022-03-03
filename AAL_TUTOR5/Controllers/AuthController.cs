@@ -18,12 +18,12 @@ namespace admin.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         MoodleRepository moodleRepository;
-        dbContext db = new dbContext();
+        //dbContext db = new dbContext();
 
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            db.Dispose();
+            //db.Dispose();
         }
         public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
         {
@@ -123,14 +123,14 @@ namespace admin.Controllers
                     {
                         //add moodle user to db
                         new_tutor_moodle_user.MoodleId = res.moodle_user_id;
-                        db.MMoodleUsers.Add(new_tutor_moodle_user);
+                        AppSettings.db.MMoodleUsers.Add(new_tutor_moodle_user);
                         tutor.AspnetUserId = id_user.Id;
                         tutor.Email = aspNetUser.Email;
-                        db.MTutors.Add(tutor);
-                        db.SaveChanges();
+                        AppSettings.db.MTutors.Add(tutor);
+                        AppSettings.db.SaveChanges();
                         //add identity user to tutor role
                         await userManager.AddToRoleAsync(id_user, "tutor");
-                        //db.Database.CommitTransaction();
+                        //AppSettings.db.Database.CommitTransaction();
                         //
                         TempData["type"] = "success";
                         TempData["msg"] = "Account Created: You may now Login";

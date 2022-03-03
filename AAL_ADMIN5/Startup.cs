@@ -32,15 +32,8 @@ namespace AAL_ADMIN5
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.ForwardedHeaders =
-                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-                options.KnownNetworks.Clear();
-                options.KnownProxies.Clear();
-            });
-
             services.AddScoped<Globals.MoodleRepository>();
+            services.AddScoped<Globals.EsRepository>();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
@@ -48,7 +41,8 @@ namespace AAL_ADMIN5
             });
             var con = Configuration.GetConnectionString("db");
             var ver = ServerVersion.AutoDetect(con);
-            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(con,ver), ServiceLifetime.Singleton);
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(con, ver)
+            .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Error), ServiceLifetime.Transient);
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddDefaultUI()
@@ -57,6 +51,7 @@ namespace AAL_ADMIN5
             services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opt =>
             {
                 opt.LoginPath = "/Auth/Login";
+                opt.AccessDeniedPath = "/Auth/Login";
             });
             //for tempdata
             services.Configure<CookieTempDataProviderOptions>(options =>
@@ -69,14 +64,6 @@ namespace AAL_ADMIN5
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //app.UseForwardedHeaders();
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
-
-            app.UsePathBase(new PathString("/admin-portal"));
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -89,7 +76,7 @@ namespace AAL_ADMIN5
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();//place before mvc
+            app.UseCookiePolicy();//place befroe mvc
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -109,6 +96,7 @@ namespace AAL_ADMIN5
                 .WriteTo.Console()
                 .WriteTo.File(Globals.AppSettings.logs)
                 .CreateLogger();
+
             var app_name = env.ApplicationName;
             app.Run(async (context) =>
             {

@@ -15,12 +15,12 @@ namespace admin.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
-        dbContext db = new dbContext();
+        //dbContext db = new dbContext();
 
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            db.Dispose();
+            //db.Dispose();
         }
         public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,RoleManager<IdentityRole>roleManager)
         {

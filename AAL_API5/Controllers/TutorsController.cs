@@ -1,9 +1,9 @@
-﻿using AAL_API5.ApiModels;
-using Globals;
+﻿using Globals;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Nest;
 using Serilog;
 using SharedModels;
 using System;
@@ -32,19 +32,40 @@ namespace AAL_API.Controllers
         }
 
         [HttpGet("FetchTutors")]
-        public JsonResult FetchTutors(string search_param, string selected_countries, string selected_languages, int page = 1)
+        public JsonResult FetchTutors(string search_param,
+            string selected_timeperiod_sunday,
+            string selected_timeperiod_monday,
+            string selected_timeperiod_tuesday,
+            string selected_timeperiod_wednesday,
+            string selected_timeperiod_thursday,
+            string selected_timeperiod_friday,
+            string selected_timeperiod_saturday,
+            string selected_countries, 
+            string selected_languages, 
+            int page = 1)
         {
+            //
             var list_countries = new List<string>();
             var list_languages = new List<string>();
-
-            if (!string.IsNullOrEmpty(selected_countries))
-            {
-                list_countries = selected_countries.Split(',').ToList();
-            }
-            if (!string.IsNullOrEmpty(selected_languages))
-            {
-                list_languages = selected_languages.Split(',').ToList();
-            }
+            //
+            var list_selected_timeperiod_sunday = new List<string>();
+            var list_selected_timeperiod_monday = new List<string>();
+            var list_selected_timeperiod_tuesday = new List<string>();
+            var list_selected_timeperiod_wednesday = new List<string>();
+            var list_selected_timeperiod_thursday = new List<string>();
+            var list_selected_timeperiod_friday = new List<string>();
+            var list_selected_timeperiod_saturday = new List<string>();
+            //
+            if (!string.IsNullOrEmpty(selected_countries)) list_countries = selected_countries.Split(',').ToList();
+            if (!string.IsNullOrEmpty(selected_languages)) list_languages = selected_languages.Split(',').ToList();
+            //
+            if (!string.IsNullOrEmpty(selected_timeperiod_sunday)) list_selected_timeperiod_sunday = selected_timeperiod_sunday.Split(',').ToList(); 
+            if (!string.IsNullOrEmpty(selected_timeperiod_monday)) list_selected_timeperiod_monday = selected_timeperiod_monday.Split(',').ToList(); 
+            if (!string.IsNullOrEmpty(selected_timeperiod_tuesday)) list_selected_timeperiod_tuesday = selected_timeperiod_tuesday.Split(',').ToList(); 
+            if (!string.IsNullOrEmpty(selected_timeperiod_wednesday)) list_selected_timeperiod_wednesday = selected_timeperiod_wednesday.Split(',').ToList(); 
+            if (!string.IsNullOrEmpty(selected_timeperiod_thursday)) list_selected_timeperiod_thursday = selected_timeperiod_thursday.Split(',').ToList(); 
+            if (!string.IsNullOrEmpty(selected_timeperiod_friday)) list_selected_timeperiod_friday = selected_timeperiod_friday.Split(',').ToList(); 
+            if (!string.IsNullOrEmpty(selected_timeperiod_saturday)) list_selected_timeperiod_saturday = selected_timeperiod_saturday.Split(',').ToList(); 
 
             page--;//page starts at 0
             try
@@ -67,17 +88,73 @@ namespace AAL_API.Controllers
                 .Include(i => i.MTutor)
                 .Include(i => i.MAspnetUserLanguages)
                 .Include(i => i.MTutorCourses);
-
+                //
                 if(list_languages.Count > 0)
                 {
                     var db_languages = db.MLanguages.Where(i => list_languages.Contains(i.Iso)).Select(i=>i.Id).ToList();
                     tutors_query = tutors_query.Where(i => i.MAspnetUserLanguages.Any(l => db_languages.Contains(l.LanguageIdFk)));
                 }
-
+                //
                 if (list_countries.Count > 0)
                 {
                     var db_countries = db.MCountries.Where(i => list_countries.Contains(i.CountryIso)).Select(i => i.CountryIso).ToList();
                     tutors_query = tutors_query.Where(i => db_countries.Contains(i.MTutor.CoutryIso));
+                }
+                //sunday time periods
+                if (list_selected_timeperiod_sunday.Count > 0)
+                {
+                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_sunday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
+                    tutors_query = tutors_query
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Sunday"))
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
+                }
+                //monday time periods
+                if (list_selected_timeperiod_monday.Count > 0)
+                {
+                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_monday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
+                    tutors_query = tutors_query
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Monday"))
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
+                }
+                //tuesday time periods
+                if (list_selected_timeperiod_tuesday.Count > 0)
+                {
+                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_tuesday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
+                    tutors_query = tutors_query
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Tuesday"))
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
+                }
+                //wednesday time periods
+                if (list_selected_timeperiod_wednesday.Count > 0)
+                {
+                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_wednesday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
+                    tutors_query = tutors_query
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Wednesday"))
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
+                }
+                //thursday time periods
+                if (list_selected_timeperiod_thursday.Count > 0)
+                {
+                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_thursday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
+                    tutors_query = tutors_query
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Thursday"))
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
+                }
+                //friday time periods
+                if (list_selected_timeperiod_friday.Count > 0)
+                {
+                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_friday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
+                    tutors_query = tutors_query
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Friday"))
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
+                }
+                //saturday time periods
+                if (list_selected_timeperiod_saturday.Count > 0)
+                {
+                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_saturday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
+                    tutors_query = tutors_query
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Saturday"))
+                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
                 }
 
                 var tutors = tutors_query.Skip(page * array_limit)
@@ -104,7 +181,7 @@ namespace AAL_API.Controllers
                     //
                     foreach (var lang in t.MAspnetUserLanguages)
                     {
-                        var language = new Language() { 
+                        var language = new Globals.Language() { 
                             level = lang.LanguageLevelIdFk,
                             lang = db.MLanguages.Find(lang.LanguageIdFk).LanguageName
                         };
@@ -118,12 +195,32 @@ namespace AAL_API.Controllers
                     apiTutors.Add(apiTutor);
                 }
 
+                //var searchRequest = new SearchRequest<apiTutor> { 
+                //    Query = new MatchAllQuery()
+                //};
+
+                //var searchResponse = AppSettings.EsClient.Search<apiTutor>(searchRequest).Documents;
+
+                var searchResponse = AppSettings.EsClient.Search<apiTutor>(s => s
+                .Index("tutors")
+                .From(page * array_limit)
+                .Size(array_limit)
+                .Query(q =>q.Match(m=>m.Field(f=>f.About).Query(search_param))
+                        || q.Match(m=>m.Field(f=>f.Firstname).Query("*"+search_param+"*"))
+                        || q.Match(m=>m.Field(f=>f.Surname).Query(search_param))
+                        || q.Match(m=>m.Field(f=>f.Courses).Query(search_param))
+                    )
+                ).Documents;
+
+
                 return Json(new
                 {
                     res = "ok",
-                    tutors = apiTutors,
+                    tutors = searchResponse,
+                    //tutors = apiTutors,
                     total_tutors = tutors_query.Count(),
-                    items_per_page = array_limit
+                    items_per_page = array_limit,
+                    es = searchResponse
                 });
             }
             catch (Exception ex)

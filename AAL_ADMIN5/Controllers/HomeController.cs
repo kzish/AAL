@@ -14,11 +14,11 @@ namespace SpeedLinkAdminPortal.Controllers
     [Authorize(Roles = "admin")]
     public class HomeController : Controller
     {
-        dbContext db = new dbContext();
+        //dbContext db = new dbContext();
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            db.Dispose();
+            //db.Dispose();
         }
 
         RoleManager<IdentityRole> roleManager;

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Web;
 using Microsoft.Extensions.Configuration;
+using Nest;
+using SharedModels;
 
 namespace Globals
 {
@@ -19,5 +21,8 @@ namespace Globals
         public static string connection_string;
         public static string logs;
         public static string api_endpoint;
+        public static string es_endpoint;
+        public static ElasticClient EsClient;
+        public static dbContext db;
     }
 }

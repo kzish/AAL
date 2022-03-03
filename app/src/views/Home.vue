@@ -56,7 +56,7 @@
         <br/>
       </div>
       <div class="col-md-4 col-sm-12 col-xs-12">
-        <input type="text" class="form-control top-home-search-text" placeholder="Select time" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightSelectTime" readonly />
+        <input type="text" :value="selectedDays" class="form-control top-home-search-text" placeholder="Select time" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightSelectTime" readonly />
         <br />
       </div>
     </div>
@@ -129,7 +129,7 @@
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRightSelectTime" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
       <!-- <h5 id="offcanvasRightLabel">Select Time</h5> -->
-      <button type="button" class="btn btn-outline-danger">Clear all</button> Select Availability
+      <button type="button" @click="clearAllSelectedTimePeriods" class="btn btn-outline-danger">Clear all</button> Select Availability
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -137,9 +137,9 @@
       <div v-for="weekday in days_of_week" :key="weekday">
         <h5>{{weekday}}</h5>
         <div class="row" style="font-size:12px">
-          <div class="col-md-4 col-sm-6" v-for="time_period in all_time_periods" :key="time_period.id">
+          <div class="col-md-4 col-sm-6" v-for="(time_period, index) in all_time_periods" :key="time_period.id">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="true" @click="addRemoveTimePeriod('time_period.Id_weekday')">
+              <input :ref="'chk_timeperiod_'+weekday+'_'+index" :id="'chk_timeperiod_'+weekday+'_'+index" class="form-check-input chk_timeperiods" type="checkbox" value="true" @click="toggleTimePeriod(weekday, time_period.timePeriod)">
               <label class="form-check-label">
                   <b>{{time_period.timePeriod}}</b>
                   <br />
@@ -256,14 +256,20 @@ export default {
       items_per_page: 0,
       total_pages: 0,
       all_countries: null,
-      selected_countries: null,
+      selected_countries: [],
       all_languages: null,
-      selected_languages: null,
+      selected_languages: [],
       showTutorModal: false,
       selectedTutorToDisplay:null,
       days_of_week: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       all_time_periods: null,
-      selected_time_periods: null,
+      selected_timeperiod_sunday:[],
+      selected_timeperiod_monday:[],
+      selected_timeperiod_tuesday:[],
+      selected_timeperiod_wednesday:[],
+      selected_timeperiod_thursday:[],
+      selected_timeperiod_friday:[],
+      selected_timeperiod_saturday:[],
     }
   },
   mounted(){
@@ -275,8 +281,144 @@ export default {
     //     alert('ready');
     // });
   },
+  computed: {
+    // a computed getter
+    selectedDays: function () {
+      let selectedDaysCount = 0;
+      if(this.selected_timeperiod_sunday.length > 0) selectedDaysCount ++;
+      if(this.selected_timeperiod_monday.length > 0) selectedDaysCount ++;
+      if(this.selected_timeperiod_tuesday.length > 0) selectedDaysCount ++;
+      if(this.selected_timeperiod_wednesday.length > 0) selectedDaysCount ++;
+      if(this.selected_timeperiod_thursday.length > 0) selectedDaysCount ++;
+      if(this.selected_timeperiod_friday.length > 0) selectedDaysCount ++;
+      if(this.selected_timeperiod_saturday.length > 0) selectedDaysCount ++;
+      if(selectedDaysCount > 1) {
+        return selectedDaysCount + " Days selected";
+      } else if(selectedDaysCount == 1) {
+        return selectedDaysCount + " Day selected";
+      } else {
+        return "";
+      }
+    }
+  },
   methods: {
+    clearAllSelectedTimePeriods() {
 
+      this.selected_timeperiod_sunday = [];
+      this.selected_timeperiod_monday = [];
+      this.selected_timeperiod_tuesday = [];
+      this.selected_timeperiod_wednesday = [];
+      this.selected_timeperiod_thursday = [];
+      this.selected_timeperiod_friday = [];
+      this.selected_timeperiod_saturday = [];
+
+      var checkboxes = document.getElementsByClassName('chk_timeperiods');
+      for(let obj in checkboxes) {
+        checkboxes[obj].checked = false;
+      }
+    },
+    toggleTimePeriod(day, timeperiod) {
+      let index = 0;
+      let found = false;
+
+      if(day == 'Sunday') { 
+        for (let element of this.selected_timeperiod_sunday) {
+          if(element == timeperiod) {
+            this.selected_timeperiod_sunday.splice(index, 1);
+            found = true;
+            break;
+          }
+          index ++;
+        }
+        if( !found ) {
+          this.selected_timeperiod_sunday.push(timeperiod);
+        }
+      }
+
+      if(day == 'Monday') { 
+        for (let element of this.selected_timeperiod_monday) {
+          if(element == timeperiod) {
+            this.selected_timeperiod_monday.splice(index, 1);
+            found = true;
+            break;
+          }
+          index ++;
+        }
+        if( !found ) {
+          this.selected_timeperiod_monday.push(timeperiod);
+        }
+      }
+
+      if(day == 'Tuesday') { 
+        for (let element of this.selected_timeperiod_tuesday) {
+          if(element == timeperiod) {
+            this.selected_timeperiod_tuesday.splice(index, 1);
+            found = true;
+            break;
+          }
+          index ++;
+        }
+        if( !found ) {
+          this.selected_timeperiod_tuesday.push(timeperiod);
+        }
+      }
+
+      if(day == 'Wednesday') { 
+        for (let element of this.selected_timeperiod_wednesday) {
+          if(element == timeperiod) {
+            this.selected_timeperiod_wednesday.splice(index, 1);
+            found = true;
+            break;
+          }
+          index ++;
+        }
+        if( !found ) {
+          this.selected_timeperiod_wednesday.push(timeperiod);
+        }
+      }
+
+      if(day == 'Thursday') { 
+        for (let element of this.selected_timeperiod_thursday) {
+          if(element == timeperiod) {
+            this.selected_timeperiod_thursday.splice(index, 1);
+            found = true;
+            break;
+          }
+          index ++;
+        }
+        if( !found ) {
+          this.selected_timeperiod_thursday.push(timeperiod);
+        }
+      }
+
+      if(day == 'Friday') { 
+        for (let element of this.selected_timeperiod_friday) {
+          if(element == timeperiod) {
+            this.selected_timeperiod_friday.splice(index, 1);
+            found = true;
+            break;
+          }
+          index ++;
+        }
+        if( !found ) {
+          this.selected_timeperiod_friday.push(timeperiod);
+        }
+      }
+
+      if(day == 'Saturday') { 
+        for (let element of this.selected_timeperiod_saturday) {
+          if(element == timeperiod) {
+            this.selected_timeperiod_saturday.splice(index, 1);
+            found = true;
+            break;
+          }
+          index ++;
+        }
+        if( !found ) {
+          this.selected_timeperiod_saturday.push(timeperiod);
+        }
+      }
+    },
     showTutorWhatsAppLink(tutor){
       var message = "Hi, I am intrested in your course on Adeyemi Academy ..."
       var link = `https://api.whatsapp.com/send?phone=${tutor.mobile}&source=${tutor.email}&text=${message}`
@@ -307,6 +449,13 @@ export default {
       this.isLoading = true;
       axios.get(globals.api_end_point + "/Tutors/FetchTutors?page=" + this.page
       + "&search_param=" + this.search_term
+      + "&selected_timeperiod_sunday=" + this.selected_timeperiod_sunday
+      + "&selected_timeperiod_monday=" + this.selected_timeperiod_monday
+      + "&selected_timeperiod_tuesday=" + this.selected_timeperiod_tuesday
+      + "&selected_timeperiod_wednesday=" + this.selected_timeperiod_wednesday
+      + "&selected_timeperiod_thursday=" + this.selected_timeperiod_thursday
+      + "&selected_timeperiod_friday=" + this.selected_timeperiod_friday
+      + "&selected_timeperiod_saturday=" + this.selected_timeperiod_saturday
       + "&selected_countries=" + this.selected_countries
       + "&selected_languages=" + this.selected_languages
       )

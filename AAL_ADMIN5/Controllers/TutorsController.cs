@@ -21,24 +21,27 @@ namespace Admin.Controllers
 {
     [Route("Tutors")]
     [Route("")]
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
     public class TutorsController : Controller
     {
-        dbContext db = new dbContext();
+        //dbContext db = new dbContext();
         UserManager<IdentityUser> userManager;
         RoleManager<IdentityRole> roleManager;
         MoodleRepository moodleRepository;
+        EsRepository esRepository;
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            db.Dispose();
+            //db.Dispose();
         }
 
-        public TutorsController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
+        public TutorsController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository, EsRepository esRepository)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.moodleRepository = moodleRepository;
+            this.esRepository = esRepository;
         }
 
         [HttpGet("Index")]
@@ -47,7 +50,7 @@ namespace Admin.Controllers
         {
             ViewBag.title = "Tutors";
 
-            var tutors_query = db.Aspnetusers.AsQueryable();
+            var tutors_query = AppSettings.db.Aspnetusers.AsQueryable();
             //filter
             if (!string.IsNullOrEmpty(search_param))
             {
@@ -77,22 +80,25 @@ namespace Admin.Controllers
         [HttpGet("EnableTutor/{id}/{page}")]
         public IActionResult EnableTutor(string id, int page)
         {
-            var tutor = db.MTutors.Where(i => i.AspnetUserId == id).FirstOrDefault();
+            var tutor = AppSettings.db.MTutors.Where(i => i.AspnetUserId == id).FirstOrDefault();
             tutor.Active = 1;
-            db.SaveChanges();
+            AppSettings.db.SaveChanges();
             TempData["type"] = "success";
             TempData["msg"] = "Enabled";
+            esRepository.IndexTutor(tutor.AspnetUserId);
+
             return RedirectToAction("Index");
         }
 
         [HttpGet("DisableTutor/{id}/{page}")]
         public IActionResult DisableTutor(string id, int page)
         {
-            var tutor = db.MTutors.Where(i => i.AspnetUserId == id).FirstOrDefault();
+            var tutor = AppSettings.db.MTutors.Where(i => i.AspnetUserId == id).FirstOrDefault();
             tutor.Active = 0;
-            db.SaveChanges();
+            AppSettings.db.SaveChanges();
             TempData["type"] = "warning";
             TempData["msg"] = "Disabled";
+            var res = esRepository.IndexTutor(tutor.AspnetUserId);
             return RedirectToAction("Index");
         }
 
@@ -102,7 +108,7 @@ namespace Admin.Controllers
             ViewBag.title = "Delete Tutor";
             try
             {
-                var tutor = db.MMoodleUsers.Where(i => i.AspnetUserId == id).FirstOrDefault();
+                var tutor = AppSettings.db.MMoodleUsers.Where(i => i.AspnetUserId == id).FirstOrDefault();
                 dynamic res = this.moodleRepository.DeleteMoodleUser(tutor);
 
                 if (res.res == "err")
@@ -113,11 +119,12 @@ namespace Admin.Controllers
                 else if (res.res == "ok")
                 {
                     //remove moodle user, aspnetuser
-                    db.MMoodleUsers.Remove(tutor);
+                    AppSettings.db.MMoodleUsers.Remove(tutor);
                     var client_user = await userManager.FindByIdAsync(id);
                     await userManager.DeleteAsync(client_user);
                     TempData["type"] = "success";
                     TempData["msg"] = "Deleted";
+                    //esRepository.IndexTutor(tutor.AspnetUserId);
                 }
 
             }
@@ -135,7 +142,7 @@ namespace Admin.Controllers
         {
             ViewBag.title = "ViewTutorProfile";
 
-            var tutor = db.Aspnetusers
+            var tutor = AppSettings.db.Aspnetusers
                 .Where(i => i.Id == id)
                 .Include(i => i.MMoodleUsers)
                 .Include(i => i.MTutorRatings)
@@ -147,11 +154,11 @@ namespace Admin.Controllers
                 .Include(i => i.MAspnetUserAvailableTimes)
                 .FirstOrDefault();
             //
-            var language_levels = db.ELanguageLevels.ToList();
-            var languages = db.MLanguages.ToList();
-            var countries = db.MCountries.ToList();
-            var degrees = db.MDiplomasOrDegrees.ToList();
-            var time_periods = db.ETimePeriods.OrderBy(i => i.Sequence).ToList();
+            var language_levels = AppSettings.db.ELanguageLevels.ToList();
+            var languages = AppSettings.db.MLanguages.ToList();
+            var countries = AppSettings.db.MCountries.ToList();
+            var degrees = AppSettings.db.MDiplomasOrDegrees.ToList();
+            var time_periods = AppSettings.db.ETimePeriods.OrderBy(i => i.Sequence).ToList();
 
 
             ViewBag.time_periods = time_periods;

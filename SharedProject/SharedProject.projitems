@@ -9,8 +9,10 @@
     <Import_RootNamespace>SharedProject</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ApiModels\apiTutor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Globals\AppSetup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Globals\AppSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Globals\EsRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Aspnetrole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Aspnetroleclaim.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Aspnetuser.cs" />

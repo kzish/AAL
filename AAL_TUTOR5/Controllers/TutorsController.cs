@@ -30,23 +30,25 @@ namespace AAL_TUTOR5.Controllers
     [Authorize(Roles = "tutor")]
     public class TutorsController : Controller
     {
-        dbContext db = new dbContext();
+        //dbContext db = new dbContext();
         UserManager<IdentityUser> userManager;
         RoleManager<IdentityRole> roleManager;
         MoodleRepository moodleRepository;
+        EsRepository esRepository;
         IConfiguration configuration;
 
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            db.Dispose();
+            //db.Dispose();
         }
 
-        public TutorsController(IConfiguration configuration, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
+        public TutorsController(IConfiguration configuration, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository, EsRepository esRepository)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.moodleRepository = moodleRepository;
+            this.esRepository = esRepository;
             this.configuration = configuration;
         }
 
@@ -70,7 +72,7 @@ namespace AAL_TUTOR5.Controllers
             ViewBag.title = "Delete Tutor";
             try
             {
-                var tutor = db.MMoodleUsers.Where(i => i.AspnetUserId == id).FirstOrDefault();
+                var tutor = AppSettings.db.MMoodleUsers.Where(i => i.AspnetUserId == id).FirstOrDefault();
                 dynamic res = this.moodleRepository.DeleteMoodleUser(tutor);
 
                 if (res.res == "err")
@@ -81,7 +83,7 @@ namespace AAL_TUTOR5.Controllers
                 else if (res.res == "ok")
                 {
                     //remove moodle user, aspnetuser
-                    db.MMoodleUsers.Remove(tutor);
+                    AppSettings.db.MMoodleUsers.Remove(tutor);
                     var client_user = await userManager.FindByIdAsync(id);
                     await userManager.DeleteAsync(client_user);
                     TempData["type"] = "success";
@@ -105,7 +107,7 @@ namespace AAL_TUTOR5.Controllers
             //
             try
             {
-                db.Database.BeginTransaction();
+                AppSettings.db.Database.BeginTransaction();
                 //
                 var id_user = new IdentityUser()
                 {
@@ -137,14 +139,14 @@ namespace AAL_TUTOR5.Controllers
                     {
                         //add moodle user to db
                         new_tutor_moodle_user.MoodleId = res.moodle_user_id;
-                        db.MMoodleUsers.Add(new_tutor_moodle_user);
+                        AppSettings.db.MMoodleUsers.Add(new_tutor_moodle_user);
                         tutor.AspnetUserId = id_user.Id;
                         tutor.Email = aspNetUser.Email;
-                        db.MTutors.Add(tutor);
-                        db.SaveChanges();
+                        AppSettings.db.MTutors.Add(tutor);
+                        AppSettings.db.SaveChanges();
                         //add identity user to tutor role
                         await userManager.AddToRoleAsync(id_user, "tutor");
-                        db.Database.CommitTransaction();
+                        AppSettings.db.Database.CommitTransaction();
                         //
                         TempData["type"] = "success";
                         TempData["msg"] = "Saved";
@@ -176,7 +178,7 @@ namespace AAL_TUTOR5.Controllers
         {
             ViewBag.title = "Edit Tutor";
             //_userManager.GetUserAsync(HttpContext.User);
-            var tutor = db.Aspnetusers
+            var tutor = AppSettings.db.Aspnetusers
                 .Where(i => i.Email == User.Identity.Name)
                 .Include(i => i.MMoodleUsers)
                 .Include(i => i.MTutorRatings)
@@ -187,13 +189,12 @@ namespace AAL_TUTOR5.Controllers
                 .Include(i => i.MAspnetUserAvailableTimes)
                 .FirstOrDefault();
             //
-            var language_levels = db.ELanguageLevels.ToList();
-            var languages = db.MLanguages.ToList();
-            var countries = db.MCountries.ToList();
-            var degrees = db.MDiplomasOrDegrees.ToList();
-            var time_periods = db.ETimePeriods.OrderBy(i => i.Sequence).ToList();
-
-
+            var language_levels = AppSettings.db.ELanguageLevels.ToList();
+            var languages = AppSettings.db.MLanguages.ToList();
+            var countries = AppSettings.db.MCountries.ToList();
+            var degrees = AppSettings.db.MDiplomasOrDegrees.ToList();
+            var time_periods = AppSettings.db.ETimePeriods.OrderBy(i => i.Sequence).ToList();
+            //
             ViewBag.time_periods = time_periods;
             ViewBag.language_levels = language_levels;
             ViewBag.languages = languages;
@@ -217,7 +218,7 @@ namespace AAL_TUTOR5.Controllers
         {
             try
             {
-                var tutor = db.Aspnetusers
+                var tutor = AppSettings.db.Aspnetusers
                 .Where(i => i.Email == User.Identity.Name)
                 .Include(i => i.MTutor)
                 .FirstOrDefault();
@@ -230,8 +231,9 @@ namespace AAL_TUTOR5.Controllers
                 tutor.MTutor.ShowEmail = ShowEmail;
                 tutor.MTutor.MobileAvailableOnWhatsapp = MobileAvailableOnWhatsapp;
                 //
-                await db.SaveChangesAsync();
-
+                await AppSettings.db.SaveChangesAsync();
+                var res = esRepository.IndexTutor(tutor.Id);
+               
                 TempData["type"] = "success";
                 TempData["msg"] = "Saved";
             }
@@ -256,7 +258,7 @@ namespace AAL_TUTOR5.Controllers
         {
             try
             {
-                var tutor = db.Aspnetusers
+                var tutor = AppSettings.db.Aspnetusers
                 .Where(i => i.Email == User.Identity.Name)
                 //.Include(i => i.MMoodleUser)
                 //.Include(i => i.MTutorRating)
@@ -265,7 +267,7 @@ namespace AAL_TUTOR5.Controllers
                 .Include(i => i.MTutor)
                 .FirstOrDefault();
 
-                var language_levels = db.ELanguageLevels.ToList();
+                var language_levels = AppSettings.db.ELanguageLevels.ToList();
                 //
                 var beginner_language_levels = new List<MAspnetUserLanguage>();
                 var intermediate_language_levels = new List<MAspnetUserLanguage>();
@@ -323,7 +325,8 @@ namespace AAL_TUTOR5.Controllers
                 }
 
                 //
-                db.SaveChanges();
+                AppSettings.db.SaveChanges();
+                var res = esRepository.IndexTutor(tutor.Id);
 
                 TempData["type"] = "success";
                 TempData["msg"] = "Saved";
@@ -368,10 +371,11 @@ namespace AAL_TUTOR5.Controllers
             try
             {
                 education.AspnetUserId = userManager.GetUserId(HttpContext.User);
-                db.MTutorEducations.Add(education);
-                db.SaveChanges();
+                AppSettings.db.MTutorEducations.Add(education);
+                AppSettings.db.SaveChanges();
                 TempData["type"] = "success";
                 TempData["msg"] = "Saved";
+                var res = esRepository.IndexTutor(userManager.GetUserId(HttpContext.User));
             }
             catch (Exception ex)
             {
@@ -388,14 +392,15 @@ namespace AAL_TUTOR5.Controllers
         {
             try
             {
-                var education = db.MTutorEducations
+                var education = AppSettings.db.MTutorEducations
                     .Where(i => i.Id == id)
                     .Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User))
                     .First();
-                db.MTutorEducations.Remove(education);
-                db.SaveChanges();
+                AppSettings.db.MTutorEducations.Remove(education);
+                AppSettings.db.SaveChanges();
                 TempData["type"] = "success";
                 TempData["msg"] = "Deleted";
+                var res = esRepository.IndexTutor(userManager.GetUserId(HttpContext.User));
             }
             catch (Exception ex)
             {
@@ -413,10 +418,11 @@ namespace AAL_TUTOR5.Controllers
             try
             {
                 workexp.AspnetUserId = userManager.GetUserId(HttpContext.User);
-                db.MTutorWorkExperiences.Add(workexp);
-                db.SaveChanges();
+                AppSettings.db.MTutorWorkExperiences.Add(workexp);
+                AppSettings.db.SaveChanges();
                 TempData["type"] = "success";
                 TempData["msg"] = "Saved";
+                var res = esRepository.IndexTutor(userManager.GetUserId(HttpContext.User));
             }
             catch (Exception ex)
             {
@@ -433,14 +439,15 @@ namespace AAL_TUTOR5.Controllers
         {
             try
             {
-                var workexp = db.MTutorWorkExperiences
+                var workexp = AppSettings.db.MTutorWorkExperiences
                     .Where(i => i.Id == id)
                     .Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User))
                     .First();
-                db.MTutorWorkExperiences.Remove(workexp);
-                db.SaveChanges();
+                AppSettings.db.MTutorWorkExperiences.Remove(workexp);
+                AppSettings.db.SaveChanges();
                 TempData["type"] = "success";
                 TempData["msg"] = "Deleted";
+                var res = esRepository.IndexTutor(userManager.GetUserId(HttpContext.User));
             }
             catch (Exception ex)
             {
@@ -457,14 +464,14 @@ namespace AAL_TUTOR5.Controllers
         {
             try
             {
-                var aspnet_user = db.Aspnetusers
+                var aspnet_user = AppSettings.db.Aspnetusers
                     .Where(i => i.Id == userManager.GetUserId(HttpContext.User))
                     .Include(i=>i.MAspnetUserAvailableTimes)
                     .First();
                 //
                 var post_data = await new StreamReader(Request.Body).ReadToEndAsync();
                 var days_of_week = new List<string> { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-                var time_periods = db.ETimePeriods.OrderBy(i=>i.Sequence).ToList();
+                var time_periods = AppSettings.db.ETimePeriods.OrderBy(i=>i.Sequence).ToList();
                 aspnet_user.MAspnetUserAvailableTimes.Clear();//remove old items
                 //
                 var dict = Request.Form.ToDictionary(x => x.Key, x => x.Value.ToString());
@@ -483,7 +490,8 @@ namespace AAL_TUTOR5.Controllers
                     }
                 }
                 
-                db.SaveChanges();
+                AppSettings.db.SaveChanges();
+                var res = esRepository.IndexTutor(aspnet_user.Id);
             }
             catch (Exception ex)
             {

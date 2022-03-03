@@ -28,7 +28,7 @@ namespace Admin.Controllers
     [Authorize(Roles = "tutor")]
     public class CoursesController : Controller
     {
-        dbContext db = new dbContext();
+        //dbContext db = new dbContext();
         UserManager<IdentityUser> userManager;
         RoleManager<IdentityRole> roleManager;
         MoodleRepository moodleRepository;
@@ -36,7 +36,7 @@ namespace Admin.Controllers
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            db.Dispose();
+            //db.Dispose();
         }
 
         public CoursesController(ILogger<CoursesController> logger, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository)
@@ -52,12 +52,12 @@ namespace Admin.Controllers
         {
             ViewBag.title = "Courses";
             //_userManager.GetUserAsync(HttpContext.User);
-            var tutor = db.Aspnetusers
+            var tutor = AppSettings.db.Aspnetusers
                 .Where(i => i.Email == User.Identity.Name)
                 .Include(i => i.MTutorCourses)
                 .FirstOrDefault();
 
-            var courses = db.MTutorCourses
+            var courses = AppSettings.db.MTutorCourses
                 .Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User))
                 .ToPagedList(page, 10);
             //
@@ -73,7 +73,7 @@ namespace Admin.Controllers
             ViewBag.title = "Delete Course";
             try
             {
-                var course = db.MTutorCourses
+                var course = AppSettings.db.MTutorCourses
                     .Where(i => i.Id == id)
                     .Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User))
                     .FirstOrDefault();
@@ -87,8 +87,8 @@ namespace Admin.Controllers
                 else if (res.res == "ok")
                 {
                     //remove moodle user, aspnetuser
-                    db.MTutorCourses.Remove(course);
-                    db.SaveChanges();
+                    AppSettings.db.MTutorCourses.Remove(course);
+                    AppSettings.db.SaveChanges();
                     TempData["type"] = "success";
                     TempData["msg"] = "Deleted";
                 }
@@ -119,7 +119,7 @@ namespace Admin.Controllers
             try
             {
                 //append tutor email to the course title incase of duplicates with other tutors with the same course name
-                var tutor = db.MTutors.Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User)).FirstOrDefault();
+                var tutor = AppSettings.db.MTutors.Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User)).FirstOrDefault();
                 course.Title = course.Title + " - " + tutor.Email;
                 course.AspnetUserId = userManager.GetUserId(HttpContext.User);
                 dynamic res = moodleRepository.CreateMoodleCourse(course);
@@ -134,8 +134,8 @@ namespace Admin.Controllers
                     TempData["type"] = "success";
                     TempData["msg"] = "Created Course successfully";
                     course.MoodleCourseId = res.moodle_course_id;
-                    db.MTutorCourses.Add(course);
-                    db.SaveChanges();
+                    AppSettings.db.MTutorCourses.Add(course);
+                    AppSettings.db.SaveChanges();
                 }
 
                 return RedirectToAction("Index");
@@ -153,12 +153,12 @@ namespace Admin.Controllers
         public IActionResult EditCourse(int id)
         {
             ViewBag.title = "Edit Course";
-            var course = db.MTutorCourses
+            var course = AppSettings.db.MTutorCourses
                 .Where(i => i.Id == id)
                 .Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User))
                 .FirstOrDefault();
 
-            var tutor = db.Aspnetusers
+            var tutor = AppSettings.db.Aspnetusers
                 .Where(i => i.Id == userManager.GetUserId(HttpContext.User))
                 .FirstOrDefault();
 
@@ -175,8 +175,8 @@ namespace Admin.Controllers
             //
             try
             {
-                var tutor = db.MTutors.Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User)).FirstOrDefault();
-                var course = db.MTutorCourses.Find(course_.Id);
+                var tutor = AppSettings.db.MTutors.Where(i => i.AspnetUserId == userManager.GetUserId(HttpContext.User)).FirstOrDefault();
+                var course = AppSettings.db.MTutorCourses.Find(course_.Id);
                 course.Title = course_.Title + " - " + tutor.Email;
                 course.Description = course_.Description;
                 course.Duration = course_.Duration;
@@ -192,8 +192,8 @@ namespace Admin.Controllers
                 {
                     TempData["type"] = "success";
                     TempData["msg"] = "Updated Course successfully";
-                    db.Entry(course).State = EntityState.Modified;
-                    db.SaveChanges();
+                    AppSettings.db.Entry(course).State = EntityState.Modified;
+                    AppSettings.db.SaveChanges();
                 }
 
                 return RedirectToAction("Index");

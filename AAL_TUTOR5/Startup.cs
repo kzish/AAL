@@ -30,6 +30,7 @@ namespace AAL_TUTOR5
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<Globals.MoodleRepository>();
+            services.AddScoped<Globals.EsRepository>();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;

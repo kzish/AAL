@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Nest;
 using SharedModels;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,9 @@ namespace Globals
             AppSettings.moodle_ws_token = "2cb31f38b05a075434014ce3cf7e5949";
             AppSettings.api_endpoint = "https://localhost:44343";
             AppSettings.moodle_api_endpoint = $"http://moodle.test/webservice/rest/server.php?wstoken={AppSettings.moodle_ws_token}&moodlewsrestformat=json";
+            AppSettings.es_endpoint = "http://localhost:9200/";
 
+            
             if (!env.IsDevelopment())
             {
                 //production settings here
@@ -55,9 +58,24 @@ namespace Globals
                 AppSettings.moodle_api_endpoint = $"http://13.244.163.207:84/webservice/rest/server.php?wstoken={AppSettings.moodle_ws_token}&moodlewsrestformat=json";
 
             }
+            //permanent settings for all environments
+            AppSettings.db = new dbContext();
             AppSettings.logs = Path.Combine(AppSettings.resources_folder, "logs.txt");
             AppSettings.profile_pictures_folder = Path.Combine(AppSettings.resources_folder, "profile_pictures");
-
+            //elastic search client
+            var node = new Uri(AppSettings.es_endpoint);
+            var settings = new ConnectionSettings(node);
+            AppSettings.EsClient = new ElasticClient(settings);
+            //es Mapping
+            if (!AppSettings.EsClient.Indices.Exists("tutors").Exists)
+            {
+                var response = AppSettings.EsClient.Indices.Create("tutors",
+                   index => index.Map<Globals.apiTutor>(
+                       x => x.AutoMap()
+                   ));
+            //https://csharp.hotexamples.com/examples/Nest/CreateIndexDescriptor/-/php-createindexdescriptor-class-examples.html
+            //https://titanwolf.org/Network/Articles/Article?AID=bba6a347-bf3a-4517-a1c2-ddeca87ec68f
+            }
         }
 
         private void CreateRoles()

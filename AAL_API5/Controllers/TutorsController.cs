@@ -94,105 +94,143 @@ namespace AAL_API.Controllers
                     .Field("courses.title"))//courses.title
                 .Query(search_param));
 
-                var the_days = new List<string>();
-                var the_terms = new List<string>();
                 //sunday time periods
                 if (list_selected_timeperiod_sunday.Count > 0)
                 {
-                    the_days.Add("Sunday");
-                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Sunday");
-                    //var the_terms = new List<string>();
-                    foreach (var item in list_selected_timeperiod_saturday)
+                    var the_terms = new List<string>();
+                    foreach (var item in list_selected_timeperiod_sunday)
                     {
                         if (!the_terms.Contains(item.ToLower()))
                         {
                             the_terms.Add(item.ToLower());
                         }
                     }
-                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
+                    queryContainer &= Query<apiTutor>.Bool(
+                        m => m.Must(
+                                mm => mm.Match(
+                                    f => f.Field("availableTimes.weekday").Query("Sunday")
+                                ),
+                                mm => mm.Terms(
+                                    f => f.Field("availableTimes.timePeriod").Terms(the_terms)
+                                )
+                            )
+                        );
 
                 }
                 //monday time periods
                 if (list_selected_timeperiod_monday.Count > 0)
                 {
-                    the_days.Add("Monday");
-                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Monday");
-                    //var the_terms = new List<string>();
-                    foreach (var item in list_selected_timeperiod_saturday)
+                    var the_terms = new List<string>();
+                    foreach (var item in list_selected_timeperiod_monday)
                     {
                         if (!the_terms.Contains(item.ToLower()))
                         {
                             the_terms.Add(item.ToLower());
                         }
                     }
-                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
+                    queryContainer &= Query<apiTutor>.Bool(
+                        m => m.Must(
+                                mm => mm.Match(
+                                    f => f.Field("availableTimes.weekday").Query("Monday")
+                                ),
+                                mm => mm.Terms(
+                                    f => f.Field("availableTimes.timePeriod").Terms(the_terms)
+                                )
+                            )
+                        );
                 }
                 //tuesday time periods
                 if (list_selected_timeperiod_tuesday.Count > 0)
                 {
-                    the_days.Add("Tuesday");
-                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Tuesday");
-                    //var the_terms = new List<string>();
-                    foreach (var item in list_selected_timeperiod_saturday)
+                    var the_terms = new List<string>();
+                    foreach (var item in list_selected_timeperiod_tuesday)
                     {
                         if (!the_terms.Contains(item.ToLower()))
                         {
                             the_terms.Add(item.ToLower());
                         }
                     }
-                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
+                    queryContainer &= Query<apiTutor>.Bool(
+                        m => m.Must(
+                                mm => mm.Match(
+                                    f => f.Field("availableTimes.weekday").Query("Tuesday")
+                                ),
+                                mm => mm.Terms(
+                                    f => f.Field("availableTimes.timePeriod").Terms(the_terms)
+                                )
+                            )
+                        );
                 }
                 //wednesday time periods
                 if (list_selected_timeperiod_wednesday.Count > 0)
                 {
-                    the_days.Add("Wednesday");
-                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Wednesday");
-                    //var the_terms = new List<string>();
-                    foreach (var item in list_selected_timeperiod_saturday)
+                    var the_terms = new List<string>();
+                    foreach (var item in list_selected_timeperiod_wednesday)
                     {
                         if (!the_terms.Contains(item.ToLower()))
                         {
                             the_terms.Add(item.ToLower());
                         }
                     }
-                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
+                    queryContainer &= Query<apiTutor>.Bool(
+                        m => m.Must(
+                                mm => mm.Match(
+                                    f => f.Field("availableTimes.weekday").Query("Wednesday")
+                                ),
+                                mm => mm.Terms(
+                                    f => f.Field("availableTimes.timePeriod").Terms(the_terms)
+                                )
+                            )
+                        );
                 }
                 //thursday time periods
                 if (list_selected_timeperiod_thursday.Count > 0)
                 {
-                    the_days.Add("Thursday");
-                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Thursday");
-                    //var the_terms = new List<string>();
-                    foreach (var item in list_selected_timeperiod_saturday)
+                    var the_terms = new List<string>();
+                    foreach (var item in list_selected_timeperiod_thursday)
                     {
                         if (!the_terms.Contains(item.ToLower()))
                         {
                             the_terms.Add(item.ToLower());
                         }
                     }
-                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
+                    queryContainer &= Query<apiTutor>.Bool(
+                        m => m.Must(
+                                mm => mm.Match(
+                                    f => f.Field("availableTimes.weekday").Query("Thursday")
+                                ),
+                                mm => mm.Terms(
+                                    f => f.Field("availableTimes.timePeriod").Terms(the_terms)
+                                )
+                            )
+                        );
                 }
                 //friday time periods
                 if (list_selected_timeperiod_friday.Count > 0)
                 {
-                    the_days.Add("Friday");
-                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Friday");
-                    //var the_terms = new List<string>();
-                    foreach (var item in list_selected_timeperiod_saturday)
+                    var the_terms = new List<string>();
+                    foreach (var item in list_selected_timeperiod_friday)
                     {
                         if (!the_terms.Contains(item.ToLower()))
                         {
                             the_terms.Add(item.ToLower());
                         }
                     }
-                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
+                    queryContainer &= Query<apiTutor>.Bool(
+                        m => m.Must(
+                                mm => mm.Match(
+                                    f => f.Field("availableTimes.weekday").Query("Friday")
+                                ),
+                                mm => mm.Terms(
+                                    f => f.Field("availableTimes.timePeriod").Terms(the_terms)
+                                )
+                            )
+                        );
                 }
                 //saturday time periods
                 if (list_selected_timeperiod_saturday.Count > 0)
                 {
-                    the_days.Add("Saturday");
-                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Saturday");
-                    //var the_terms = new List<string>();
+                    var the_terms = new List<string>();
                     foreach (var item in list_selected_timeperiod_saturday)
                     {
                         if (!the_terms.Contains(item.ToLower()))
@@ -200,11 +238,17 @@ namespace AAL_API.Controllers
                             the_terms.Add(item.ToLower());
                         }
                     }
-                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
+                    queryContainer &= Query<apiTutor>.Bool(
+                        m => m.Must(
+                                mm => mm.Match(
+                                    f => f.Field("availableTimes.weekday").Query("Saturday")
+                                ), 
+                                mm=>mm.Terms(
+                                    f => f.Field("availableTimes.timePeriod").Terms(the_terms)
+                                )
+                            )
+                        );
                 }
-
-                queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.weekday").Terms(the_days));
-                queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
                 //
                 var searchRequest = new SearchRequest<apiTutor>("tutors")
                 {

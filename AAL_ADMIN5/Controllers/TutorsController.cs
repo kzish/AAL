@@ -24,7 +24,7 @@ namespace Admin.Controllers
     //[Authorize(Roles = "admin")]
     public class TutorsController : Controller
     {
-        //dbContext db = new dbContext();
+        dbContext db = new dbContext();
         UserManager<IdentityUser> userManager;
         RoleManager<IdentityRole> roleManager;
         MoodleRepository moodleRepository;
@@ -33,7 +33,7 @@ namespace Admin.Controllers
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            //db.Dispose();
+            db.Dispose();
         }
 
         public TutorsController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, MoodleRepository moodleRepository, EsRepository esRepository)
@@ -50,7 +50,7 @@ namespace Admin.Controllers
         {
             ViewBag.title = "Tutors";
 
-            var tutors_query = AppSettings.db.Aspnetusers.AsQueryable();
+            var tutors_query = db.Aspnetusers.AsQueryable();
             //filter
             if (!string.IsNullOrEmpty(search_param))
             {

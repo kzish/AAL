@@ -139,7 +139,7 @@
         <div class="row" style="font-size:12px">
           <div class="col-md-4 col-sm-6" v-for="(time_period, index) in all_time_periods" :key="time_period.id">
             <div class="form-check">
-              <input :ref="'chk_timeperiod_'+weekday+'_'+index" :id="'chk_timeperiod_'+weekday+'_'+index" class="form-check-input chk_timeperiods" type="checkbox" value="true" @click="toggleTimePeriod(weekday, time_period.timePeriod)">
+              <input :ref="'chk_timeperiod_'+weekday+'_'+index" :id="'chk_timeperiod_'+weekday+'_'+index" class="form-check-input chk_timeperiods" type="checkbox" value="true" @click="toggleTimePeriod(weekday, time_period.title)">
               <label class="form-check-label">
                   <b>{{time_period.timePeriod}}</b>
                   <br />

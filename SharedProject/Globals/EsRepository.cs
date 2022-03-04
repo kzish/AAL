@@ -26,6 +26,40 @@ namespace Globals
                         .Include(i => i.MTutorWorkExperiences)
                         .FirstOrDefault();
 
+            var courses = new List<Course>();
+            var languages = new List<Language>();
+            var availableTimes = new List<AvailableTimes>();
+            //
+            foreach(var item in tutor.MTutorCourses)
+            {
+                var apiCourse = new Course()
+                {
+                    Title = item.Title,
+                    Description = item.Description,
+                };
+                courses.Add(apiCourse);
+            }
+            //
+            foreach (var item in tutor.MAspnetUserLanguages)
+            {
+                var apiLanguage = new Language()
+                {
+                    level = item.LanguageLevelIdFk,
+                    lang = AppSettings.db.MLanguages.Where(i=>i.Id==item.LanguageIdFk).First().LanguageName
+                };
+                languages.Add(apiLanguage);
+            }
+            //
+            foreach (var item in tutor.MAspnetUserAvailableTimes)
+            {
+                var apiAvailableTime = new AvailableTimes()
+                {
+                    Weekday = item.Weekday,
+                    TimePeriod = item.TimePeriod
+                };
+                availableTimes.Add(apiAvailableTime);
+            }
+
             var apiTutor = new apiTutor()
             {
                 //_id = tutor.Id,
@@ -37,12 +71,14 @@ namespace Globals
                 CoutryIso = tutor.MTutor.CoutryIso,
                 CoutryName = AppSettings.db.MCountries.Find(tutor.MTutor.CoutryIso).CountryName,
                 About=tutor.MTutor.About,
-                //Languages { get; set; } = new List<Language>();
-                //Courses { get; set; } = new List<string>();
+                Languages=languages,
+                Courses = courses,
                 Mobile = tutor.MTutor.Mobile,
                 OtherMobile = tutor.MTutor.OtherMobile,
                 MobileAvailableOnWhatsapp = tutor.MTutor.MobileAvailableOnWhatsapp,
                 ShowEmail = tutor.MTutor.ShowEmail,
+                Active = tutor.MTutor.Active,
+                AvailableTimes = availableTimes,
             };
 
 

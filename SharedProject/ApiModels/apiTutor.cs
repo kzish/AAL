@@ -26,8 +26,10 @@ namespace Globals
         public string About { get; set; }
         [Object]
         public List<Language> Languages { get; set; } = new List<Language>();
-        [Text]
-        public List<string> Courses { get; set; } = new List<string>();
+        [Object]
+        public List<Course> Courses { get; set; } = new List<Course>();
+        [Object]
+        public List<AvailableTimes> AvailableTimes { get; set; } = new List<AvailableTimes>();
         [Keyword]
         public string Mobile { get; set; }
         [Keyword]
@@ -36,6 +38,7 @@ namespace Globals
         public sbyte MobileAvailableOnWhatsapp { get; set; }
         //[Boolean(NullValue = false, Store = true)]
         public sbyte ShowEmail { get; set; }
+        public sbyte Active { get; set; }
     }
 
     public class Language
@@ -46,4 +49,24 @@ namespace Globals
         public string lang { get; set; }
 
     }
+
+    public partial class Course
+    {
+        [Text]
+        public string Title { get; set; }
+        [Text]
+        public string Description { get; set; }
+        [Keyword]
+        public string Duration { get; set; }
+    }
+
+    public partial class AvailableTimes
+    {
+        [Keyword]
+        public string Weekday { get; set; }
+        [Keyword]
+        public string TimePeriod { get; set; }
+
+    }
+
 }

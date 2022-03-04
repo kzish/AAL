@@ -60,7 +60,7 @@
           <div class="col-md-12">
             <ul>
               <li v-for="course in selectedTutorToDisplay.courses" 
-                  :key="course">{{course.trim().replace(" - " + selectedTutorToDisplay.email, "")}}
+                  :key="course">{{course.title.trim().replace(" - " + selectedTutorToDisplay.email, "")}}
               </li>
             </ul>
           </div>

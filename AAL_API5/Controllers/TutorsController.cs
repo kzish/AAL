@@ -1,8 +1,6 @@
 ﻿using Globals;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Nest;
 using Serilog;
 using SharedModels;
@@ -70,155 +68,156 @@ namespace AAL_API.Controllers
             page--;//page starts at 0
             try
             {
-                var tutors_query = db.Aspnetusers.AsQueryable();
-                //filter
-                if (!string.IsNullOrEmpty(search_param))
-                {
-                    tutors_query = tutors_query
-                        .Where(i => i.MTutor.Firstname.Contains(search_param)
-                        || i.MTutor.Surname.Contains(search_param)
-                        || i.MTutor.About.Contains(search_param)
-                        || i.MTutorCourses.Where(c => c.Title.Contains(search_param)).Any()
-                        || i.MTutorCourses.Where(c => c.Description.Contains(search_param)).Any()
-                        );
-                }
+                
+               
+
+                var db_language_names = db.MLanguages.Where(i => list_languages.Contains(i.Iso)).Select(i => i.LanguageName).ToList();
+
+                var queryContainer = new QueryContainer();
                 //
-                tutors_query = tutors_query.Where(i => i.Aspnetuserroles.Any(r => r.Role.Name == "tutor"))
-                .Where(i => i.MTutor.Active==1)
-                .Include(i => i.MTutor)
-                .Include(i => i.MAspnetUserLanguages)
-                .Include(i => i.MTutorCourses);
+                queryContainer &= Query<apiTutor>.Term(t => t.Active, 1);//must be active always
                 //
-                if(list_languages.Count > 0)
+                if (list_languages.Count > 0)
                 {
-                    var db_languages = db.MLanguages.Where(i => list_languages.Contains(i.Iso)).Select(i=>i.Id).ToList();
-                    tutors_query = tutors_query.Where(i => i.MAspnetUserLanguages.Any(l => db_languages.Contains(l.LanguageIdFk)));
+                    queryContainer &= Query<apiTutor>.Terms(t => t.Name("languages").Field("languages.lang").Terms(db_language_names));//languages
                 }
                 //
                 if (list_countries.Count > 0)
                 {
-                    var db_countries = db.MCountries.Where(i => list_countries.Contains(i.CountryIso)).Select(i => i.CountryIso).ToList();
-                    tutors_query = tutors_query.Where(i => db_countries.Contains(i.MTutor.CoutryIso));
+                    queryContainer &= Query<apiTutor>.Terms(t => t.Name("countries").Field("coutryIso").Terms(list_countries));//countries
                 }
+                //
+                queryContainer &= Query<apiTutor>.MultiMatch(
+                    m=>m.Fields(
+                    f=>f.Field("about") //tutor about
+                    .Field("courses.description")//courses.description
+                    .Field("courses.title"))//courses.title
+                .Query(search_param));
+
+                var the_days = new List<string>();
+                var the_terms = new List<string>();
                 //sunday time periods
                 if (list_selected_timeperiod_sunday.Count > 0)
                 {
-                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_sunday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
-                    tutors_query = tutors_query
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Sunday"))
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
+                    the_days.Add("Sunday");
+                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Sunday");
+                    //var the_terms = new List<string>();
+                    foreach (var item in list_selected_timeperiod_saturday)
+                    {
+                        if (!the_terms.Contains(item.ToLower()))
+                        {
+                            the_terms.Add(item.ToLower());
+                        }
+                    }
+                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
+
                 }
                 //monday time periods
                 if (list_selected_timeperiod_monday.Count > 0)
                 {
-                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_monday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
-                    tutors_query = tutors_query
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Monday"))
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
+                    the_days.Add("Monday");
+                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Monday");
+                    //var the_terms = new List<string>();
+                    foreach (var item in list_selected_timeperiod_saturday)
+                    {
+                        if (!the_terms.Contains(item.ToLower()))
+                        {
+                            the_terms.Add(item.ToLower());
+                        }
+                    }
+                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
                 }
                 //tuesday time periods
                 if (list_selected_timeperiod_tuesday.Count > 0)
                 {
-                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_tuesday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
-                    tutors_query = tutors_query
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Tuesday"))
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
+                    the_days.Add("Tuesday");
+                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Tuesday");
+                    //var the_terms = new List<string>();
+                    foreach (var item in list_selected_timeperiod_saturday)
+                    {
+                        if (!the_terms.Contains(item.ToLower()))
+                        {
+                            the_terms.Add(item.ToLower());
+                        }
+                    }
+                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
                 }
                 //wednesday time periods
                 if (list_selected_timeperiod_wednesday.Count > 0)
                 {
-                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_wednesday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
-                    tutors_query = tutors_query
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Wednesday"))
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
+                    the_days.Add("Wednesday");
+                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Wednesday");
+                    //var the_terms = new List<string>();
+                    foreach (var item in list_selected_timeperiod_saturday)
+                    {
+                        if (!the_terms.Contains(item.ToLower()))
+                        {
+                            the_terms.Add(item.ToLower());
+                        }
+                    }
+                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
                 }
                 //thursday time periods
                 if (list_selected_timeperiod_thursday.Count > 0)
                 {
-                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_thursday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
-                    tutors_query = tutors_query
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Thursday"))
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
+                    the_days.Add("Thursday");
+                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Thursday");
+                    //var the_terms = new List<string>();
+                    foreach (var item in list_selected_timeperiod_saturday)
+                    {
+                        if (!the_terms.Contains(item.ToLower()))
+                        {
+                            the_terms.Add(item.ToLower());
+                        }
+                    }
+                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
                 }
                 //friday time periods
                 if (list_selected_timeperiod_friday.Count > 0)
                 {
-                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_friday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
-                    tutors_query = tutors_query
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Friday"))
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
+                    the_days.Add("Friday");
+                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Friday");
+                    //var the_terms = new List<string>();
+                    foreach (var item in list_selected_timeperiod_saturday)
+                    {
+                        if (!the_terms.Contains(item.ToLower()))
+                        {
+                            the_terms.Add(item.ToLower());
+                        }
+                    }
+                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
                 }
                 //saturday time periods
                 if (list_selected_timeperiod_saturday.Count > 0)
                 {
-                    var db_timeperiods = db.ETimePeriods.Where(i => list_selected_timeperiod_saturday.Contains(i.TimePeriod)).Select(i => i.Id).ToList();
-                    tutors_query = tutors_query
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => t.Weekday == "Saturday"))
-                        .Where(i => i.MAspnetUserAvailableTimes.Any(t => db_timeperiods.Contains(t.TimePeriod)));
+                    the_days.Add("Saturday");
+                    //queryContainer &= Query<apiTutor>.Term("availableTimes.weekday", "Saturday");
+                    //var the_terms = new List<string>();
+                    foreach (var item in list_selected_timeperiod_saturday)
+                    {
+                        if (!the_terms.Contains(item.ToLower()))
+                        {
+                            the_terms.Add(item.ToLower());
+                        }
+                    }
+                    //queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
                 }
 
-                var tutors = tutors_query.Skip(page * array_limit)
-                .Take(array_limit)
-                .ToList();
-
-                //convert to api model
-                var apiTutors = new List<apiTutor>();
-                foreach (var t in tutors)
+                queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.weekday").Terms(the_days));
+                queryContainer &= Query<apiTutor>.Terms(t => t.Name(Guid.NewGuid().ToString()).Field("availableTimes.timePeriod").Terms(the_terms));
+                //
+                var searchRequest = new SearchRequest<apiTutor>("tutors")
                 {
-                    var apiTutor = new apiTutor();
-                    apiTutor.AspnetUserId = t.MTutor.AspnetUserId;
-                    apiTutor.Firstname = t.MTutor.Firstname;
-                    apiTutor.Surname = t.MTutor.Surname;
-                    apiTutor.Email = t.MTutor.Email;
-                    apiTutor.ImageUrl = t.MTutor.ImageUrl;
-                    apiTutor.CoutryIso = t.MTutor.CoutryIso;
-                    apiTutor.About = t.MTutor.About;
-                    apiTutor.Mobile = t.MTutor.Mobile;
-                    apiTutor.OtherMobile = t.MTutor.OtherMobile;
-                    apiTutor.MobileAvailableOnWhatsapp = t.MTutor.MobileAvailableOnWhatsapp;
-                    apiTutor.ShowEmail = t.MTutor.ShowEmail;
-                    apiTutor.CoutryName = t.MTutor.CoutryIso == null ? "" : db.MCountries.Find(t.MTutor.CoutryIso).CountryName;
-                    //
-                    foreach (var lang in t.MAspnetUserLanguages)
-                    {
-                        var language = new Globals.Language() { 
-                            level = lang.LanguageLevelIdFk,
-                            lang = db.MLanguages.Find(lang.LanguageIdFk).LanguageName
-                        };
-                        apiTutor.Languages.Add(language);
-                    }
-                    //
-                    foreach (var course in t.MTutorCourses)
-                    {
-                        apiTutor.Courses.Add(course.Title);
-                    }
-                    apiTutors.Add(apiTutor);
-                }
+                    Query = queryContainer
+                };
 
-                //var searchRequest = new SearchRequest<apiTutor> { 
-                //    Query = new MatchAllQuery()
-                //};
-
-                //var searchResponse = AppSettings.EsClient.Search<apiTutor>(searchRequest).Documents;
-
-                var searchResponse = AppSettings.EsClient.Search<apiTutor>(s => s
-                .Index("tutors")
-                .From(page * array_limit)
-                .Size(array_limit)
-                .Query(q =>q.Match(m=>m.Field(f=>f.About).Query(search_param))
-                        //|| q.Match(m=>m.Field(f=>f.Firstname).Query(search_param))
-                        //|| q.Match(m=>m.Field(f=>f.Surname).Query(search_param))
-                        || q.Match(m=>m.Field(f=>f.Courses).Query(search_param))
-                    )
-                ).Documents;
-
+                var searchResponse = AppSettings.EsClient.Search<apiTutor>(searchRequest);
 
                 return Json(new
                 {
                     res = "ok",
-                    tutors = searchResponse,
-                    //tutors = apiTutors,
-                    total_tutors = tutors_query.Count(),
+                    tutors = searchResponse.Documents,
+                    total_tutors = searchResponse.Total,
                     items_per_page = array_limit,
                     es = searchResponse
                 });

@@ -34,6 +34,7 @@ namespace AAL_API5
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //https://www.freecodecamp.org/news/how-to-build-an-spa-with-vuejs-and-c-using-net-core/
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo

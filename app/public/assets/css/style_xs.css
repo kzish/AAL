@@ -8,6 +8,11 @@ html, body {
     overflow-x:hidden; */
 }
 
+.avatar {
+    height: 22px;
+    width: 22px;
+}
+
 .offcanvas-body-no-padding-no-margin {
     padding: 0px!important;
     margin: 0px!important;

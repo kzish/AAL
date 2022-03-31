@@ -270,6 +270,8 @@ export default {
       selected_timeperiod_thursday:[],
       selected_timeperiod_friday:[],
       selected_timeperiod_saturday:[],
+      isLoggedin: false,
+      userDetailsLocal: null,//user stored in local storage
     }
   },
   mounted(){
@@ -302,6 +304,25 @@ export default {
     }
   },
   methods: {
+    //fetch the user stored in local storage
+    getUserLocal() {
+
+    },
+    //existing user login
+    login() {
+      this.isLoading = true;
+      
+
+    },
+    //new user registration
+    register() {},
+    //user logout
+    logout() {
+      // localStorage.removeItem('user');
+      localStorage.clear();
+
+    },
+
     clearAllSelectedTimePeriods() {
 
       this.selected_timeperiod_sunday = [];

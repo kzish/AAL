@@ -1,9 +1,12 @@
 ﻿using Globals;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Nest;
 using Serilog;
 using SharedModels;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +16,8 @@ using System.Threading.Tasks;
 namespace AAL_API.Controllers
 {
     [Route("Tutors")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize]
     public class TutorsController : Controller
     {
         dbContext db = new dbContext();

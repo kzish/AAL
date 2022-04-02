@@ -6,8 +6,8 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
           <a class="navbar-brand" href="#">Adeyemi Academy</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-          <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
                   <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
@@ -23,25 +23,113 @@
               </ul>
           </div> -->
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">   
-                  <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="/assets/img/person_avatar.png" class="avatar" alt="Avatar">   Dropdown
-                      </a>
-                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                          <!-- <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li> -->
-                          <!-- <li><hr class="dropdown-divider" /></li> -->
-                          <li><a class="dropdown-item" href="#">Logout</a></li>
-                      </ul>
-                  </li>
-              </ul>
-          </div>
+
+        <!-- not logged in -->
+        <ul v-if="!appstore.is_logged_in" class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <i class="fa-solid fa-bars fa-bars-menu" data-bs-toggle="dropdown"></i>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <div class="row">
+                    <div class="col-md-12 logged-out-sign-in-form" data-bs-toggle="modal" data-bs-target="#login_modal">
+                        Login | Register
+                    </div>
+                </div>
+            </ul>
+        </ul>
+        <!-- logged in -->
+        <div v-if="appstore.is_logged_in" class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">   
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="/assets/img/person_avatar.png" class="avatar" alt="Avatar">   Dropdown
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <!-- <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li> -->
+                        <!-- <li><hr class="dropdown-divider" /></li> -->
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
 
       </div>
    </nav>
+
+ 
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="login_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg-img">
+                    <!-- <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5> -->
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
   <router-view/>
 </template>
+
+<style scoped>
+
+    .logged-out-sign-in-form {
+        padding: 10px 20px;
+        z-index: 9;
+    }
+
+    .fa-bars-menu {
+        cursor:pointer;
+        color:white;
+        font-size:32px;
+    }
+
+    .modal-header-bg-img {
+        background-image: url('./assets/_h_city_1.jpg');
+        background-color: #cccccc;
+        height: 200px;
+        background-position: center;
+    }
+
+    #login_modal {
+        box-shadow: 0px 0px 5px black;
+    }
+
+</style>
+
+<script>
+import { APPSTORE } from '@/stores/appstore'
+
+export default {
+    name: 'App',
+    components:{},
+    setup(){
+        const appstore = APPSTORE()
+
+        return {
+            appstore,
+        }
+    },
+    data(){},
+    computed:{},
+    mounted(){
+
+    },
+    methods:{
+        
+        
+    },
+
+}
+</script>
+
 
 

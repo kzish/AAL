@@ -223,6 +223,7 @@
 </template>
 
 <script>
+//pinia: https://pinia.vuejs.org/core-concepts/#using-the-store
 import {globals} from '@/assets/js/globals.js';
 import axios from "axios";
 import StarRating from 'vue-star-rating'//https://bestofvue.com/repo/craigh411-vue-star-rating-vuejs-miscellaneous
@@ -236,6 +237,8 @@ import '@vueform/multiselect/themes/default.css';
 import DisplayTutorInformation from '@/components/DisplayTutorInformation.vue';
 window.$ = window.jQuery = require('jquery');
 
+import { APPSTORE } from '@/stores/appstore'
+
 export default {
   name: 'Home',
   components: {
@@ -245,6 +248,15 @@ export default {
     VPagination,
     Multiselect,
     DisplayTutorInformation,
+  },
+   setup() {
+    //
+    const appstore = APPSTORE();
+   
+    //
+    return {
+      appstore,
+    }
   },
   data(){
     return {
@@ -270,8 +282,6 @@ export default {
       selected_timeperiod_thursday:[],
       selected_timeperiod_friday:[],
       selected_timeperiod_saturday:[],
-      isLoggedin: false,
-      userDetailsLocal: null,//user stored in local storage
     }
   },
   mounted(){
@@ -304,24 +314,6 @@ export default {
     }
   },
   methods: {
-    //fetch the user stored in local storage
-    getUserLocal() {
-
-    },
-    //existing user login
-    login() {
-      this.isLoading = true;
-      
-
-    },
-    //new user registration
-    register() {},
-    //user logout
-    logout() {
-      // localStorage.removeItem('user');
-      localStorage.clear();
-
-    },
 
     clearAllSelectedTimePeriods() {
 

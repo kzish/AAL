@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@hennge/vue3-pagination": "^1.0.17",
+    "@kyvg/vue3-notification": "^2.3.4",
     "@vueform/multiselect": "^2.3.1",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",

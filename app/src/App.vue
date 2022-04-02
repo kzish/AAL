@@ -26,14 +26,17 @@
 
         <!-- not logged in -->
         <ul v-if="!appstore.is_logged_in" class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <i class="fa-solid fa-bars fa-bars-menu" data-bs-toggle="dropdown"></i>
+            <div class="col-md-12 logged-out-sign-in-form">
+                <label data-bs-toggle="modal" data-bs-target="#login_modal">Login</label> | <label>Register</label>
+            </div>
+            <!-- <i class="fa-solid fa-bars fa-bars-menu" data-bs-toggle="dropdown"></i>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <div class="row">
                     <div class="col-md-12 logged-out-sign-in-form" data-bs-toggle="modal" data-bs-target="#login_modal">
-                        Login | Register
+                        <label>Login</label> | <label>Register</label>
                     </div>
                 </div>
-            </ul>
+            </ul> -->
         </ul>
         <!-- logged in -->
         <div v-if="appstore.is_logged_in" class="collapse navbar-collapse">
@@ -58,7 +61,7 @@
  
 
     <!-- Login Modal -->
-    <div class="modal fade" id="login_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="login_modal" data-bs-backdrop="true" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header modal-header-bg-img">
@@ -66,17 +69,28 @@
                     <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                 </div>
                 <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control" id="login_email" ref="login_email" data-bs-toggle="tooltip" data-bs-placement="top" title="Enter email" />
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" class="form-control" id="login_password" ref="login_password" data-toggle="tooltip" data-placement="top" title="Enter password"/>
+                            </div>
+                            <br/>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success" @click="userLogin()">Login</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
   <router-view/>
+  <notifications position="top center" />
 </template>
 
 <style scoped>
@@ -84,6 +98,8 @@
     .logged-out-sign-in-form {
         padding: 10px 20px;
         z-index: 9;
+        color: white;
+        cursor: pointer;
     }
 
     .fa-bars-menu {
@@ -107,6 +123,7 @@
 
 <script>
 import { APPSTORE } from '@/stores/appstore'
+window.$ = window.jQuery = require('jquery');
 
 export default {
     name: 'App',
@@ -123,8 +140,20 @@ export default {
     mounted(){
 
     },
-    methods:{
+     methods: {
         
+        userLogin() {
+            if(this.$refs.login_email.value == "") {
+                window.$("#login_email").tooltip('show');
+            } else if(this.$refs.login_password.value == ""){
+                window.$("#login_password").tooltip('show');
+            }
+            else {
+                window.$("#login_email").tooltip('hide');
+                window.$("#login_password").tooltip('hide');
+                this.appstore.userLogin(this.$refs.login_email.value, this.$refs.login_password.value);
+            }
+        },
         
     },
 

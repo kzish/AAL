@@ -170,7 +170,7 @@
   <br />
   <br />
   <br />
-  <loading :active="isLoading" 
+  <loading :active="appstore.is_loading" 
           :can-cancel="true" 
           :on-cancel="onCancel"
           :is-full-page="true" />
@@ -236,6 +236,7 @@ import Multiselect from '@vueform/multiselect';//https://bestofvue.com/repo/vuef
 import '@vueform/multiselect/themes/default.css';
 import DisplayTutorInformation from '@/components/DisplayTutorInformation.vue';
 window.$ = window.jQuery = require('jquery');
+import { notify } from "@kyvg/vue3-notification";
 
 import { APPSTORE } from '@/stores/appstore'
 
@@ -252,7 +253,13 @@ export default {
    setup() {
     //
     const appstore = APPSTORE();
-   
+        notify({
+          title: "Authorization 123",
+          text: "You have been logged in!",
+          position: "top center",
+          type: "warn"
+
+        });
     //
     return {
       appstore,
@@ -264,7 +271,6 @@ export default {
       globals: globals,
       search_term: '',
       page: 1,
-      isLoading: false,
       items_per_page: 0,
       total_pages: 0,
       all_countries: null,
@@ -292,6 +298,7 @@ export default {
     //  window.$( document ).ready(function() {
     //     alert('ready');
     // });
+
   },
   computed: {
     // a computed getter
@@ -459,7 +466,7 @@ export default {
       this.search_term = '';
     },
     fetchTutors(){
-      this.isLoading = true;
+      this.appstore.is_loading = true;
       axios.get(globals.api_end_point + "/Tutors/FetchTutors?page=" + this.page
       + "&search_param=" + this.search_term
       + "&selected_timeperiod_sunday=" + this.selected_timeperiod_sunday
@@ -491,11 +498,11 @@ export default {
           })
           .catch(error => console.log(error))
           .finally(() => {
-            this.isLoading = false;
+            this.appstore.is_loading = false;
           })
     },
     fetchTimePeriods(){
-      this.isLoading = true;
+      this.appstore.is_loading = true;
       axios.get(globals.api_end_point+"/Tutors/FetchTimePeriods")
           .then(response => {
             if(response.data.res === "ok") {
@@ -506,11 +513,11 @@ export default {
           })
           .catch(error => console.log(error))
           .finally(() => {
-            this.isLoading = false;
+            this.appstore.is_loading = false;
           })
     },
      fetchCountries(){
-      this.isLoading = true;
+      this.appstore.is_loading = true;
       axios.get(globals.api_end_point+"/Tutors/FetchCountries")
           .then(response => {
             if(response.data.res === "ok") {
@@ -521,11 +528,11 @@ export default {
           })
           .catch(error => console.log(error))
           .finally(() => {
-            this.isLoading = false;
+            this.appstore.is_loading = false;
           })
     },
     fetchLanguages(){
-      this.isLoading = true;
+      this.appstore.is_loading = true;
       axios.get(globals.api_end_point+"/Tutors/FetchLanguages")
           .then(response => {
             if(response.data.res === "ok") {
@@ -536,7 +543,7 @@ export default {
           })
           .catch(error => console.log(error))
           .finally(() => {
-            this.isLoading = false;
+            this.appstore.is_loading = false;
           })
     },
   }

@@ -236,7 +236,6 @@ import Multiselect from '@vueform/multiselect';//https://bestofvue.com/repo/vuef
 import '@vueform/multiselect/themes/default.css';
 import DisplayTutorInformation from '@/components/DisplayTutorInformation.vue';
 window.$ = window.jQuery = require('jquery');
-import { notify } from "@kyvg/vue3-notification";
 
 import { APPSTORE } from '@/stores/appstore'
 
@@ -253,13 +252,6 @@ export default {
    setup() {
     //
     const appstore = APPSTORE();
-        notify({
-          title: "Authorization 123",
-          text: "You have been logged in!",
-          position: "top center",
-          type: "warn"
-
-        });
     //
     return {
       appstore,

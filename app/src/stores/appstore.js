@@ -2,11 +2,11 @@ import { defineStore } from 'pinia'
 import axios from "axios";
 import {globals} from '@/assets/js/globals.js';
 import { notify } from "@kyvg/vue3-notification";
+window.$ = window.jQuery = require('jquery');
 
 
 
 export const APPSTORE = defineStore('appstore', {
-
   //
   state: () => {
     return { 
@@ -16,11 +16,15 @@ export const APPSTORE = defineStore('appstore', {
         is_loading: false,
      }
   },
+  mounted() {
+    // this.is_logged_in = this.getLoggedInUser() == null;
+    // console.log('user', this.getLoggedInUser());
+    // alert('mounted');
+    this.getUser();
+  },
   //
   actions: {
-    increment() {
-      this.count++
-    },
+    
     //user login
     userLogin (_email, _password) {
 
@@ -29,16 +33,25 @@ export const APPSTORE = defineStore('appstore', {
         email: _email,
         password: _password,
       }).then(res => {
+        console.log('res', res);
         if(res.data.res == "ok") {
           let userDetails = {
-            email: res.data.email
+            email: res.data.email,
+            token: res.data.token,
           };
-          localStorage.setItem('user', userDetails);
+          localStorage.setItem('user', JSON.stringify(userDetails));
+          notify({
+            title: "Authorization",
+            text: "Your logged in",
+            type: "success"
+          });
+          window.$('#login_modal'). modal('hide');
           this.is_logged_in = true;
         } else if(res.data.res == "err") {
           notify({
             title: "Authorization",
-            text: "You have been logged in!",
+            text: "Invalid login credentials",
+            type: "warn"
           });
       }
 
@@ -47,19 +60,33 @@ export const APPSTORE = defineStore('appstore', {
       .catch((err) => {
           console.log(err);
           this.is_loading = false;
-          alert("Error Logging in");
+          notify({
+            title: "Error",
+            text: "An error occurred",
+            type: "error"
+          });
       })
 
     },
     //new user register
     userRegister () {},
     //user logout
-    userLogout () {},
+    userLogout () {
+      this.is_logged_in = false;
+      localStorage.removeItem('user');
+    },
+
+    getUser() {
+      this.is_logged_in = localStorage.getItem('user') != "";
+      return localStorage.getItem('user') == "" ? null : JSON.parse(localStorage.getItem('user'));
+    },
+   
   },
   //
   getters: {
     //get the local user stored in the localstorage
-    getUserLocal: () => localStorage.getItem('user') == "" ? null : JSON.parse(localStorage.getItem('user')),
+    
+    
   },
 
 

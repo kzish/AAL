@@ -43,13 +43,14 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">   
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="/assets/img/person_avatar.png" class="avatar" alt="Avatar">   Dropdown
+                    <img src="/assets/img/person_avatar.png" class="avatar" alt="Avatar"> 
+                        {{appstore.getUser().email}}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <!-- <li><a class="dropdown-item" href="#">Action</a></li>
                         <li><a class="dropdown-item" href="#">Another action</a></li> -->
                         <!-- <li><hr class="dropdown-divider" /></li> -->
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" @click="userLogout" >Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -61,7 +62,7 @@
  
 
     <!-- Login Modal -->
-    <div class="modal fade" id="login_modal" data-bs-backdrop="true" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" ref="login_modal" id="login_modal" data-bs-backdrop="true" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header modal-header-bg-img">
@@ -128,16 +129,20 @@ window.$ = window.jQuery = require('jquery');
 export default {
     name: 'App',
     components:{},
-    setup(){
+    setup() {
         const appstore = APPSTORE()
 
         return {
             appstore,
         }
     },
-    data(){},
-    computed:{},
-    mounted(){
+    data() {
+    },
+    computed: {},
+    mounted() {
+        //check if user is logged in
+        let user = this.appstore.getUser();
+        console.log('mounted: user', user);
 
     },
      methods: {
@@ -153,6 +158,10 @@ export default {
                 window.$("#login_password").tooltip('hide');
                 this.appstore.userLogin(this.$refs.login_email.value, this.$refs.login_password.value);
             }
+        },
+
+        userLogout() {
+            this.appstore.userLogout();
         },
         
     },

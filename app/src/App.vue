@@ -27,7 +27,7 @@
         <!-- not logged in -->
         <ul v-if="!appstore.is_logged_in" class="navbar-nav ms-auto mb-2 mb-lg-0">
             <div class="col-md-12 logged-out-sign-in-form">
-                <label data-bs-toggle="modal" data-bs-target="#login_modal">Login</label> | <label>Register</label>
+                <label data-bs-toggle="modal" data-bs-target="#login_modal">Login</label> | <label data-bs-toggle="modal" data-bs-target="#register_modal">Register</label>
             </div>
             <!-- <i class="fa-solid fa-bars fa-bars-menu" data-bs-toggle="dropdown"></i>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -73,16 +73,49 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Email</label>
+                                <label>Email *</label>
                                 <input type="text" class="form-control" id="login_email" ref="login_email" data-bs-toggle="tooltip" data-bs-placement="top" title="Enter email" />
                             </div>
                             <div class="form-group">
-                                <label>Password</label>
+                                <label>Password *</label>
                                 <input type="password" class="form-control" id="login_password" ref="login_password" data-toggle="tooltip" data-placement="top" title="Enter password"/>
                             </div>
                             <br/>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-success" @click="userLogin()">Login</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- register Modal -->
+    <div class="modal fade" ref="register_modal" id="register_modal" data-bs-backdrop="true" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-bg-img">
+                    <!-- <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5> -->
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="text" class="form-control" id="register_email" ref="register_email" data-bs-toggle="tooltip" data-bs-placement="top" title="Enter email" />
+                            </div>
+                            <div class="form-group">
+                                <label>Password *</label>
+                                <input type="text" class="form-control" id="register_password" ref="register_password" data-toggle="tooltip" data-placement="top" title="Enter password"/>
+                            </div>
+                             <div class="form-group">
+                                <label>Confirm Password *</label>
+                                <input type="text" class="form-control" id="confirm_password" ref="confirm_password" data-toggle="tooltip" data-placement="top" title="Confirm password"/>
+                            </div>
+                            <br/>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success" @click="userRegister()">Register</button>
                             </div>
                         </div>
                     </div>
@@ -100,6 +133,10 @@
         padding: 10px 20px;
         z-index: 9;
         color: white;
+        
+    }
+
+    .logged-out-sign-in-form label {
         cursor: pointer;
     }
 
@@ -125,6 +162,7 @@
 <script>
 import { APPSTORE } from '@/stores/appstore'
 window.$ = window.jQuery = require('jquery');
+import { notify } from "@kyvg/vue3-notification";
 
 export default {
     name: 'App',
@@ -137,13 +175,15 @@ export default {
         }
     },
     data() {
+        return {
+
+        }
     },
     computed: {},
     mounted() {
         //check if user is logged in
         let user = this.appstore.getUser();
-        console.log('mounted: user', user);
-
+        console.log('App.vue mounted: user', user);
     },
      methods: {
         
@@ -157,6 +197,34 @@ export default {
                 window.$("#login_email").tooltip('hide');
                 window.$("#login_password").tooltip('hide');
                 this.appstore.userLogin(this.$refs.login_email.value, this.$refs.login_password.value);
+            }
+        },
+
+        userRegister() {
+            //
+            let register_email = this.$refs.register_email.value;
+            let register_password = this.$refs.register_password.value;
+            let confirm_password = this.$refs.confirm_password.value;
+            //
+
+            if(register_email == "") {
+                window.$("#register_email").tooltip('show');
+            } else if(register_password == ""){
+                window.$("#register_password").tooltip('show');
+            } else if(confirm_password == ""){
+                window.$("#confirm_password").tooltip('show');
+            } else if(register_password != confirm_password){
+                notify({
+                    title: "Registration",
+                    text: "Passwords dont match",
+                    position: "top center",
+                    type: "warn"
+                });
+            } else {
+                window.$("#register_email").tooltip('hide');
+                window.$("#register_password").tooltip('hide');
+                window.$("#confirm_password").tooltip('hide');
+                this.appstore.userRegister(register_email, register_password);
             }
         },
 

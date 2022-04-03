@@ -59,8 +59,9 @@
         <div class="row">
           <div class="col-md-12">
             <ul>
-              <li v-for="course in selectedTutorToDisplay.courses" 
-                  :key="course">{{course.title.trim().replace(" - " + selectedTutorToDisplay.email, "")}}
+              <li v-for="course in selectedTutorToDisplay.courses" :key="course">
+                  {{course.title.trim().replace(" - " + selectedTutorToDisplay.email, "")}} 
+                  <span v-if="appstore.is_logged_in">| <b class="enrol-course"><router-link to="CourseDetails">Enroll</router-link></b></span>
               </li>
             </ul>
           </div>
@@ -75,12 +76,29 @@
   </div>
 </template>
 
+<style scoped>
+  .enrol-course {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+</style>
+
 <script>
 import {globals} from '@/assets/js/globals.js';
 import CountryFlag from 'vue-country-flag-next';
+import { APPSTORE } from '@/stores/appstore';
+
 
 export default {
   name: 'DisplayTutorInformation',
+  setup() {
+      const appstore = APPSTORE()
+
+      return {
+          appstore,
+      }
+  },
   components: {
     CountryFlag,
   },

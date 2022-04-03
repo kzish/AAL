@@ -100,7 +100,7 @@ namespace AAL_API5.Controllers
             }
             else
             {
-               response = Ok(new
+                response = Ok(new
                 {
                     res = "err",
                     msg = "Invalid credentials",
@@ -109,6 +109,66 @@ namespace AAL_API5.Controllers
 
             return response;
         }
+
+        /// <summary>
+        /// new user registration
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody]LoginModel login)
+        {
+
+            try
+            {
+                var email_exists = db.Aspnetusers.Where(i => i.Email == login.Email).Any();
+                if (email_exists)
+                {
+                    return Ok(new
+                    {
+                        res = "err",
+                        msg = "Email exists",
+                    });
+                }
+                else
+                {
+                    var new_identity_user = new IdentityUser()
+                    {
+                        Email = login.Email,
+                        UserName = login.Email,
+                    };
+
+                    await userManager.CreateAsync(new_identity_user, login.Password);
+                    await userManager.AddToRoleAsync(new_identity_user, "student");//add user to student role
+
+                    var aspnet_user = db.Aspnetusers
+                        .Where(i => i.Email == login.Email)
+                        .FirstOrDefault();
+
+                    var tokenString = BuildToken(aspnet_user);
+
+                    return Ok(new
+                    {
+                        res = "ok",
+                        msg = "success",
+                        token = tokenString,
+                        email = aspnet_user.Email,
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(new
+                {
+                    res = "err",
+                    msg = "Error occured",
+                    debug = ex.Message,
+                });
+            }
+
+        }
+
 
         private string BuildToken(Aspnetuser user)
         {

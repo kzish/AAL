@@ -257,7 +257,7 @@ export default {
       appstore,
     }
   },
-  data(){
+  data() {
     return {
       tutors: null,
       globals: globals,

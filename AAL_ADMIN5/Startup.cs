@@ -105,3 +105,8 @@ namespace AAL_ADMIN5
         }
     }
 }
+
+
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    //.AddEntityFrameworkStores<ApplicationDbContext>();
+//builder.Services.AddControllersWithViews();
